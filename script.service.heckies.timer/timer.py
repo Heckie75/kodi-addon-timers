@@ -428,7 +428,7 @@ class Scheduler(xbmc.Monitor):
 
             in_period = period["td_start"] <= td_now <= period["td_end"]
             if in_period:
-                timer["b_in_period"] = in_period
+                timer["b_in_period"] = True
                 return in_period, period["td_start"], period["td_end"]
 
         timer["b_in_period"] = False
@@ -475,7 +475,7 @@ if __name__ == "__main__":
 
         t_now = time.localtime()
         if scheduler.waitForAbort(
-                (t_now.tm_sec - 1) % 10 + 10):
+                10 - t_now.tm_sec % 10):
             break
 
         scheduler.check_timers()
