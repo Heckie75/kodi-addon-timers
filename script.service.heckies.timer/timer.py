@@ -153,6 +153,7 @@ def __navigate_to_settings(path = []):
 
 
 
+
 class Scheduler(xbmc.Monitor):
 
     __timer_state = {
@@ -282,6 +283,8 @@ class Scheduler(xbmc.Monitor):
         return t_now, td_now
 
 
+
+
     def __abs_time_diff(self, td1, td2):
 
         s1 = td1.days * 86400 + td1.seconds
@@ -367,6 +370,8 @@ class Scheduler(xbmc.Monitor):
                     + icon_file + ")")
 
         timer["b_active"] = True
+
+
 
 
     def __stop_action(self, timer):
