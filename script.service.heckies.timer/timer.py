@@ -118,7 +118,7 @@ def activate_snooze(listitem):
                         "%s - %s" % (TIMERS[SNOOZE_TIMER],
                                      listitem.getLabel()))
 
-    if setting.getSetting("timer_%i_action" % SNOOZE_TIMER) \
+    if settings.getSetting("timer_%i_action" % SNOOZE_TIMER) \
             not in [ACTION_PLAY, ACTION_START]:
         settings.setSetting("timer_%i_action" % SNOOZE_TIMER,
                         ACTION_START)
