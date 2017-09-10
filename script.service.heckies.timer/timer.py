@@ -118,9 +118,10 @@ def activate_snooze(listitem):
                         "%s - %s" % (TIMERS[SNOOZE_TIMER],
                                      listitem.getLabel()))
 
-    settings.setSetting("timer_%i_action" % SNOOZE_TIMER,
-                        ACTION_PLAY)
-
+    if setting.getSetting("timer_%i_action" % SNOOZE_TIMER) \
+            not in [ACTION_PLAY, ACTION_START]:
+        settings.setSetting("timer_%i_action" % SNOOZE_TIMER,
+                        ACTION_START)
 
     t_now = time.localtime()
     td_start = timedelta(
