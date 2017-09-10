@@ -419,7 +419,7 @@ class Scheduler(xbmc.Monitor):
         else:
             new_vol = int(vol_max - vol_diff * delta_percent)
 
-
+        xbmc.executebuiltin("SetVolume(%i)" % new_vol)
 
 
     def __check_period(self, timer, td_now):
