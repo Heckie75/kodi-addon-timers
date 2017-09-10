@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.service.heckies.timers" name="Heckies Timers"
+	version="0.0.1" provider-name="Heckie">
+	<requires>
+		<import addon="xbmc.python" version="2.25.0" />
+		<import addon="xmbc.addon" version="17.0.0" />
+	</requires>
+	<extension point="xbmc.service" library="timer.py" start="login" />
+	<extension point="kodi.context.item">
+		<menu id="kodi.core.main">
+			<menu>
+				<label>Heckies timer</label>
+				<item library="timer0.py">
+					<label>Sleep timer</label>
+					<visible>true</visible>
+				</item>
+				<item library="timer1.py">
+					<label>Snooze timer</label>
+					<visible>true</visible>
+				</item>
+				<item library="timer2.py">
+					<label>Timer 1</label>
+					<visible>true</visible>
+				</item>				
+				<item library="timer3.py">
+					<label>Timer 2</label>
+					<visible>true</visible>
+				</item>				
+				<item library="timer4.py">
+					<label>Timer 3</label>
+					<visible>true</visible>
+				</item>				
+				<item library="timer5.py">
+					<label>Timer 4</label>
+					<visible>true</visible>
+				</item>				
+				<item library="timer6.py">
+					<label>Timer 5</label>
+					<visible>true</visible>
+				</item>	
+			</menu>
+		</menu>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<platform>all</platform>
+		<summary lang="en"></summary>
+	</extension>
+</addon>
