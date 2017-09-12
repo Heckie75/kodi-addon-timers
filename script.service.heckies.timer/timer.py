@@ -404,7 +404,7 @@ class Scheduler(xbmc.Monitor):
     def _fade(self, timer, td_now, td_start, td_end):
 
         if timer["s_fade"] == FADE_OFF \
-                or timer["s_end_type"] ==END_TYPE_NO:
+                or timer["s_end_type"] == END_TYPE_NO:
             return
 
         delta_now_start = self._abs_time_diff(td_now, td_start)
