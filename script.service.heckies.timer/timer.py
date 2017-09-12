@@ -76,7 +76,7 @@ def set_filename_for_timer(listitem, timer):
     xbmc.executebuiltin("Notification(\"%s\", \"%s\")"
                         % (TIMERS[timer], listitem.getLabel()))
 
-    __navigate_to_settings(['Down'] * timer
+    _navigate_to_settings(['Down'] * timer
                          + ['Right'] * 2)
 
 
@@ -104,7 +104,7 @@ def activate_sleep(listitem):
     settings.setSetting("timer_%i_start" % SLEEP_TIMER,
                         time.strftime("%H:%M", time.localtime()))
 
-    __navigate_to_settings(['Down'] * SLEEP_TIMER
+    _navigate_to_settings(['Down'] * SLEEP_TIMER
                          + ['Right'] + 4 * ['Down'] + ['Select'])
 
 
@@ -135,13 +135,13 @@ def activate_snooze(listitem):
     settings.setSetting("timer_%i_filename" % SNOOZE_TIMER,
                         filename)
 
-    __navigate_to_settings(['Down'] * SNOOZE_TIMER
+    _navigate_to_settings(['Down'] * SNOOZE_TIMER
                          + ['Right'] + 2 * ['Down'] + ['Select'])
 
 
 
 
-def __navigate_to_settings(path = []):
+def _navigate_to_settings(path = []):
 
     xbmc.executebuiltin('Addon.OpenSettings(%s)' % __PLUGIN_ID__)
 
@@ -157,7 +157,7 @@ def __navigate_to_settings(path = []):
 
 class Scheduler(xbmc.Monitor):
 
-    __timer_state = {
+    _timer_state = {
         "t_now" : None,
         "td_now" : None,
         "timers" : [
@@ -188,14 +188,14 @@ class Scheduler(xbmc.Monitor):
     def __init__(self):
 
         xbmc.Monitor.__init__(self)
-        self.__update()
+        self._update()
 
 
 
 
     def onSettingsChanged(self):
 
-        self.__update()
+        self._update()
 
         xbmc.executebuiltin(
             "Notification(Heckies timers, update succeeded)")
@@ -203,11 +203,11 @@ class Scheduler(xbmc.Monitor):
 
 
 
-    def __update(self):
+    def _update(self):
 
-        self.__set_now()
+        self._set_now()
 
-        timers = self.__timer_state["timers"]
+        timers = self._timer_state["timers"]
         for i in range(0, len(timers)):
 
             s_label = settings.getSetting("timer_%i_label" % i)
@@ -232,14 +232,14 @@ class Scheduler(xbmc.Monitor):
 
             s_duration = settings.getSetting("timer_%i_duration" % i)
 
-            td_duration = self.__parse_time(s_duration)
+            td_duration = self._parse_time(s_duration)
 
             periods = []
             for i_day in TIMER_DAYS_PRESETS[i_schedule]:
-                td_start = self.__parse_time(s_start, i_day)
+                td_start = self._parse_time(s_start, i_day)
                 periods += [{
                     "td_start" : td_start,
-                    "td_end" : self.__build_end_time(td_start,
+                    "td_end" : self._build_end_time(td_start,
                                                      s_end_type,
                                                      td_duration,
                                                      s_end)
@@ -268,7 +268,7 @@ class Scheduler(xbmc.Monitor):
 
 
 
-    def __set_now(self, t_now = None):
+    def _set_now(self, t_now = None):
 
         if t_now == None:
             t_now  = time.localtime()
@@ -276,17 +276,17 @@ class Scheduler(xbmc.Monitor):
         td_now = timedelta(hours = t_now.tm_hour,
                              minutes = t_now.tm_min,
                              seconds = t_now.tm_sec,
-                             days=t_now.tm_wday)
+                             days = t_now.tm_wday)
 
-        self.__timer_state["t_now"] = t_now
-        self.__timer_state["td_now"] = td_now
+        self._timer_state["t_now"] = t_now
+        self._timer_state["td_now"] = td_now
 
         return t_now, td_now
 
 
 
 
-    def __abs_time_diff(self, td1, td2):
+    def _abs_time_diff(self, td1, td2):
 
         s1 = td1.days * 86400 + td1.seconds
         s2 = td2.days * 86400 + td2.seconds
@@ -296,7 +296,7 @@ class Scheduler(xbmc.Monitor):
 
 
 
-    def __parse_time(self,s_time, i_day = 0):
+    def _parse_time(self,s_time, i_day = 0):
         try:
             t_time = time.strptime(s_time, "%H:%M")
             return timedelta(
@@ -309,13 +309,13 @@ class Scheduler(xbmc.Monitor):
 
 
 
-    def __build_end_time(self, td_start, s_end_type, td_duration, s_end):
+    def _build_end_time(self, td_start, s_end_type, td_duration, s_end):
 
         if s_end_type == END_TYPE_DURATION:
             td_end = td_start + td_duration
 
         elif s_end_type == END_TYPE_TIME:
-            td_end = self.__parse_time(s_end, td_start.days)
+            td_end = self._parse_time(s_end, td_start.days)
 
             if td_end < td_start:
                 td_end += timedelta(1)
@@ -328,7 +328,7 @@ class Scheduler(xbmc.Monitor):
 
 
 
-    def __start_action(self, timer):
+    def _start_action(self, timer):
 
         if timer["s_fade"] == FADE_OUT \
                 and timer["s_end_type"] != END_TYPE_NO:
@@ -375,7 +375,7 @@ class Scheduler(xbmc.Monitor):
 
 
 
-    def __stop_action(self, timer):
+    def _stop_action(self, timer):
 
         if timer["s_action"] in [ACTION_PLAY, ACTION_STOP_AT_END]:
             xbmc.executebuiltin("PlayerControl(Stop)")
@@ -401,14 +401,14 @@ class Scheduler(xbmc.Monitor):
 
 
 
-    def __fade(self, timer, td_now, td_start, td_end):
+    def _fade(self, timer, td_now, td_start, td_end):
 
         if timer["s_fade"] == FADE_OFF \
                 or timer["s_end_type"] ==END_TYPE_NO:
             return
 
-        delta_now_start = self.__abs_time_diff(td_now, td_start)
-        delta_end_start = self.__abs_time_diff(td_end, td_start)
+        delta_now_start = self._abs_time_diff(td_now, td_start)
+        delta_end_start = self._abs_time_diff(td_end, td_start)
         delta_percent = delta_now_start / float(delta_end_start)
 
         vol_min = timer["i_vol_min"]
@@ -423,7 +423,9 @@ class Scheduler(xbmc.Monitor):
         xbmc.executebuiltin("SetVolume(%i)" % new_vol)
 
 
-    def __check_period(self, timer, td_now):
+
+
+    def _check_period(self, timer, td_now):
 
         for period in timer["periods"]:
 
@@ -438,18 +440,18 @@ class Scheduler(xbmc.Monitor):
 
 
 
-    def __check_timer(self, timer, td_now):
+    def _check_timer(self, timer, td_now):
 
-        in_period, td_start, td_end = self.__check_period(timer, td_now)
+        in_period, td_start, td_end = self._check_period(timer, td_now)
 
         if in_period and not timer["b_active"]:
-            self.__start_action(timer)
+            self._start_action(timer)
 
         elif not in_period and timer["b_active"]:
-            self.__stop_action(timer)
+            self._stop_action(timer)
 
         elif in_period: # fade
-            self.__fade(timer, td_now, td_start, td_end)
+            self._fade(timer, td_now, td_start, td_end)
 
         return in_period
 
@@ -458,11 +460,11 @@ class Scheduler(xbmc.Monitor):
 
     def check_timers(self, t_now = None):
 
-        t_now, td_now = self.__set_now(t_now)
+        t_now, td_now = self._set_now(t_now)
 
-        timers = self.__timer_state["timers"]
+        timers = self._timer_state["timers"]
         for timer in timers:
-            in_period = self.__check_timer(timer, td_now)
+            in_period = self._check_timer(timer, td_now)
 
 
 
