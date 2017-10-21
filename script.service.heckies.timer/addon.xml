@@ -9,7 +9,7 @@
 	<extension point="kodi.context.item">
 		<menu id="kodi.core.main">
 			<menu>
-				<label>Heckies timer</label>
+				<label>Timers...</label>
 				<item library="timer0.py">
 					<label>Sleep timer</label>
 					<visible>true</visible>
@@ -34,12 +34,12 @@
 					<label>Timer 4</label>
 					<visible>true</visible>
 				</item>
-				<item library="timer6.py">
-					<label>Timer 5</label>
-					<visible>true</visible>
-				</item>
-			</menu>
-		</menu>
+                                <item library="timer6.py">
+                                        <label>Timer 5</label>
+                                        <visible>true</visible>
+                                </item>
+                        </menu>
+                 </menu>
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary lang="en_gb">Heckie's timer</summary>

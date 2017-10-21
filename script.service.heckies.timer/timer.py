@@ -21,8 +21,13 @@ TIMERS = [
     "Timer 2",
     "Timer 3",
     "Timer 4",
-    "Timer 5"
-    ]
+    "Timer 5",
+    "Timer 6",
+    "Timer 7",
+    "Timer 8",
+    "Timer 9",
+    "Timer 10"
+]
 
 TIMER_OFF = 0
 TIMER_ONCE = 1
