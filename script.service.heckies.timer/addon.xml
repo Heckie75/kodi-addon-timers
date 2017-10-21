@@ -58,7 +58,8 @@
 			<screenshot>resources/assets/screen1.png</screenshot>
 			<screenshot>resources/assets/screen2.png</screenshot>
 			<screenshot>resources/assets/screen3.png</screenshot>
-			<screenshot>resources/assets/screen4.png</screenshot>	
+			<screenshot>resources/assets/screen4.png</screenshot>
+			<screenshot>resources/assets/screen5.png</screenshot>
 		</assets>
 	</extension>
 </addon>
