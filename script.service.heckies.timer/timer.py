@@ -54,6 +54,7 @@ TIMER_DAYS_PRESETS = [
     [4, 5],                # fri-sat
     [5, 6],                # sat-sun
     [6, 0, 1, 2, 3],       # sun-thu
+    [0, 1, 2, 3],          # mon-thu
     [0],                   # mon
     [1],                   # tue
     [2],                   # wed

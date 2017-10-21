@@ -3,7 +3,7 @@
 
   <category label="Sleep timer">
   
-    <setting label="Schedule" type="enum" id="timer_0" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_0" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_0_label" default="Sleep timer" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -25,7 +25,7 @@
 
   <category label="Snooze timer">
   
-    <setting label="Schedule" type="enum" id="timer_1" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_1" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_1_label" default="Snooze timer" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -47,7 +47,7 @@
   
   <category label="Timer 1">
   
-    <setting label="Schedule" type="enum" id="timer_2" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_2" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_2_label" default="Timer 1" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -69,7 +69,7 @@
 
   <category label="Timer 2">
   
-    <setting label="Schedule" type="enum" id="timer_3" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_3" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_3_label" default="Timer 2" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -91,7 +91,7 @@
 
   <category label="Timer 3">
   
-    <setting label="Schedule" type="enum" id="timer_4" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_4" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_4_label" default="Timer 3" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -113,7 +113,7 @@
 
   <category label="Timer 4">
   
-    <setting label="Schedule" type="enum" id="timer_5" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_5" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_5_label" default="Timer 4" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -135,7 +135,7 @@
 
   <category label="Timer 5">
   
-    <setting label="Schedule" type="enum" id="timer_6" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_6" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_6_label" default="Timer 5" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -157,7 +157,7 @@
 
   <category label="Timer 6">
 
-    <setting label="Schedule" type="enum" id="timer_7" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_7" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
     <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_7_label" default="Timer 6" />
 
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -179,7 +179,7 @@
 
   <category label="Timer 7">
 
-    <setting label="Schedule" type="enum" id="timer_8" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_8" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
     <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_8_label" default="Timer 7" />
 
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -201,7 +201,7 @@
 
   <category label="Timer 8">
 
-    <setting label="Schedule" type="enum" id="timer_9" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_9" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
     <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_9_label" default="Timer 8" />
 
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -223,7 +223,7 @@
 
   <category label="Timer 9">
 
-    <setting label="Schedule" type="enum" id="timer_10" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_10" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
     <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_10_label" default="Timer 9" />
 
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -245,7 +245,7 @@
 
   <category label="Timer 10">
 
-    <setting label="Schedule" type="enum" id="timer_11" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_11" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
     <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_11_label" default="Timer 10" />
 
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
