@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
 
+  <category label="Global Settings">
+    <setting label="Default volume" type="slider" id="vol_default" default="100" range="0,1,100" option="int" />
+    <setting label="Prevent Windows to start screensaver / lock screen" type="bool" id="windows_unlock" default="true" />	
+  </category>
+
   <category label="Sleep timer">
-  
-    <setting label="Schedule" type="enum" id="timer_0" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_0" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_0_label" default="Sleep timer" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -13,19 +17,21 @@
     <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_0_end" />
 
     <setting visible="!eq(-7,0)" label="Action" type="lsep" />
-    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_0_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end" default="1" />
-    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="file" id="timer_0_filename" default="" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_0_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_0_filename" default="" />
 
     <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
-    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_0_fade" values="Off|Fade in|Fade out" default="0" />    
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_0_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />    
     <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_0_vol_min" default="50" range="0,1,100" option="int" />
-    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-9,0)" label="High volume" type="slider" id="timer_0_vol_max" default="100" range="0,1,100" option="int" />
-  
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_0_vol_max" default="100" range="0,1,100" option="int" />
+
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_0_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_0_silent" default="false" />
   </category>
 
   <category label="Snooze timer">
-  
-    <setting label="Schedule" type="enum" id="timer_1" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_1" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_1_label" default="Snooze timer" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -35,19 +41,21 @@
     <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_1_end" />
 
     <setting visible="!eq(-7,0)" label="Action" type="lsep" />
-    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_1_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end" default="1" />
-    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="file" id="timer_1_filename" default="" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_1_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_1_filename" default="" />
 
     <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
-    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_1_fade" values="Off|Fade in|Fade out" default="0" />    
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_1_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />    
     <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_1_vol_min" default="50" range="0,1,100" option="int" />
-    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-9,0)" label="High volume" type="slider" id="timer_1_vol_max" default="100" range="0,1,100" option="int" />
-  
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_1_vol_max" default="100" range="0,1,100" option="int" />
+
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_1_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_1_silent" default="false" />  
   </category>
   
   <category label="Timer 1">
-  
-    <setting label="Schedule" type="enum" id="timer_2" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_2" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_2_label" default="Timer 1" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -57,19 +65,21 @@
     <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_2_end" />
 
     <setting visible="!eq(-7,0)" label="Action" type="lsep" />
-    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_2_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end" default="1" />
-    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="file" id="timer_2_filename" default="" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_2_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_2_filename" default="" />
 
     <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
-    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_2_fade" values="Off|Fade in|Fade out" default="0" />    
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_2_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />    
     <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_2_vol_min" default="50" range="0,1,100" option="int" />
-    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-9,0)" label="High volume" type="slider" id="timer_2_vol_max" default="100" range="0,1,100" option="int" />
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_2_vol_max" default="100" range="0,1,100" option="int" />
   
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_2_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_2_silent" default="false" />
   </category>
 
   <category label="Timer 2">
-  
-    <setting label="Schedule" type="enum" id="timer_3" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_3" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_3_label" default="Timer 2" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -79,19 +89,21 @@
     <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_3_end" />
 
     <setting visible="!eq(-7,0)" label="Action" type="lsep" />
-    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_3_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end" default="1" />
-    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="file" id="timer_3_filename" default="" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_3_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_3_filename" default="" />
 
     <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
-    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_3_fade" values="Off|Fade in|Fade out" default="0" />    
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_3_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />    
     <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_3_vol_min" default="50" range="0,1,100" option="int" />
-    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-9,0)" label="High volume" type="slider" id="timer_3_vol_max" default="100" range="0,1,100" option="int" />
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_3_vol_max" default="100" range="0,1,100" option="int" />
   
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_3_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_3_silent" default="false" />
   </category>
 
   <category label="Timer 3">
-  
-    <setting label="Schedule" type="enum" id="timer_4" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_4" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_4_label" default="Timer 3" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -101,19 +113,21 @@
     <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_4_end" />
 
     <setting visible="!eq(-7,0)" label="Action" type="lsep" />
-    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_4_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end" default="1" />
-    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="file" id="timer_4_filename" default="" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_4_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_4_filename" default="" />
 
     <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
-    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_4_fade" values="Off|Fade in|Fade out" default="0" />    
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_4_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />    
     <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_4_vol_min" default="50" range="0,1,100" option="int" />
-    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-9,0)" label="High volume" type="slider" id="timer_4_vol_max" default="100" range="0,1,100" option="int" />
-  
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_4_vol_max" default="100" range="0,1,100" option="int" />
+
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_4_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_4_silent" default="false" />
   </category>
 
   <category label="Timer 4">
-  
-    <setting label="Schedule" type="enum" id="timer_5" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_5" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_5_label" default="Timer 4" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -123,19 +137,21 @@
     <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_5_end" />
 
     <setting visible="!eq(-7,0)" label="Action" type="lsep" />
-    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_5_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end" default="1" />
-    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="file" id="timer_5_filename" default="" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_5_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_5_filename" default="" />
 
     <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
-    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_5_fade" values="Off|Fade in|Fade out" default="0" />    
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_5_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />    
     <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_5_vol_min" default="50" range="0,1,100" option="int" />
-    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-9,0)" label="High volume" type="slider" id="timer_5_vol_max" default="100" range="0,1,100" option="int" />
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_5_vol_max" default="100" range="0,1,100" option="int" />
   
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_5_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_5_silent" default="false" />
   </category>
 
   <category label="Timer 5">
-  
-    <setting label="Schedule" type="enum" id="timer_6" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_6" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
   	<setting visible="!eq(-1,0)" label="Label" type="text" id="timer_6_label" default="Timer 5" />
   	
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -145,19 +161,21 @@
     <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_6_end" />
 
     <setting visible="!eq(-7,0)" label="Action" type="lsep" />
-    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_6_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end" default="1" />
-    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="file" id="timer_6_filename" default="" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_6_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_6_filename" default="" />
 
     <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
-    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_6_fade" values="Off|Fade in|Fade out" default="0" />    
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_6_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />    
     <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_6_vol_min" default="50" range="0,1,100" option="int" />
-    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-9,0)" label="High volume" type="slider" id="timer_6_vol_max" default="100" range="0,1,100" option="int" />
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_6_vol_max" default="100" range="0,1,100" option="int" />
   
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_6_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_6_silent" default="false" />
   </category>
 
   <category label="Timer 6">
-
-    <setting label="Schedule" type="enum" id="timer_7" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_7" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
     <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_7_label" default="Timer 6" />
 
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -167,19 +185,21 @@
     <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_7_end" />
 
     <setting visible="!eq(-7,0)" label="Action" type="lsep" />
-    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_7_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end" default="1" />
-    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="file" id="timer_7_filename" default="" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_7_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_7_filename" default="" />
 
     <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
-    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_7_fade" values="Off|Fade in|Fade out" default="0" />
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_7_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />
     <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_7_vol_min" default="50" range="0,1,100" option="int" />
-    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-9,0)" label="High volume" type="slider" id="timer_7_vol_max" default="100" range="0,1,100" option="int" />
-
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_7_vol_max" default="100" range="0,1,100" option="int" />
+  
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_7_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_7_silent" default="false" />
   </category>
 
   <category label="Timer 7">
-
-    <setting label="Schedule" type="enum" id="timer_8" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_8" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
     <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_8_label" default="Timer 7" />
 
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -189,19 +209,21 @@
     <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_8_end" />
 
     <setting visible="!eq(-7,0)" label="Action" type="lsep" />
-    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_8_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end" default="1" />
-    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="file" id="timer_8_filename" default="" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_8_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_8_filename" default="" />
 
     <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
-    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_8_fade" values="Off|Fade in|Fade out" default="0" />
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_8_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />
     <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_8_vol_min" default="50" range="0,1,100" option="int" />
-    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-9,0)" label="High volume" type="slider" id="timer_8_vol_max" default="100" range="0,1,100" option="int" />
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_8_vol_max" default="100" range="0,1,100" option="int" />
 
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_8_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_8_silent" default="false" />
   </category>
 
   <category label="Timer 8">
-
-    <setting label="Schedule" type="enum" id="timer_9" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_9" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
     <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_9_label" default="Timer 8" />
 
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -211,19 +233,21 @@
     <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_9_end" />
 
     <setting visible="!eq(-7,0)" label="Action" type="lsep" />
-    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_9_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end" default="1" />
-    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="file" id="timer_9_filename" default="" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_9_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_9_filename" default="" />
 
     <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
-    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_9_fade" values="Off|Fade in|Fade out" default="0" />
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_9_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />
     <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_9_vol_min" default="50" range="0,1,100" option="int" />
-    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-9,0)" label="High volume" type="slider" id="timer_9_vol_max" default="100" range="0,1,100" option="int" />
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_9_vol_max" default="100" range="0,1,100" option="int" />
 
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_9_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_9_silent" default="false" />
   </category>
 
   <category label="Timer 9">
-
-    <setting label="Schedule" type="enum" id="timer_10" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_10" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
     <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_10_label" default="Timer 9" />
 
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -233,19 +257,21 @@
     <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_10_end" />
 
     <setting visible="!eq(-7,0)" label="Action" type="lsep" />
-    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_10_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end" default="1" />
-    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="file" id="timer_10_filename" default="" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_10_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_10_filename" default="" />
 
     <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
-    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_10_fade" values="Off|Fade in|Fade out" default="0" />
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_10_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />
     <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_10_vol_min" default="50" range="0,1,100" option="int" />
-    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-9,0)" label="High volume" type="slider" id="timer_10_vol_max" default="100" range="0,1,100" option="int" />
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_10_vol_max" default="100" range="0,1,100" option="int" />
 
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_10_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_10_silent" default="false" />
   </category>
 
   <category label="Timer 10">
-
-    <setting label="Schedule" type="enum" id="timer_11" values="Off|Once|Everyday|Mon - Fri|Fri - Sat|Sat - Sun|Sun - Thu|Mon - Thu|Mon|Tue|Wed|Thu|Fri|Sat|Sun" default="0" />
+    <setting label="Schedule" type="enum" id="timer_11" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
     <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_11_label" default="Timer 10" />
 
     <setting visible="!eq(-2,0)" label="Time" type="lsep" />
@@ -255,14 +281,137 @@
     <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_11_end" />
 
     <setting visible="!eq(-7,0)" label="Action" type="lsep" />
-    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_11_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end" default="1" />
-    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="file" id="timer_11_filename" default="" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_11_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_11_filename" default="" />
 
     <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
-    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_11_fade" values="Off|Fade in|Fade out" default="0" />
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_11_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />
     <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_11_vol_min" default="50" range="0,1,100" option="int" />
-    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-9,0)" label="High volume" type="slider" id="timer_11_vol_max" default="100" range="0,1,100" option="int" />
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_11_vol_max" default="100" range="0,1,100" option="int" />
 
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_11_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_11_silent" default="false" />
+  </category>
+
+  <category label="Timer 11">
+    <setting label="Schedule" type="enum" id="timer_12" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
+    <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_12_label" default="Timer 10" />
+
+    <setting visible="!eq(-2,0)" label="Time" type="lsep" />
+    <setting visible="!eq(-3,0)" label="Start time" type="time" default="00:00" id="timer_12_start" />
+    <setting visible="!eq(-4,0)" label="End" type="enum" id="timer_12_end_type" values="No|Duration|Time" default="0" />
+    <setting visible="!eq(-5,0) + eq(-1,1)" label="Duration" type="time" default="00:00" id="timer_12_duration" />
+    <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_12_end" />
+
+    <setting visible="!eq(-7,0)" label="Action" type="lsep" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_12_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_12_filename" default="" />
+
+    <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_12_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />
+    <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_12_vol_min" default="50" range="0,1,100" option="int" />
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_12_vol_max" default="100" range="0,1,100" option="int" />
+
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_12_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_12_silent" default="false" />
+  </category>
+  
+  <category label="Timer 12">
+    <setting label="Schedule" type="enum" id="timer_13" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
+    <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_13_label" default="Timer 10" />
+
+    <setting visible="!eq(-2,0)" label="Time" type="lsep" />
+    <setting visible="!eq(-3,0)" label="Start time" type="time" default="00:00" id="timer_13_start" />
+    <setting visible="!eq(-4,0)" label="End" type="enum" id="timer_13_end_type" values="No|Duration|Time" default="0" />
+    <setting visible="!eq(-5,0) + eq(-1,1)" label="Duration" type="time" default="00:00" id="timer_13_duration" />
+    <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_13_end" />
+
+    <setting visible="!eq(-7,0)" label="Action" type="lsep" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_13_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_13_filename" default="" />
+
+    <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_13_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />
+    <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_13_vol_min" default="50" range="0,1,100" option="int" />
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_13_vol_max" default="100" range="0,1,100" option="int" />
+
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_13_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_13_silent" default="false" />
+  </category>
+  
+  <category label="Timer 13">
+    <setting label="Schedule" type="enum" id="timer_14" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
+    <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_14_label" default="Timer 10" />
+
+    <setting visible="!eq(-2,0)" label="Time" type="lsep" />
+    <setting visible="!eq(-3,0)" label="Start time" type="time" default="00:00" id="timer_14_start" />
+    <setting visible="!eq(-4,0)" label="End" type="enum" id="timer_14_end_type" values="No|Duration|Time" default="0" />
+    <setting visible="!eq(-5,0) + eq(-1,1)" label="Duration" type="time" default="00:00" id="timer_14_duration" />
+    <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_14_end" />
+
+    <setting visible="!eq(-7,0)" label="Action" type="lsep" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_14_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_14_filename" default="" />
+
+    <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_14_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />
+    <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_14_vol_min" default="50" range="0,1,100" option="int" />
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_14_vol_max" default="100" range="0,1,100" option="int" />
+
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_14_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_14_silent" default="false" />
+  </category>
+  
+  <category label="Timer 14">
+    <setting label="Schedule" type="enum" id="timer_15" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
+    <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_15_label" default="Timer 10" />
+
+    <setting visible="!eq(-2,0)" label="Time" type="lsep" />
+    <setting visible="!eq(-3,0)" label="Start time" type="time" default="00:00" id="timer_15_start" />
+    <setting visible="!eq(-4,0)" label="End" type="enum" id="timer_15_end_type" values="No|Duration|Time" default="0" />
+    <setting visible="!eq(-5,0) + eq(-1,1)" label="Duration" type="time" default="00:00" id="timer_15_duration" />
+    <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_15_end" />
+
+    <setting visible="!eq(-7,0)" label="Action" type="lsep" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_15_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_15_filename" default="" />
+
+    <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_15_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />
+    <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_15_vol_min" default="50" range="0,1,100" option="int" />
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_15_vol_max" default="100" range="0,1,100" option="int" />
+
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_15_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_15_silent" default="false" />
+  </category>
+
+  <category label="Timer 15">
+    <setting label="Schedule" type="enum" id="timer_16" values="Off|Once|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mon - Thu|Mon - Fri|Tue - Fri|Thu - Sat|Fri - Sat|Fri - Sun|Sat - Sun|Sat - Mon|Sun - Wed|Sun - Thu|Everyday" default="0" />
+    <setting visible="!eq(-1,0)" label="Label" type="text" id="timer_16_label" default="Timer 10" />
+
+    <setting visible="!eq(-2,0)" label="Time" type="lsep" />
+    <setting visible="!eq(-3,0)" label="Start time" type="time" default="00:00" id="timer_16_start" />
+    <setting visible="!eq(-4,0)" label="End" type="enum" id="timer_16_end_type" values="No|Duration|Time" default="0" />
+    <setting visible="!eq(-5,0) + eq(-1,1)" label="Duration" type="time" default="00:00" id="timer_16_duration" />
+    <setting visible="!eq(-6,0) + eq(-2,2)" label="End time" type="time" default="00:00" id="timer_16_end" />
+
+    <setting visible="!eq(-7,0)" label="Action" type="lsep" />
+    <setting visible="!eq(-8,0)" label="Action" type="enum" id="timer_16_action" values="Do nothing with media|Play media (and stop at end)|Just start media|Stop media immediately|Stop media at end|Suspend system|Hibernate system|Powerdown system|Quit Kodi|Start screensaver" default="1" />
+    <setting visible="!eq(-9,0) + gt(-1,0) + lt(-1,3)" label="Media location" type="text" id="timer_16_filename" default="" />
+
+    <setting visible="!eq(-10,0) + !eq(-6,0)" label="Volume settings" type="lsep" />
+    <setting visible="!eq(-11,0) + !eq(-7,0)" label="Fade volume" type="enum" id="timer_16_fade" values="Off|Fade in from low|Fade out from high|Fade out from current" default="0" />
+    <setting visible="!eq(-12,0) + !eq(-1,0) + !eq(-8,0)" label="Low volume" type="slider" id="timer_16_vol_min" default="50" range="0,1,100" option="int" />
+    <setting visible="!eq(-13,0) + !eq(-2,0) + !eq(-2,3) + !eq(-9,0)" label="High volume" type="slider" id="timer_16_vol_max" default="100" range="0,1,100" option="int" />
+
+    <setting visible="!eq(-14,0)" label="Notification" type="lsep" />
+    <setting visible="!eq(-15,0)" label="Timer notifications" type="bool" id="timer_16_notify" default="true" />
+    <setting visible="!eq(-16,0)" label="Ask action to be silent" type="bool" id="timer_16_silent" default="false" />
   </category>
 
 </settings>
