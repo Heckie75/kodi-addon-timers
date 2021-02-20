@@ -3,6 +3,7 @@ import time
 import xbmc
 import xbmcaddon
 import xbmcplugin
+import xbmcvfs
 import sys
 
 import json
@@ -17,7 +18,7 @@ import _strptime
 
 __PLUGIN_ID__ = "script.service.heckies.timers"
 settings = xbmcaddon.Addon(id=__PLUGIN_ID__)
-addon_dir = xbmc.translatePath(settings.getAddonInfo('path'))
+addon_dir = xbmcvfs.translatePath(settings.getAddonInfo('path'))
 
 CHECK_INTERVAL = 10
 
@@ -178,7 +179,8 @@ def _navigate_to_settings(path=[]):
 
 def _json_rpc(jsonmethod, params=None):
 
-    kodi_json = {}
+    result = kodi_json = {}
+
     kodi_json["jsonrpc"] = "2.0"
     kodi_json["method"] = jsonmethod
 
@@ -188,20 +190,9 @@ def _json_rpc(jsonmethod, params=None):
     kodi_json["params"] = params
     kodi_json["id"] = 1
 
-    json_response = xbmc.executeJSONRPC(json.dumps(kodi_json).encode("utf-8"))
-    json_object = json.loads(json_response.decode('utf-8', 'replace'))
-
-    result = None
-    if 'result' in json_object:
-        if isinstance(json_object['result'], dict):
-            for key, value in json_object['result'].iteritems():
-                if not key == "limits":
-                    result = value
-                    break
-        else:
-            return json_object['result']
-
-    return result
+    json_response = xbmc.executeJSONRPC(json.dumps(kodi_json))
+    json_object = json.loads(json_response)
+    return json_object["result"] if "result" in json_object else None
 
 
 class Scheduler(xbmc.Monitor):
@@ -306,7 +297,7 @@ class Scheduler(xbmc.Monitor):
                        s_end_type,
                        s_end,
                        s_duration),
-                    xbmc.LOGNOTICE)
+                    xbmc.LOGINFO)
 
             periods = []
             for i_day in TIMER_DAYS_PRESETS[i_schedule]:
@@ -322,7 +313,7 @@ class Scheduler(xbmc.Monitor):
                         end         : %s
                         duration    : %s
                     """ % (i_day, str(td_start), str(td_end), s_duration),
-                         xbmc.LOGNOTICE)
+                         xbmc.LOGINFO)
 
                 periods += [{
                     "td_start": td_start,
@@ -402,42 +393,31 @@ class Scheduler(xbmc.Monitor):
 
     def _start_action(self, timer):
 
-        xbmc.log("timer start action for timer %i" %
-                 timer["i_timer"], xbmc.LOGNOTICE)
-
         try:
-            timer["i_return_vol"] = int(
-                _json_rpc("Application.GetProperties", {"properties": ["volume"]}))
+            _result = _json_rpc("Application.GetProperties", {
+                                "properties": ["volume"]})
+            timer["i_return_vol"] = _result["volume"]
         except:
             timer["i_return_vol"] = int(settings.getSetting("vol_default"))
 
         if timer["s_fade"] == FADE_OUT_FROM_CURRENT \
                 and timer["s_end_type"] != END_TYPE_NO:
-            xbmc.log("timer start fading out from current volume %i for timer %i" % (
-                timer["i_return_vol"], timer["i_timer"]), xbmc.LOGNOTICE)
+            pass
 
         elif timer["s_fade"] == FADE_OUT_FROM_MAX \
                 and timer["s_end_type"] != END_TYPE_NO:
-            xbmc.log("timer start fading out from max %i for timer %i" %
-                     (timer["i_vol_max"], timer["i_timer"]), xbmc.LOGNOTICE)
             xbmc.executebuiltin("SetVolume("
                                 + str(timer["i_vol_max"]) + ")")
 
         elif timer["s_fade"] == FADE_IN_FROM_MIN \
                 and timer["s_end_type"] != END_TYPE_NO:
-            xbmc.log("timer start fading in from min %i for timer %i" %
-                     (timer["i_vol_min"], timer["i_timer"]), xbmc.LOGNOTICE)
             xbmc.executebuiltin("SetVolume("
                                 + str(timer["i_vol_min"]) + ")")
 
         if timer["s_action"] in [ACTION_PLAY, ACTION_START]:
-            xbmc.log("timer start play media for timer %i" %
-                     timer["i_timer"], xbmc.LOGNOTICE)
             xbmc.executebuiltin("PlayMedia(" + timer["s_filename"] + ")")
 
         elif timer["s_action"] in [ACTION_STOP]:
-            xbmc.log("timer stop media for timer %i" %
-                     timer["i_timer"], xbmc.LOGNOTICE)
             xbmc.executebuiltin("PlayerControl(Stop)")
 
         if timer["b_notify"] \
@@ -467,11 +447,7 @@ class Scheduler(xbmc.Monitor):
 
     def _stop_action(self, timer):
 
-        xbmc.log("timer stop for timer %i" % timer["i_timer"], xbmc.LOGNOTICE)
-
         if timer["s_action"] in [ACTION_PLAY, ACTION_STOP_AT_END]:
-            xbmc.log("timer stop player for timer %i" %
-                     timer["i_timer"], xbmc.LOGNOTICE)
             xbmc.executebuiltin("PlayerControl(Stop)")
             time.sleep(2)
 
@@ -490,39 +466,28 @@ class Scheduler(xbmc.Monitor):
         if timer["s_fade"] != FADE_OFF \
                 and timer["s_end_type"] != END_TYPE_NO:
             reset_vol = timer["i_return_vol"]
-            xbmc.log("reset volume to %i" % reset_vol, xbmc.LOGNOTICE)
             xbmc.executebuiltin("SetVolume(%s)" % reset_vol)
 
         timer["b_active"] = False
 
         if timer["s_action"] in [ACTION_SUSPEND_AT_END]:
             time.sleep(5)
-            xbmc.log("timer suspend system for timer %i" %
-                     timer["i_timer"], xbmc.LOGNOTICE)
             xbmc.executebuiltin("Suspend")
 
         if timer["s_action"] in [ACTION_HIBERNATE_AT_END]:
             time.sleep(5)
-            xbmc.log("timer hibernate system for timer %i" %
-                     timer["i_timer"], xbmc.LOGNOTICE)
             xbmc.executebuiltin("Hibernate")
 
         if timer["s_action"] in [ACTION_POWERDOWN_AT_END]:
             time.sleep(5)
-            xbmc.log("timer poweroff system for timer %i" %
-                     timer["i_timer"], xbmc.LOGNOTICE)
             xbmc.executebuiltin("Powerdown")
 
         if timer["s_action"] in [ACTION_QUIT_AT_END]:
             time.sleep(5)
-            xbmc.log("timer quit kodi for timer %i" %
-                     timer["i_timer"], xbmc.LOGNOTICE)
             xbmc.executebuiltin("Quit")
 
         if timer["s_action"] in [ACTION_SCR_SAVE_AT_END]:
             time.sleep(5)
-            xbmc.log("timer starts screensaver for timer %i" %
-                     timer["i_timer"], xbmc.LOGNOTICE)
             xbmc.executebuiltin("PlayerControl(Stop)")
             xbmc.executebuiltin("ActivateScreensaver")
 
@@ -534,7 +499,7 @@ class Scheduler(xbmc.Monitor):
 
         delta_now_start = self._abs_time_diff(td_now, td_start)
         delta_end_start = self._abs_time_diff(td_end, td_start)
-        delta_percent = delta_now_start / float(delta_end_start)
+        delta_percent = delta_now_start / delta_end_start
 
         vol_min = timer["i_vol_min"]
         vol_max = timer["i_return_vol"] if timer["s_fade"] == FADE_OUT_FROM_CURRENT else timer["i_vol_max"]
@@ -545,11 +510,10 @@ class Scheduler(xbmc.Monitor):
         else:
             new_vol = int(vol_max - vol_diff * delta_percent)
 
-        current_vol = int(
-            _json_rpc("Application.GetProperties", {"properties": ["volume"]}))
+        _result = _json_rpc("Application.GetProperties",
+                            {"properties": ["volume"]})
+        current_vol = _result["volume"]
         if current_vol != new_vol:
-            xbmc.log("timer fade to new volume %i for timer %i" %
-                     (new_vol, timer["i_timer"]), xbmc.LOGNOTICE)
             xbmc.executebuiltin("SetVolume(%i)" % new_vol)
 
     def _check_period(self, timer, td_now):
@@ -558,8 +522,6 @@ class Scheduler(xbmc.Monitor):
 
             in_period = period["td_start"] <= td_now < period["td_end"]
             if in_period:
-                xbmc.log("timer " + str(timer["i_timer"]) + " is in period: " + str(
-                    period["td_start"]) + " <= " + str(td_now) + " < " + str(period["td_end"]), xbmc.LOGDEBUG)
                 timer["b_in_period"] = True
                 return in_period, period["td_start"], period["td_end"]
 
@@ -585,13 +547,16 @@ class Scheduler(xbmc.Monitor):
             elif in_period:  # fade
                 self._fade(timer, td_now, td_start, td_end)
 
-        map(self._stop_action, stoppers)
-        map(self._start_action, starters)
+        for t in starters:
+            self._start_action(t)
+
+        for t in stoppers:
+            self._stop_action(t)
 
 
 if __name__ == "__main__":
 
-    xbmc.log('[Heckies Timers] Service started', xbmc.LOGNOTICE)
+    xbmc.log('[Heckies Timers] Service started', xbmc.LOGINFO)
 
     scheduler = Scheduler()
 
@@ -602,9 +567,6 @@ if __name__ == "__main__":
     while not scheduler.abortRequested():
 
         t_now = time.localtime()
-        xbmc.log("timer is waiting in intervals of %i secs ..." %
-                 (CHECK_INTERVAL - t_now.tm_sec % CHECK_INTERVAL), xbmc.LOGDEBUG)
-
         if scheduler.waitForAbort(
                 CHECK_INTERVAL - t_now.tm_sec % CHECK_INTERVAL):
             break

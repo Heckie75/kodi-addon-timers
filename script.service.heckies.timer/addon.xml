@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="script.service.heckies.timers" name="Heckies Timers"
-	version="1.0.6" provider-name="Heckie">
-	<requires>
-		<import addon="xbmc.python" version="2.25.0" />
-	</requires>
+	version="2.0.0" provider-name="Heckie">
 	<extension point="xbmc.service" library="timer.py" start="login" />
 	<extension point="kodi.context.item">
 		<menu id="kodi.core.main">
@@ -101,7 +98,9 @@
 		</website>
 		<email>github@heckie.de</email>
 		<source></source>
-		<news></news>
+		<news>
+v2.0.0 (2021-02-20)
+- Migration to Kodi 19 (Matrix)</news>
 		<assets>
 			<icon>icon.png</icon>
 			<screenshot>resources/assets/screen1.png</screenshot>
