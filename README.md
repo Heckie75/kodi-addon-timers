@@ -6,7 +6,7 @@ I wanted to have a Kodi addon that is a sleep timer, a doze timer, has several o
 The result is a powerful timer addon.  
 
 ## Overview of features:
-* 10 timer slots. All of them can be quickly set up by using context menu
+* 15 timer slots. All of them can be quickly set up by using context menu
 * 2 additional slots for sleep and doze timers with single-click-setup 
 * Timers can play any ressource that it available in Kodi, e.g. music, video files, TV/radio programs, ressources from 3rd party plugins, e.g. Zattoo channels. 
 * Timers can be set from TV / Radio EPG
