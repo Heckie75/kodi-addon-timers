@@ -19,9 +19,7 @@ if __name__ == "__main__":
     try:
         datetime.datetime.strptime("2016", "%Y")
     except:
-        xbmcgui.Dialog().notification(addon.getLocalizedString(
-            32000), addon.getLocalizedString(32001))
-        exit(1)
+        pass
 
     scheduler = Scheduler(addon)
 
