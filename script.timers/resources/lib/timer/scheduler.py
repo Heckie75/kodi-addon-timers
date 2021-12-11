@@ -31,6 +31,7 @@ class Scheduler(xbmc.Monitor):
     _resume = None
     _powermanagement_displaysoff = 0
     _disabled_powermanagement_displaysoff = False
+    _windows_unlock = False
 
     def __init__(self, addon):
 
@@ -61,6 +62,7 @@ class Scheduler(xbmc.Monitor):
         self._resume = ("true" == self._addon.getSetting("resume"))
         self._powermanagement_displaysoff = int(
             "0%s" % self._addon.getSetting("powermanagement_displaysoff"))
+        self._windows_unlock = "true" == self._addon.getSetting("windows_unlock")
         self.reset_powermanagement_displaysoff()
 
     def start(self):
@@ -198,10 +200,14 @@ class Scheduler(xbmc.Monitor):
 
             util.set_volume(new_vol)
 
+        prev_windows_unlock = False
         while not self.abortRequested():
 
             t_now = time.localtime()
             _check_timers(t_now)
+
+            if self._windows_unlock != prev_windows_unlock:
+                prev_windows_unlock = util.set_windows_unlock(self._windows_unlock)
 
             if self._powermanagement_displaysoff:
                 self._prevent_powermanagement_displaysoff()

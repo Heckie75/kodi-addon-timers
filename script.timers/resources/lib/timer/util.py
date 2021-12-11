@@ -159,6 +159,17 @@ def set_powermanagement_displaysoff(value):
              "setting": "powermanagement.displaysoff", "value": value})
 
 
+def set_windows_unlock(value):
+
+    if xbmc.getCondVisibility("system.platform.windows"):
+        import ctypes
+        ctypes.windll.kernel32.SetThreadExecutionState(
+            0x80000002 if value else 0x80000000)
+
+    return value
+
+
+
 def json_rpc(jsonmethod, params=None):
 
     kodi_json = {}

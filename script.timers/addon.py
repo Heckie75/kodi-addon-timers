@@ -5,9 +5,9 @@ import datetime
 import _strptime
 import xbmc
 import xbmcaddon
-import xbmcgui
 
-from resources.lib.timer.scheduler import CHECK_INTERVAL, Scheduler
+from resources.lib.timer.scheduler import Scheduler
+from resources.lib.timer import util
 
 addon = xbmcaddon.Addon()
 
@@ -23,16 +23,9 @@ if __name__ == "__main__":
 
     scheduler = Scheduler(addon)
 
-    if xbmc.getCondVisibility("system.platform.windows") and "true" == addon.getSetting("windows_unlock"):
-        import ctypes
-        ctypes.windll.kernel32.SetThreadExecutionState(0x80000002)
-
     try:
         scheduler.start()
 
     finally:
         scheduler.reset_powermanagement_displaysoff()
-
-        if xbmc.getCondVisibility("system.platform.windows") and "true" == addon.getSetting("windows_unlock"):
-            import ctypes
-            ctypes.windll.kernel32.SetThreadExecutionState(0x80000000)
+        util.set_windows_unlock(False)
