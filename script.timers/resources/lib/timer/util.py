@@ -24,18 +24,17 @@ DEFAULT_TIME = "00:00"
 
 def deactivateOnSettingsChangedEvents(addon):
 
-    addon.setSetting(_ON_SETTING_CHANGE_EVENTS, "%i" % int(time.time()))
+    addon.setSettingInt(_ON_SETTING_CHANGE_EVENTS, int(time.time()))
 
 
 def activateOnSettingsChangedEvents(addon):
 
-    addon.setSetting(_ON_SETTING_CHANGE_EVENTS, "%i" %
-                     _SETTING_CHANGE_EVENTS_ACTIVE)
+    addon.setSettingInt(_ON_SETTING_CHANGE_EVENTS, _SETTING_CHANGE_EVENTS_ACTIVE)
 
 
 def isSettingsChangedEvents(addon):
 
-    current = int("0%s" % addon.getSetting(_ON_SETTING_CHANGE_EVENTS))
+    current = addon.getSettingInt(_ON_SETTING_CHANGE_EVENTS)
     now = int(time.time())
     return now - current > _SETTING_CHANGE_EVENTS_MAX_SECS
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.timers" name="Timers" version="2.1.1-pre2" provider-name="Heckie">
+<addon id="script.timers" name="Timers" version="2.1.1-pre3" provider-name="Heckie">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0" />
 	</requires>
@@ -66,9 +66,10 @@
 		<website>https://github.com/Heckie75/kodi-addon-timers</website>
 		<source>https://github.com/Heckie75/kodi-addon-timers</source>
 		<news>
-v2.1.1-pre2 (tbd.)
+v2.1.1-pre3 (tbd.)
 - Improved behaviour after update addon. No need to restart Kodi anymore after update
-- Improved prevention lock screen, no restart of Kodi required anymore after setting has changed 
+- Improved prevention lock screen, no restart of Kodi required anymore after setting has changed
+- Refactoring: Usage of modern Kodi API (read and write settings)
 
 v2.1.0 (2021-11-20):
 - Improved start and stop action in case that multiple timers are running in parallel, see also https://github.com/Heckie75/kodi-addon-timers/issues/5 

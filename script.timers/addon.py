@@ -7,6 +7,7 @@ import xbmc
 import xbmcaddon
 
 from resources.lib.timer.scheduler import Scheduler
+from resources.lib.timer import migration
 from resources.lib.timer import util
 
 addon = xbmcaddon.Addon()
@@ -20,6 +21,8 @@ if __name__ == "__main__":
         datetime.datetime.strptime("2016", "%Y")
     except:
         pass
+
+    migration.migrate()
 
     scheduler = Scheduler(addon)
 

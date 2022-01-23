@@ -12,7 +12,7 @@ addon_dir = xbmcvfs.translatePath(addon.getAddonInfo('path'))
 
 def play(timer):
 
-    path = addon.getSetting("timer_%i_filename" % timer).strip()
+    path = addon.getSettingString("timer_%i_filename" % timer).strip()
     if path != "":
         icon_file = os.path.join(
             addon_dir, "resources", "assets", "icon_sleep.png")
@@ -30,7 +30,7 @@ def play(timer):
 
 def reset_volume():
 
-    vol_default = int(addon.getSetting("vol_default"))
+    vol_default = addon.getSettingInt("vol_default")
     xbmc.executebuiltin("SetVolume(%i)" % vol_default)
     xbmcgui.Dialog().notification(addon.getLocalizedString(
         32027), addon.getLocalizedString(32112))
