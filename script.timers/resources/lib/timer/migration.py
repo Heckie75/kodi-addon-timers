@@ -1,4 +1,3 @@
-import xbmc
 import xbmcaddon
 from resources.lib.timer import util
 from resources.lib.timer.scheduler import TIMERS

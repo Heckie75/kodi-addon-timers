@@ -92,7 +92,7 @@ class SetTimer(AbstractSetTimer):
         line4 = "%s: %s" % (self.addon.getLocalizedString(32091),
                             self.addon.getLocalizedString(32120 + self.addon.getSettingInt("timer_%i_fade" % preselection["timer"])))
 
-        return xbmcgui.Dialog().yesnocustom(self.addon.getLocalizedString(32107) % self.addon.getLocalizedString(32009 + preselection["timer"] - 2),
+        return xbmcgui.Dialog().yesnocustom(self.addon.getLocalizedString(32107) % self.addon.getLocalizedString(32004 + preselection["timer"]),
                                             "\n".join(
                                                 [line1, line2, line3, line4]),
                                             self.addon.getLocalizedString(
