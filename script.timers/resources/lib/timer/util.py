@@ -1,4 +1,5 @@
 import json
+import os
 import time
 from datetime import datetime, timedelta
 from urllib import parse
@@ -7,6 +8,8 @@ from urllib import parse
 # see https://www.raspberrypi.org/forums/viewtopic.php?t=166912
 import _strptime
 import xbmc
+import xbmcgui
+import xbmcvfs
 
 _ON_SETTING_CHANGE_EVENTS = "onSettingChangeEvents"
 _SETTING_CHANGE_EVENTS_MAX_SECS = 5
@@ -22,6 +25,16 @@ PVR_RADIO = "radio"
 DEFAULT_TIME = "00:00"
 
 
+def prevent_strptime_error():
+
+    # prevent Error: Failed to import _strptime because the import locks held by another thread.
+    # see https://www.raspberrypi.org/forums/viewtopic.php?t=166912
+    try:
+        datetime.datetime.strptime("2016", "%Y")
+    except:
+        pass
+
+
 def deactivateOnSettingsChangedEvents(addon):
 
     addon.setSettingInt(_ON_SETTING_CHANGE_EVENTS, int(time.time()))
@@ -29,7 +42,8 @@ def deactivateOnSettingsChangedEvents(addon):
 
 def activateOnSettingsChangedEvents(addon):
 
-    addon.setSettingInt(_ON_SETTING_CHANGE_EVENTS, _SETTING_CHANGE_EVENTS_ACTIVE)
+    addon.setSettingInt(_ON_SETTING_CHANGE_EVENTS,
+                        _SETTING_CHANGE_EVENTS_ACTIVE)
 
 
 def isSettingsChangedEvents(addon):
@@ -103,6 +117,26 @@ def is_fullscreen():
     return xbmc.getCondVisibility("System.IsFullscreen")
 
 
+def preview(addon, timer):
+
+    addon_dir = xbmcvfs.translatePath(addon.getAddonInfo('path'))
+
+    path = addon.getSettingString("timer_%i_filename" % timer).strip()
+    if path != "":
+        icon_file = os.path.join(
+            addon_dir, "resources", "assets", "icon_sleep.png")
+
+        xbmcgui.Dialog().notification(addon.getLocalizedString(
+            32027), addon.getLocalizedString(32110) % addon.getLocalizedString(32004 + timer),
+            icon=icon_file)
+
+        xbmc.Player().play(path)
+
+    else:
+        xbmcgui.Dialog().notification(addon.getLocalizedString(
+            32027), addon.getLocalizedString(32109))
+
+
 def get_pvr_channel_path(type, channelno):
 
     try:
@@ -152,6 +186,14 @@ def set_volume(vol):
     xbmc.executebuiltin("SetVolume(%i)" % vol)
 
 
+def reset_volume(addon):
+
+    vol_default = addon.getSettingInt("vol_default")
+    set_volume(vol_default)
+    xbmcgui.Dialog().notification(addon.getLocalizedString(
+        32027), addon.getLocalizedString(32112))
+
+
 def set_powermanagement_displaysoff(value):
 
     json_rpc("Settings.SetSettingValue", {
@@ -166,7 +208,6 @@ def set_windows_unlock(value):
             0x80000002 if value else 0x80000000)
 
     return value
-
 
 
 def json_rpc(jsonmethod, params=None):

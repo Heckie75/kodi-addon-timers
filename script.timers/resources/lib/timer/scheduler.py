@@ -63,7 +63,8 @@ class Scheduler(xbmc.Monitor):
 
         self._default_vol = self._addon.getSettingInt("vol_default")
         self._resume = self._addon.getSettingBool("resume")
-        self._powermanagement_displaysoff = self._addon.getSettingInt("powermanagement_displaysoff")
+        self._powermanagement_displaysoff = self._addon.getSettingInt(
+            "powermanagement_displaysoff")
         self._windows_unlock = self._addon.getSettingBool("windows_unlock")
         self.reset_powermanagement_displaysoff()
 
@@ -217,7 +218,8 @@ class Scheduler(xbmc.Monitor):
             _check_timers(t_now)
 
             if self._windows_unlock != prev_windows_unlock:
-                prev_windows_unlock = util.set_windows_unlock(self._windows_unlock)
+                prev_windows_unlock = util.set_windows_unlock(
+                    self._windows_unlock)
 
             if self._powermanagement_displaysoff:
                 self._prevent_powermanagement_displaysoff()

@@ -42,3 +42,37 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_11.png?raw=true">
 
 <img src="script.timers/resources/assets/screenshot_12.png?raw=true">
+
+## Changelog
+v2.1.1 (2022-01-29)
+- Improved behaviour after update addon. No need to restart Kodi anymore after update
+- Improved prevention lock screen, no restart of Kodi required anymore after setting has changed
+- Refactoring: Usage of modern Kodi API (read and write settings)
+- Added timer actions, i.e. quit Kodi, suspend system, hibernate system, shutdown system
+- Minor bugfixes, e.g. displayed wrong timer no. in some dialogs 
+
+v2.1.0 (2021-11-20):
+- Improved start and stop action in case that multiple timers are running in parallel, see also https://github.com/Heckie75/kodi-addon-timers/issues/5 
+- One-click-setup from epg (Quick Timer)
+- Improved procedure of update state after one-time-timers have run out or settings have been changed
+- Added 5 more timer slots
+- Added feature in order to prevent that display is turned off if Kodi idles but is not in fullscreen mode
+- Migrated to new XML settings format
+- Major refactoring, better structured code
+
+v2.0.3 (2021-10-31)
+- Fixed issue related to reset to default settings after one-time timers has finished
+- Fixed issue that wrong pvr channel was taken from epg if some channels are deactivated in PVR
+- Fixed key error after deactivating timer 
+
+v2.0.2 (2021-10-03)
+- Improvement: prevent multiple fading action of overlapping fading timers. Strategy is 'First starts first served.'
+- reset to default settings after one-time timers finished
+- minor refactoring
+
+v2.0.1 (2021-09-12)
+- Bugfix: actions in settings dialog don't work, i.e. 'reset volume' and 'play now'
+
+v2.0.0 (2021-07-18)
+- Migration to Kodi 19 (Matrix)
+- Total refactoring of earlier version
