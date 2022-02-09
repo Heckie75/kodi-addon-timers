@@ -44,6 +44,9 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_12.png?raw=true">
 
 ## Changelog
+v2.1.2 (2022-02-09)
+- Device wakeup (Issue #6): Explicitly activate CEC Source before player starts
+
 v2.1.1 (2022-01-29)
 - Improved behaviour after update addon. No need to restart Kodi anymore after update
 - Improved prevention lock screen, no restart of Kodi required anymore after setting has changed
