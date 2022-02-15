@@ -16,6 +16,5 @@ if __name__ == "__main__":
         util.reset_volume(addon=addon)
 
     else:
-        addon = xbmcaddon.Addon()
         xbmc.executebuiltin("Addon.OpenSettings(%s)" %
                             addon.getAddonInfo('id'))

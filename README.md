@@ -39,10 +39,6 @@ The result is a powerful timer addon.
 
 <img src="script.timers/resources/assets/screenshot_10.png?raw=true">
 
-<img src="script.timers/resources/assets/screenshot_11.png?raw=true">
-
-<img src="script.timers/resources/assets/screenshot_12.png?raw=true">
-
 ## Changelog
 v2.1.2 (2022-02-09)
 - Device wakeup (Issue #6): Explicitly activate CEC Source before player starts
