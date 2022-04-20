@@ -1,7 +1,8 @@
+import time
 import unittest
+from datetime import datetime, timedelta
 
 from resources.lib.utils import datetime_utils
-from datetime import datetime, timedelta
 
 
 class TestDateTimeUtils(unittest.TestCase):
@@ -64,3 +65,16 @@ class TestDateTimeUtils(unittest.TestCase):
 
         s = datetime_utils.time_duration_str("23:30", "02:30")
         self.assertEqual(s, "03:00")
+
+
+    def test_get_now(self):
+
+        t_now = time.localtime()
+        td_now = timedelta(hours=t_now.tm_hour,
+                                    minutes=t_now.tm_min,
+                                    seconds=t_now.tm_sec,
+                                    days=t_now.tm_wday)
+
+        t, td = datetime_utils.get_now()
+        self.assertAlmostEqual(t_now.tm_sec, t.tm_sec, delta=1)
+        self.assertAlmostEqual(td_now.seconds, td.seconds, delta=1)

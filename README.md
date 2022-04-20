@@ -37,9 +37,15 @@ The result is a powerful timer addon.
 
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
-<img src="script.timers/resources/assets/screenshot_10.png?raw=true">
-
 ## Changelog
+v3.1.0 (2022-05-26)
+- Added feature in order to schedule slideshows, program/script addons and favourites
+- Free selection of weekdays
+- Added feature for shuffling playlists
+- Improved resuming, e.g. in case of media that is shorter than timer
+- optimization and bugfixes, e.g. preview of playlists / folders
+- covered and proved many timer scenarios and functionality with unit tests
+
 v3.0.0 (2022-04-12)
 - Support folders and playlists for scheduling, (feature request https://github.com/Heckie75/kodi-addon-timers/issues/7)
 - Separated configuration of media and system actions, e.g. shutdown Kodi
