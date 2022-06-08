@@ -38,6 +38,15 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v3.2.0 (2022-08-xx)
+- Added feature in order to pause timers for a certain period
+- Set adequate label for playing items instead of internal path
+- Added global configurable offset in order to perform timers ahead of time or later in time
+- Removed feature to prevent display sleep and lockscreen for MS Windows, see new addon 'Prevent display sleep and lockscreen'
+- Changed context menu 'timers' for EPG
+- Changed resume behaviour if there are two parallel ending timers so that non-resuming timer wins and stops media
+- Added help texts for all settings
+
 v3.1.0 (2022-05-26)
 - Added feature in order to schedule slideshows, program/script addons and favourites
 - Free selection of weekdays

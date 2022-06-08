@@ -17,9 +17,9 @@ msgctxt "#32000"
 msgid "Timers"
 msgstr ""
 
-msgctxt "#32002"
-msgid "Extras"
-msgstr ""
+# msgctxt "#32002"
+# msgid "Extras"
+# msgstr ""
 
 msgctxt "#32004"
 msgid "Sleep timer"
@@ -129,9 +129,9 @@ msgctxt "#32031"
 msgid "Preset volume"
 msgstr ""
 
-msgctxt "#32032"
-msgid "Prevent lock screen"
-msgstr ""
+# msgctxt "#32032"
+# msgid "Prevent lock screen"
+# msgstr ""
 
 msgctxt "#32033"
 msgid "Execution"
@@ -369,108 +369,144 @@ msgctxt "#32123"
 msgid "fade out from current"
 msgstr ""
 
-msgctxt "#32130"
-msgid "Put display only in fullscreen mode to sleep"
+# msgctxt "#32130"
+# msgid "Put display only in fullscreen mode to sleep"
+# msgstr ""
+
+# msgctxt "#32131"
+# msgid "acc. system setting"
+# msgstr ""
+
+# msgctxt "#32132"
+# msgid "5 min"
+# msgstr ""
+
+# msgctxt "#32133"
+# msgid "10 min"
+# msgstr ""
+
+# msgctxt "#32134"
+# msgid "15 min"
+# msgstr ""
+
+# msgctxt "#32135"
+# msgid "20 min"
+# msgstr ""
+
+# msgctxt "#32136"
+# msgid "25 min"
+# msgstr ""
+
+# msgctxt "#32137"
+# msgid "30 min"
+# msgstr ""
+
+# msgctxt "#32138"
+# msgid "35 min"
+# msgstr ""
+
+# msgctxt "#32139"
+# msgid "40 min"
+# msgstr ""
+
+# msgctxt "#32140"
+# msgid "45 min"
+# msgstr ""
+
+# msgctxt "#32141"
+# msgid "50 min"
+# msgstr ""
+
+# msgctxt "#32142"
+# msgid "55 min"
+# msgstr ""
+
+# msgctxt "#32143"
+# msgid "60 min"
+# msgstr ""
+
+# msgctxt "#32144"
+# msgid "65 min"
+# msgstr ""
+
+# msgctxt "#32145"
+# msgid "70 min"
+# msgstr ""
+
+# msgctxt "#32146"
+# msgid "75 min"
+# msgstr ""
+
+# msgctxt "#32147"
+# msgid "80 min"
+# msgstr ""
+
+# msgctxt "#32148"
+# msgid "85 min"
+# msgstr ""
+
+# msgctxt "#32149"
+# msgid "90 min"
+# msgstr ""
+
+# msgctxt "#32150"
+# msgid "95 min"
+# msgstr ""
+
+# msgctxt "#32151"
+# msgid "100 min"
+# msgstr ""
+
+# msgctxt "#32152"
+# msgid "105 min"
+# msgstr ""
+
+# msgctxt "#32153"
+# msgid "110 min"
+# msgstr ""
+
+# msgctxt "#32154"
+# msgid "115 min"
+# msgstr ""
+
+# msgctxt "#32155"
+# msgid "120 min"
+# msgstr ""
+
+msgctxt "#32160"
+msgid "Pause timers"
 msgstr ""
 
-msgctxt "#32131"
-msgid "acc. system setting"
+msgctxt "#32161"
+msgid "Until date"
 msgstr ""
 
-msgctxt "#32132"
-msgid "5 min"
+msgctxt "#32162"
+msgid "Until time"
 msgstr ""
 
-msgctxt "#32133"
-msgid "10 min"
+msgctxt "#32163"
+msgid "Set pause for ..."
 msgstr ""
 
-msgctxt "#32134"
-msgid "15 min"
+msgctxt "#32164"
+msgid "Reset Pause"
 msgstr ""
 
-msgctxt "#32135"
-msgid "20 min"
+msgctxt "#32165"
+msgid "Pause until %s"
 msgstr ""
 
-msgctxt "#32136"
-msgid "25 min"
+msgctxt "#32166"
+msgid "Pause ended"
 msgstr ""
 
-msgctxt "#32137"
-msgid "30 min"
+msgctxt "#32170"
+msgid "Offset"
 msgstr ""
 
-msgctxt "#32138"
-msgid "35 min"
-msgstr ""
-
-msgctxt "#32139"
-msgid "40 min"
-msgstr ""
-
-msgctxt "#32140"
-msgid "45 min"
-msgstr ""
-
-msgctxt "#32141"
-msgid "50 min"
-msgstr ""
-
-msgctxt "#32142"
-msgid "55 min"
-msgstr ""
-
-msgctxt "#32143"
-msgid "60 min"
-msgstr ""
-
-msgctxt "#32144"
-msgid "65 min"
-msgstr ""
-
-msgctxt "#32145"
-msgid "70 min"
-msgstr ""
-
-msgctxt "#32146"
-msgid "75 min"
-msgstr ""
-
-msgctxt "#32147"
-msgid "80 min"
-msgstr ""
-
-msgctxt "#32148"
-msgid "85 min"
-msgstr ""
-
-msgctxt "#32149"
-msgid "90 min"
-msgstr ""
-
-msgctxt "#32150"
-msgid "95 min"
-msgstr ""
-
-msgctxt "#32151"
-msgid "100 min"
-msgstr ""
-
-msgctxt "#32152"
-msgid "105 min"
-msgstr ""
-
-msgctxt "#32153"
-msgid "110 min"
-msgstr ""
-
-msgctxt "#32154"
-msgid "115 min"
-msgstr ""
-
-msgctxt "#32155"
-msgid "120 min"
+msgctxt "#32171"
+msgid "Offset for timers in seconds"
 msgstr ""
 
 msgctxt "#32200"
@@ -527,4 +563,100 @@ msgstr ""
 
 msgctxt "#32216"
 msgid "Sun"
+msgstr ""
+
+msgctxt "#32300"
+msgid "Opens a dialog where you can enter a duration for pause from now."
+msgstr ""
+
+msgctxt "#32301"
+msgid "Ends the pause period by setting date and time in the past."
+msgstr ""
+
+msgctxt "#32302"
+msgid "Date until the timer is paused."
+msgstr ""
+
+msgctxt "#32303"
+msgid "Time until the timer is paused."
+msgstr ""
+
+msgctxt "#32310"
+msgid "Default volume that is set after fading timer has endet or by pressing 'reset volume'."
+msgstr ""
+
+msgctxt "#32311"
+msgid "Set default volume now."
+msgstr ""
+
+msgctxt "#32320"
+msgid "If a media playing timer starts late since Kodi was not running or timers were paused, the scheduler seeks to position of playlist that would have been already played if timer has started in time."
+msgstr ""
+
+msgctxt "#32325"
+msgid "Set an offset in order to perform timers ahead of time (< 0) or later in time (> 0)."
+msgstr ""
+
+msgctxt "#32330"
+msgid "Display name of the timer that is displayed in notifications and context menu."
+msgstr ""
+
+msgctxt "#32331"
+msgid "Select one or more days in order to scheduler the timer. If you select 'weekly' the timer is repeated every week."
+msgstr ""
+
+msgctxt "#32332"
+msgid "Enter the starting time of the timer."
+msgstr ""
+
+msgctxt "#32333"
+msgid "Select if the timer stops after a specific time, after a given duration or has no end."
+msgstr ""
+
+msgctxt "#32334"
+msgid "Enter the ending time of the timer."
+msgstr ""
+
+msgctxt "#32335"
+msgid "Enter the duration after the timer ends."
+msgstr ""
+
+msgctxt "#32340"
+msgid "Select the media action of the timer. Note that you must add a media to the timer by utilizing the context menu first."
+msgstr ""
+
+msgctxt "#32341"
+msgid "If activated the media item or playlist is repeated by setting the 'repeat all' option of the player."
+msgstr ""
+
+msgctxt "#32342"
+msgid "If activated the playlist is shuffeled by setting the 'shuffle' option of the player."
+msgstr ""
+
+msgctxt "#32343"
+msgid "If activated the timer resumes the media that was interupted when the timer has started."
+msgstr ""
+
+msgctxt "#32344"
+msgid "Play media of the timer now in order to test it."
+msgstr ""
+
+msgctxt "#32350"
+msgid "Fade in or fade out volume in period of timer."
+msgstr ""
+
+msgctxt "#32351"
+msgid "Low volume of fading timer."
+msgstr ""
+
+msgctxt "#32352"
+msgid "High volume of fading timer."
+msgstr ""
+
+msgctxt "#32360"
+msgid "System action that is performed after timer has finished."
+msgstr ""
+
+msgctxt "#32370"
+msgid "Display notifications when timer starts and ends."
 msgstr ""

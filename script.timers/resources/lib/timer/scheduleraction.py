@@ -65,7 +65,8 @@ class SchedulerAction:
             elif timer.is_stop_at_end_timer():
                 _tts = self._getTimerToStopSlideshow(
                 ) if timer.s_mediatype == PICTURE else self._getTimerToStopAV()
-                if not _tts or timerWithPeriod.getPeriod().getStart() >= _tts.getPeriod().getStart():
+                if (not _tts
+                    or _tts.getTimer().is_resuming_timer() and timerWithPeriod.getPeriod().getStart() >= _tts.getPeriod().getStart()):
                     self._setTimerToStopAny(timerWithPeriod)
 
             elif timer.is_play_at_end_timer():

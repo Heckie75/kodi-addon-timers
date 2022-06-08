@@ -4,6 +4,7 @@ from datetime import timedelta
 from resources.lib.player import player_utils
 from resources.lib.player.mediatype import AUDIO, PICTURE, TYPES, VIDEO
 from resources.lib.player.player import Player
+from resources.lib.utils.vfs_utils import get_file_name
 
 
 class PlayList():
@@ -135,10 +136,11 @@ class MockPlayer(Player):
 
         return path.split("|"), type
 
-    def _buildPlaylist(self, paths: 'list[str]', type: str) -> 'PlayList':
+    def _buildPlaylist(self, paths: 'list[str]', type: str, label="") -> 'PlayList':
 
         playlist = PlayList()
-        playlist.paths = [{"file": file} for file in paths]
+        playlist.paths = [
+            {"file": file, "label": get_file_name(file)} for file in paths]
         playlist.type = type
         playlist.playListId = TYPES.index(type)
 

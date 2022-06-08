@@ -34,12 +34,11 @@ class SetQuickEpgTimer(AbstractSetTimer):
         if len(free_slots) > 0:
             return free_slots[0]
 
-        xbmcgui.Dialog().notification(self.addon.getLocalizedString(
-            32027), self.addon.getLocalizedString(32115))
+        else:
+            xbmcgui.Dialog().notification(self.addon.getLocalizedString(
+                32027), self.addon.getLocalizedString(32115))
 
-        SetTimer(self._label, self._path)
-
-        return None
+            return super().ask_timer(timerid=timerid)
 
     def ask_duration(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
 

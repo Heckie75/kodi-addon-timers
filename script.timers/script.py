@@ -5,6 +5,7 @@ import xbmcaddon
 from resources.lib.contextmenu.set_timer import SetTimer
 from resources.lib.player.player import Player
 from resources.lib.player.player_utils import preview, reset_volume
+from resources.lib.timer.pause_timers import reset_pause, set_pause
 
 addon = xbmcaddon.Addon()
 
@@ -19,6 +20,12 @@ if __name__ == "__main__":
 
     elif len(sys.argv) == 2 and sys.argv[1] == "reset_volume":
         reset_volume(addon=addon)
+
+    elif len(sys.argv) == 2 and sys.argv[1] == "set_pause":
+        set_pause()
+
+    elif len(sys.argv) == 2 and sys.argv[1] == "reset_pause":
+        reset_pause()
 
     else:
         addon.openSettings()

@@ -1,7 +1,6 @@
 import xbmcgui
 from resources.lib.contextmenu.abstract_set_timer import (CONFIRM_EDIT,
                                                           AbstractSetTimer)
-from resources.lib.timer.scheduler import TIMERS
 from resources.lib.timer.timer import (MEDIA_ACTION_START,
                                        MEDIA_ACTION_START_STOP,
                                        SYSTEM_ACTION_NONE, Timer)
@@ -10,33 +9,7 @@ from resources.lib.utils.datetime_utils import DEFAULT_TIME
 
 class SetTimer(AbstractSetTimer):
 
-    def ask_timer(self, timerid: int) -> int:
-
-        options = [self.addon.getLocalizedString(32102)]
-        for i in range(2, TIMERS):
-            label, path, start, days = Timer.get_quick_info(i)
-            options.append("%i: %s (%s%s)" % (
-                i - 1,
-                label,
-                self.days_to_short(
-                    days) or self.addon.getLocalizedString(32034),
-                ", %s" % start if days else ""
-            ))
-
-        selection = xbmcgui.Dialog().select(
-            self.addon.getLocalizedString(32103), options, preselect=0)
-        if selection == -1:
-            return None
-        elif selection == 0:
-            self.addon.openSettings()
-            return None
-        else:
-            return selection + 1
-
     def ask_days(self, label: str, path: str, is_epg: bool, timer: Timer) -> 'list[int]':
-
-        if is_epg:
-            return timer.days
 
         options = [self.addon.getLocalizedString(32200 + i) for i in range(7)]
         options.append(self.addon.getLocalizedString(32036))
@@ -50,9 +23,6 @@ class SetTimer(AbstractSetTimer):
 
     def ask_starttime(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
 
-        if is_epg:
-            return timer.s_start
-
         start = xbmcgui.Dialog().numeric(
             2, self.addon.getLocalizedString(32105), timer.s_start)
         if start == "":
@@ -61,9 +31,6 @@ class SetTimer(AbstractSetTimer):
             return ("0%s" % start.strip())[-5:]
 
     def ask_duration(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
-
-        if is_epg:
-            return timer.s_duration
 
         duration = xbmcgui.Dialog().numeric(
             2, self.addon.getLocalizedString(32106), timer.s_duration)

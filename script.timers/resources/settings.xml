@@ -2,8 +2,41 @@
 <settings version="1">
   <section id="script.timers">
     <category id="general" label="32030" help="">
+      <group id="g_pause" label="32160">
+        <setting id="setpause" type="action" label="32163" help="32300">
+          <level>1</level>
+          <data>RunScript($ID,set_pause)</data>
+          <control type="button" format="action">
+            <close>false</close>
+          </control>
+        </setting> 
+        <setting id="resetpause" type="action" label="32164" help="32301">
+          <level>1</level>
+          <data>RunScript($ID,reset_pause)</data>
+          <control type="button" format="action">
+            <close>false</close>
+          </control>
+        </setting> 
+        <setting id="pause_date" type="date" label="32161" help="32302">
+          <level>1</level>
+          <default>2000-01-01</default>
+          <control type="button" format="date">
+            <heading>32161</heading>
+          </control>
+        </setting>
+        <setting id="pause_time" type="time" label="32162" help="32303">
+          <level>1</level>
+          <default>00:01</default>
+          <control type="button" format="time">
+            <heading>32162</heading>
+          </control>
+          <dependencies>
+            <dependency type="enable" setting="pause_date" operator="!is"></dependency>
+          </dependencies>
+        </setting>
+      </group>
       <group id="g_vol_default" label="32031">
-        <setting id="vol_default" type="integer" label="32031" help="">
+        <setting id="vol_default" type="integer" label="32031" help="32310">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -15,7 +48,7 @@
             <popup>false</popup>
           </control>
         </setting>
-        <setting id="resetvol" type="action" label="32111" help="">
+        <setting id="resetvol" type="action" label="32111" help="32311">
           <level>0</level>
           <data>RunScript($ID,reset_volume)</data>
           <control type="button" format="action">
@@ -40,12 +73,27 @@
         </setting>
       </group>
       <group id="g_resume" label="32079">
-        <setting id="resume" type="boolean" label="32113" help="">
-          <level>1</level>
+        <setting id="resume" type="boolean" label="32113" help="32320">
+          <level>2</level>
           <default>false</default>
           <control type="toggle" />
         </setting>
       </group>
+      <group id="g_offset" label="32170">
+        <setting id="offset" type="integer" label="32171" help="32325">
+          <level>3</level>
+          <default>0</default>
+          <constraints>
+            <minimum>-30</minimum>
+            <step>1</step>
+            <maximum>30</maximum>
+          </constraints>
+          <control type="slider" format="integer">
+            <popup>false</popup>
+          </control>
+        </setting>
+      </group>
+      <!--
       <group id="g_extras" label="32002">
         <setting id="powermanagement_displaysoff" type="integer" label="32130" help="">
           <level>3</level>
@@ -93,10 +141,11 @@
           </dependencies>
         </setting>
       </group>
+    -->
     </category>
     <category id="c_timer_0" label="32004" help="">
       <group id="g_timer_0" label="32004">
-        <setting id="timer_0_label" type="string" label="32026" help="">
+        <setting id="timer_0_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Sleep Timer</default>
           <constraints>
@@ -108,7 +157,7 @@
         </setting>
       </group>
       <group id="g_timer_0_schedule" label="32060">
-        <setting id="timer_0_days" type="list[integer]" label="32037">
+        <setting id="timer_0_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -129,7 +178,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_0_start" type="time" label="32061" help="">
+        <setting id="timer_0_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -140,7 +189,7 @@
             <dependency type="enable" setting="timer_0_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_0_end_type" type="integer" label="32062" help="">
+        <setting id="timer_0_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>1</default>
           <constraints>
@@ -156,7 +205,7 @@
             <dependency type="enable" setting="timer_0_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_0_duration" type="time" label="32064" help="">
+        <setting id="timer_0_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -168,7 +217,7 @@
             <dependency type="visible" setting="timer_0_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_0_end" type="time" label="32065" help="">
+        <setting id="timer_0_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -182,7 +231,7 @@
         </setting>
       </group>
       <group id="g_timer_0_action" label="32070">
-        <setting id="timer_0_media_action" type="integer" label="32070" help="">
+        <setting id="timer_0_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>6</default>
           <constraints>
@@ -198,7 +247,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_0_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_0_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -211,7 +260,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_0_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_0_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -224,7 +273,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_0_resume" type="boolean" label="32079" help="">
+        <setting id="timer_0_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -274,7 +323,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_0_test" type="action" label="32108" help="">
+        <setting id="timer_0_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,0)</data>
           <control type="button" format="action">
@@ -286,7 +335,7 @@
         </setting>
       </group>
       <group id="g_timer_0_fade" label="32090">
-        <setting id="timer_0_fade" type="integer" label="32091" help="">
+        <setting id="timer_0_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -302,7 +351,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_0_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_0_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -317,7 +366,7 @@
             <dependency type="visible" setting="timer_0_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_0_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_0_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -339,7 +388,7 @@
         </setting>
       </group>
       <group id="g_timer_0_system_action" label="32081">
-        <setting id="timer_0_system_action" type="integer" label="32087" help="">
+        <setting id="timer_0_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -359,7 +408,7 @@
         </setting>
       </group>
       <group id="g_timer_0_notify" label="32097">
-        <setting id="timer_0_notify" type="boolean" label="32098" help="">
+        <setting id="timer_0_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -368,7 +417,7 @@
     </category>
     <category id="c_timer_1" label="32005" help="">
       <group id="g_timer_1" label="32005">
-        <setting id="timer_1_label" type="string" label="32026" help="">
+        <setting id="timer_1_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Snooze Timer</default>
           <constraints>
@@ -380,7 +429,7 @@
         </setting>
       </group>
       <group id="g_timer_1_schedule" label="32060">
-        <setting id="timer_1_days" type="list[integer]" label="32037">
+        <setting id="timer_1_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -401,7 +450,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_1_start" type="time" label="32061" help="">
+        <setting id="timer_1_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -412,7 +461,7 @@
             <dependency type="enable" setting="timer_1_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_1_end_type" type="integer" label="32062" help="">
+        <setting id="timer_1_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>3</default>
           <constraints>
@@ -428,7 +477,7 @@
             <dependency type="enable" setting="timer_1_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_1_duration" type="time" label="32064" help="">
+        <setting id="timer_1_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -440,7 +489,7 @@
             <dependency type="visible" setting="timer_1_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_1_end" type="time" label="32065" help="">
+        <setting id="timer_1_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -454,7 +503,7 @@
         </setting>
       </group>
       <group id="g_timer_1_action" label="32070">
-        <setting id="timer_1_media_action" type="integer" label="32070" help="">
+        <setting id="timer_1_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>3</default>
           <constraints>
@@ -470,7 +519,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_1_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_1_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -483,7 +532,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_1_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_1_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -496,7 +545,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_1_resume" type="boolean" label="32079" help="">
+        <setting id="timer_1_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -546,7 +595,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_1_test" type="action" label="32108" help="">
+        <setting id="timer_1_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,1)</data>
           <control type="button" format="action">
@@ -558,7 +607,7 @@
         </setting>
       </group>
       <group id="g_timer_1_fade" label="32090">
-        <setting id="timer_1_fade" type="integer" label="32091" help="">
+        <setting id="timer_1_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -574,7 +623,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_1_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_1_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -589,7 +638,7 @@
             <dependency type="visible" setting="timer_1_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_1_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_1_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -611,7 +660,7 @@
         </setting>
       </group>
       <group id="g_timer_1_system_action" label="32081">
-        <setting id="timer_1_system_action" type="integer" label="32087" help="">
+        <setting id="timer_1_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -631,7 +680,7 @@
         </setting>
       </group>
       <group id="g_timer_1_notify" label="32097">
-        <setting id="timer_1_notify" type="boolean" label="32098" help="">
+        <setting id="timer_1_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -640,7 +689,7 @@
     </category>
     <category id="c_timer_2" label="32006" help="">
       <group id="g_timer_2" label="32006">
-        <setting id="timer_2_label" type="string" label="32026" help="">
+        <setting id="timer_2_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 1</default>
           <constraints>
@@ -652,7 +701,7 @@
         </setting>
       </group>
       <group id="g_timer_2_schedule" label="32060">
-        <setting id="timer_2_days" type="list[integer]" label="32037">
+        <setting id="timer_2_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -673,7 +722,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_2_start" type="time" label="32061" help="">
+        <setting id="timer_2_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -684,7 +733,7 @@
             <dependency type="enable" setting="timer_2_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_2_end_type" type="integer" label="32062" help="">
+        <setting id="timer_2_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -700,7 +749,7 @@
             <dependency type="enable" setting="timer_2_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_2_duration" type="time" label="32064" help="">
+        <setting id="timer_2_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -712,7 +761,7 @@
             <dependency type="visible" setting="timer_2_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_2_end" type="time" label="32065" help="">
+        <setting id="timer_2_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -726,7 +775,7 @@
         </setting>
       </group>
       <group id="g_timer_2_action" label="32070">
-        <setting id="timer_2_media_action" type="integer" label="32070" help="">
+        <setting id="timer_2_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -742,7 +791,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_2_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_2_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -755,7 +804,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_2_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_2_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -768,7 +817,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_2_resume" type="boolean" label="32079" help="">
+        <setting id="timer_2_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -818,7 +867,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_2_test" type="action" label="32108" help="">
+        <setting id="timer_2_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,2)</data>
           <control type="button" format="action">
@@ -830,7 +879,7 @@
         </setting>
       </group>
       <group id="g_timer_2_fade" label="32090">
-        <setting id="timer_2_fade" type="integer" label="32091" help="">
+        <setting id="timer_2_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -846,7 +895,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_2_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_2_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -861,7 +910,7 @@
             <dependency type="visible" setting="timer_2_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_2_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_2_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -883,7 +932,7 @@
         </setting>
       </group>
       <group id="g_timer_2_system_action" label="32081">
-        <setting id="timer_2_system_action" type="integer" label="32087" help="">
+        <setting id="timer_2_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -903,7 +952,7 @@
         </setting>
       </group>
       <group id="g_timer_2_notify" label="32097">
-        <setting id="timer_2_notify" type="boolean" label="32098" help="">
+        <setting id="timer_2_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -912,7 +961,7 @@
     </category>
     <category id="c_timer_3" label="32007" help="">
       <group id="g_timer_3" label="32007">
-        <setting id="timer_3_label" type="string" label="32026" help="">
+        <setting id="timer_3_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 2</default>
           <constraints>
@@ -924,7 +973,7 @@
         </setting>
       </group>
       <group id="g_timer_3_schedule" label="32060">
-        <setting id="timer_3_days" type="list[integer]" label="32037">
+        <setting id="timer_3_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -945,7 +994,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_3_start" type="time" label="32061" help="">
+        <setting id="timer_3_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -956,7 +1005,7 @@
             <dependency type="enable" setting="timer_3_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_3_end_type" type="integer" label="32062" help="">
+        <setting id="timer_3_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -972,7 +1021,7 @@
             <dependency type="enable" setting="timer_3_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_3_duration" type="time" label="32064" help="">
+        <setting id="timer_3_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -984,7 +1033,7 @@
             <dependency type="visible" setting="timer_3_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_3_end" type="time" label="32065" help="">
+        <setting id="timer_3_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -998,7 +1047,7 @@
         </setting>
       </group>
       <group id="g_timer_3_action" label="32070">
-        <setting id="timer_3_media_action" type="integer" label="32070" help="">
+        <setting id="timer_3_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -1014,7 +1063,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_3_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_3_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -1027,7 +1076,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_3_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_3_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -1040,7 +1089,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_3_resume" type="boolean" label="32079" help="">
+        <setting id="timer_3_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -1090,7 +1139,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_3_test" type="action" label="32108" help="">
+        <setting id="timer_3_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,3)</data>
           <control type="button" format="action">
@@ -1102,7 +1151,7 @@
         </setting>
       </group>
       <group id="g_timer_3_fade" label="32090">
-        <setting id="timer_3_fade" type="integer" label="32091" help="">
+        <setting id="timer_3_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -1118,7 +1167,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_3_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_3_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -1133,7 +1182,7 @@
             <dependency type="visible" setting="timer_3_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_3_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_3_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -1155,7 +1204,7 @@
         </setting>
       </group>
       <group id="g_timer_3_system_action" label="32081">
-        <setting id="timer_3_system_action" type="integer" label="32087" help="">
+        <setting id="timer_3_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -1175,7 +1224,7 @@
         </setting>
       </group>
       <group id="g_timer_3_notify" label="32097">
-        <setting id="timer_3_notify" type="boolean" label="32098" help="">
+        <setting id="timer_3_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -1184,7 +1233,7 @@
     </category>
     <category id="c_timer_4" label="32008" help="">
       <group id="g_timer_4" label="32008">
-        <setting id="timer_4_label" type="string" label="32026" help="">
+        <setting id="timer_4_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 3</default>
           <constraints>
@@ -1196,7 +1245,7 @@
         </setting>
       </group>
       <group id="g_timer_4_schedule" label="32060">
-        <setting id="timer_4_days" type="list[integer]" label="32037">
+        <setting id="timer_4_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -1217,7 +1266,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_4_start" type="time" label="32061" help="">
+        <setting id="timer_4_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -1228,7 +1277,7 @@
             <dependency type="enable" setting="timer_4_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_4_end_type" type="integer" label="32062" help="">
+        <setting id="timer_4_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -1244,7 +1293,7 @@
             <dependency type="enable" setting="timer_4_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_4_duration" type="time" label="32064" help="">
+        <setting id="timer_4_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -1256,7 +1305,7 @@
             <dependency type="visible" setting="timer_4_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_4_end" type="time" label="32065" help="">
+        <setting id="timer_4_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -1270,7 +1319,7 @@
         </setting>
       </group>
       <group id="g_timer_4_action" label="32070">
-        <setting id="timer_4_media_action" type="integer" label="32070" help="">
+        <setting id="timer_4_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -1286,7 +1335,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_4_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_4_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -1299,7 +1348,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_4_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_4_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -1312,7 +1361,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_4_resume" type="boolean" label="32079" help="">
+        <setting id="timer_4_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -1362,7 +1411,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_4_test" type="action" label="32108" help="">
+        <setting id="timer_4_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,4)</data>
           <control type="button" format="action">
@@ -1374,7 +1423,7 @@
         </setting>
       </group>
       <group id="g_timer_4_fade" label="32090">
-        <setting id="timer_4_fade" type="integer" label="32091" help="">
+        <setting id="timer_4_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -1390,7 +1439,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_4_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_4_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -1405,7 +1454,7 @@
             <dependency type="visible" setting="timer_4_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_4_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_4_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -1427,7 +1476,7 @@
         </setting>
       </group>
       <group id="g_timer_4_system_action" label="32081">
-        <setting id="timer_4_system_action" type="integer" label="32087" help="">
+        <setting id="timer_4_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -1447,7 +1496,7 @@
         </setting>
       </group>
       <group id="g_timer_4_notify" label="32097">
-        <setting id="timer_4_notify" type="boolean" label="32098" help="">
+        <setting id="timer_4_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -1456,7 +1505,7 @@
     </category>
     <category id="c_timer_5" label="32009" help="">
       <group id="g_timer_5" label="32009">
-        <setting id="timer_5_label" type="string" label="32026" help="">
+        <setting id="timer_5_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 4</default>
           <constraints>
@@ -1468,7 +1517,7 @@
         </setting>
       </group>
       <group id="g_timer_5_schedule" label="32060">
-        <setting id="timer_5_days" type="list[integer]" label="32037">
+        <setting id="timer_5_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -1489,7 +1538,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_5_start" type="time" label="32061" help="">
+        <setting id="timer_5_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -1500,7 +1549,7 @@
             <dependency type="enable" setting="timer_5_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_5_end_type" type="integer" label="32062" help="">
+        <setting id="timer_5_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -1516,7 +1565,7 @@
             <dependency type="enable" setting="timer_5_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_5_duration" type="time" label="32064" help="">
+        <setting id="timer_5_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -1528,7 +1577,7 @@
             <dependency type="visible" setting="timer_5_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_5_end" type="time" label="32065" help="">
+        <setting id="timer_5_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -1542,7 +1591,7 @@
         </setting>
       </group>
       <group id="g_timer_5_action" label="32070">
-        <setting id="timer_5_media_action" type="integer" label="32070" help="">
+        <setting id="timer_5_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -1558,7 +1607,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_5_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_5_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -1571,7 +1620,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_5_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_5_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -1584,7 +1633,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_5_resume" type="boolean" label="32079" help="">
+        <setting id="timer_5_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -1634,7 +1683,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_5_test" type="action" label="32108" help="">
+        <setting id="timer_5_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,5)</data>
           <control type="button" format="action">
@@ -1646,7 +1695,7 @@
         </setting>
       </group>
       <group id="g_timer_5_fade" label="32090">
-        <setting id="timer_5_fade" type="integer" label="32091" help="">
+        <setting id="timer_5_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -1662,7 +1711,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_5_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_5_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -1677,7 +1726,7 @@
             <dependency type="visible" setting="timer_5_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_5_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_5_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -1699,7 +1748,7 @@
         </setting>
       </group>
       <group id="g_timer_5_system_action" label="32081">
-        <setting id="timer_5_system_action" type="integer" label="32087" help="">
+        <setting id="timer_5_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -1719,7 +1768,7 @@
         </setting>
       </group>
       <group id="g_timer_5_notify" label="32097">
-        <setting id="timer_5_notify" type="boolean" label="32098" help="">
+        <setting id="timer_5_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -1728,7 +1777,7 @@
     </category>
     <category id="c_timer_6" label="32010" help="">
       <group id="g_timer_6" label="32010">
-        <setting id="timer_6_label" type="string" label="32026" help="">
+        <setting id="timer_6_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 5</default>
           <constraints>
@@ -1740,7 +1789,7 @@
         </setting>
       </group>
       <group id="g_timer_6_schedule" label="32060">
-        <setting id="timer_6_days" type="list[integer]" label="32037">
+        <setting id="timer_6_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -1761,7 +1810,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_6_start" type="time" label="32061" help="">
+        <setting id="timer_6_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -1772,7 +1821,7 @@
             <dependency type="enable" setting="timer_6_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_6_end_type" type="integer" label="32062" help="">
+        <setting id="timer_6_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -1788,7 +1837,7 @@
             <dependency type="enable" setting="timer_6_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_6_duration" type="time" label="32064" help="">
+        <setting id="timer_6_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -1800,7 +1849,7 @@
             <dependency type="visible" setting="timer_6_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_6_end" type="time" label="32065" help="">
+        <setting id="timer_6_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -1814,7 +1863,7 @@
         </setting>
       </group>
       <group id="g_timer_6_action" label="32070">
-        <setting id="timer_6_media_action" type="integer" label="32070" help="">
+        <setting id="timer_6_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -1830,7 +1879,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_6_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_6_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -1843,7 +1892,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_6_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_6_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -1856,7 +1905,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_6_resume" type="boolean" label="32079" help="">
+        <setting id="timer_6_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -1906,7 +1955,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_6_test" type="action" label="32108" help="">
+        <setting id="timer_6_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,6)</data>
           <control type="button" format="action">
@@ -1918,7 +1967,7 @@
         </setting>
       </group>
       <group id="g_timer_6_fade" label="32090">
-        <setting id="timer_6_fade" type="integer" label="32091" help="">
+        <setting id="timer_6_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -1934,7 +1983,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_6_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_6_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -1949,7 +1998,7 @@
             <dependency type="visible" setting="timer_6_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_6_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_6_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -1971,7 +2020,7 @@
         </setting>
       </group>
       <group id="g_timer_6_system_action" label="32081">
-        <setting id="timer_6_system_action" type="integer" label="32087" help="">
+        <setting id="timer_6_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -1991,7 +2040,7 @@
         </setting>
       </group>
       <group id="g_timer_6_notify" label="32097">
-        <setting id="timer_6_notify" type="boolean" label="32098" help="">
+        <setting id="timer_6_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -2000,7 +2049,7 @@
     </category>
     <category id="c_timer_7" label="32011" help="">
       <group id="g_timer_7" label="32011">
-        <setting id="timer_7_label" type="string" label="32026" help="">
+        <setting id="timer_7_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 6</default>
           <constraints>
@@ -2012,7 +2061,7 @@
         </setting>
       </group>
       <group id="g_timer_7_schedule" label="32060">
-        <setting id="timer_7_days" type="list[integer]" label="32037">
+        <setting id="timer_7_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -2033,7 +2082,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_7_start" type="time" label="32061" help="">
+        <setting id="timer_7_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -2044,7 +2093,7 @@
             <dependency type="enable" setting="timer_7_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_7_end_type" type="integer" label="32062" help="">
+        <setting id="timer_7_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -2060,7 +2109,7 @@
             <dependency type="enable" setting="timer_7_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_7_duration" type="time" label="32064" help="">
+        <setting id="timer_7_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -2072,7 +2121,7 @@
             <dependency type="visible" setting="timer_7_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_7_end" type="time" label="32065" help="">
+        <setting id="timer_7_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -2086,7 +2135,7 @@
         </setting>
       </group>
       <group id="g_timer_7_action" label="32070">
-        <setting id="timer_7_media_action" type="integer" label="32070" help="">
+        <setting id="timer_7_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -2102,7 +2151,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_7_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_7_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -2115,7 +2164,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_7_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_7_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -2128,7 +2177,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_7_resume" type="boolean" label="32079" help="">
+        <setting id="timer_7_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -2178,7 +2227,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_7_test" type="action" label="32108" help="">
+        <setting id="timer_7_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,7)</data>
           <control type="button" format="action">
@@ -2190,7 +2239,7 @@
         </setting>
       </group>
       <group id="g_timer_7_fade" label="32090">
-        <setting id="timer_7_fade" type="integer" label="32091" help="">
+        <setting id="timer_7_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -2206,7 +2255,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_7_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_7_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -2221,7 +2270,7 @@
             <dependency type="visible" setting="timer_7_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_7_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_7_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -2243,7 +2292,7 @@
         </setting>
       </group>
       <group id="g_timer_7_system_action" label="32081">
-        <setting id="timer_7_system_action" type="integer" label="32087" help="">
+        <setting id="timer_7_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -2263,7 +2312,7 @@
         </setting>
       </group>
       <group id="g_timer_7_notify" label="32097">
-        <setting id="timer_7_notify" type="boolean" label="32098" help="">
+        <setting id="timer_7_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -2272,7 +2321,7 @@
     </category>
     <category id="c_timer_8" label="32012" help="">
       <group id="g_timer_8" label="32012">
-        <setting id="timer_8_label" type="string" label="32026" help="">
+        <setting id="timer_8_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 7</default>
           <constraints>
@@ -2284,7 +2333,7 @@
         </setting>
       </group>
       <group id="g_timer_8_schedule" label="32060">
-        <setting id="timer_8_days" type="list[integer]" label="32037">
+        <setting id="timer_8_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -2305,7 +2354,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_8_start" type="time" label="32061" help="">
+        <setting id="timer_8_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -2316,7 +2365,7 @@
             <dependency type="enable" setting="timer_8_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_8_end_type" type="integer" label="32062" help="">
+        <setting id="timer_8_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -2332,7 +2381,7 @@
             <dependency type="enable" setting="timer_8_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_8_duration" type="time" label="32064" help="">
+        <setting id="timer_8_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -2344,7 +2393,7 @@
             <dependency type="visible" setting="timer_8_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_8_end" type="time" label="32065" help="">
+        <setting id="timer_8_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -2358,7 +2407,7 @@
         </setting>
       </group>
       <group id="g_timer_8_action" label="32070">
-        <setting id="timer_8_media_action" type="integer" label="32070" help="">
+        <setting id="timer_8_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -2374,7 +2423,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_8_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_8_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -2387,7 +2436,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_8_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_8_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -2400,7 +2449,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_8_resume" type="boolean" label="32079" help="">
+        <setting id="timer_8_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -2450,7 +2499,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_8_test" type="action" label="32108" help="">
+        <setting id="timer_8_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,8)</data>
           <control type="button" format="action">
@@ -2462,7 +2511,7 @@
         </setting>
       </group>
       <group id="g_timer_8_fade" label="32090">
-        <setting id="timer_8_fade" type="integer" label="32091" help="">
+        <setting id="timer_8_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -2478,7 +2527,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_8_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_8_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -2493,7 +2542,7 @@
             <dependency type="visible" setting="timer_8_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_8_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_8_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -2515,7 +2564,7 @@
         </setting>
       </group>
       <group id="g_timer_8_system_action" label="32081">
-        <setting id="timer_8_system_action" type="integer" label="32087" help="">
+        <setting id="timer_8_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -2535,7 +2584,7 @@
         </setting>
       </group>
       <group id="g_timer_8_notify" label="32097">
-        <setting id="timer_8_notify" type="boolean" label="32098" help="">
+        <setting id="timer_8_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -2544,7 +2593,7 @@
     </category>
     <category id="c_timer_9" label="32013" help="">
       <group id="g_timer_9" label="32013">
-        <setting id="timer_9_label" type="string" label="32026" help="">
+        <setting id="timer_9_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 8</default>
           <constraints>
@@ -2556,7 +2605,7 @@
         </setting>
       </group>
       <group id="g_timer_9_schedule" label="32060">
-        <setting id="timer_9_days" type="list[integer]" label="32037">
+        <setting id="timer_9_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -2577,7 +2626,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_9_start" type="time" label="32061" help="">
+        <setting id="timer_9_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -2588,7 +2637,7 @@
             <dependency type="enable" setting="timer_9_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_9_end_type" type="integer" label="32062" help="">
+        <setting id="timer_9_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -2604,7 +2653,7 @@
             <dependency type="enable" setting="timer_9_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_9_duration" type="time" label="32064" help="">
+        <setting id="timer_9_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -2616,7 +2665,7 @@
             <dependency type="visible" setting="timer_9_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_9_end" type="time" label="32065" help="">
+        <setting id="timer_9_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -2630,7 +2679,7 @@
         </setting>
       </group>
       <group id="g_timer_9_action" label="32070">
-        <setting id="timer_9_media_action" type="integer" label="32070" help="">
+        <setting id="timer_9_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -2646,7 +2695,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_9_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_9_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -2659,7 +2708,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_9_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_9_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -2672,7 +2721,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_9_resume" type="boolean" label="32079" help="">
+        <setting id="timer_9_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -2722,7 +2771,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_9_test" type="action" label="32108" help="">
+        <setting id="timer_9_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,9)</data>
           <control type="button" format="action">
@@ -2734,7 +2783,7 @@
         </setting>
       </group>
       <group id="g_timer_9_fade" label="32090">
-        <setting id="timer_9_fade" type="integer" label="32091" help="">
+        <setting id="timer_9_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -2750,7 +2799,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_9_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_9_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -2765,7 +2814,7 @@
             <dependency type="visible" setting="timer_9_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_9_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_9_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -2787,7 +2836,7 @@
         </setting>
       </group>
       <group id="g_timer_9_system_action" label="32081">
-        <setting id="timer_9_system_action" type="integer" label="32087" help="">
+        <setting id="timer_9_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -2807,7 +2856,7 @@
         </setting>
       </group>
       <group id="g_timer_9_notify" label="32097">
-        <setting id="timer_9_notify" type="boolean" label="32098" help="">
+        <setting id="timer_9_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -2816,7 +2865,7 @@
     </category>
     <category id="c_timer_10" label="32014" help="">
       <group id="g_timer_10" label="32014">
-        <setting id="timer_10_label" type="string" label="32026" help="">
+        <setting id="timer_10_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 9</default>
           <constraints>
@@ -2828,7 +2877,7 @@
         </setting>
       </group>
       <group id="g_timer_10_schedule" label="32060">
-        <setting id="timer_10_days" type="list[integer]" label="32037">
+        <setting id="timer_10_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -2849,7 +2898,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_10_start" type="time" label="32061" help="">
+        <setting id="timer_10_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -2860,7 +2909,7 @@
             <dependency type="enable" setting="timer_10_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_10_end_type" type="integer" label="32062" help="">
+        <setting id="timer_10_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -2876,7 +2925,7 @@
             <dependency type="enable" setting="timer_10_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_10_duration" type="time" label="32064" help="">
+        <setting id="timer_10_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -2888,7 +2937,7 @@
             <dependency type="visible" setting="timer_10_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_10_end" type="time" label="32065" help="">
+        <setting id="timer_10_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -2902,7 +2951,7 @@
         </setting>
       </group>
       <group id="g_timer_10_action" label="32070">
-        <setting id="timer_10_media_action" type="integer" label="32070" help="">
+        <setting id="timer_10_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -2918,7 +2967,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_10_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_10_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -2931,7 +2980,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_10_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_10_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -2944,7 +2993,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_10_resume" type="boolean" label="32079" help="">
+        <setting id="timer_10_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -2994,7 +3043,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_10_test" type="action" label="32108" help="">
+        <setting id="timer_10_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,10)</data>
           <control type="button" format="action">
@@ -3006,7 +3055,7 @@
         </setting>
       </group>
       <group id="g_timer_10_fade" label="32090">
-        <setting id="timer_10_fade" type="integer" label="32091" help="">
+        <setting id="timer_10_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -3022,7 +3071,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_10_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_10_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -3037,7 +3086,7 @@
             <dependency type="visible" setting="timer_10_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_10_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_10_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -3059,7 +3108,7 @@
         </setting>
       </group>
       <group id="g_timer_10_system_action" label="32081">
-        <setting id="timer_10_system_action" type="integer" label="32087" help="">
+        <setting id="timer_10_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -3079,7 +3128,7 @@
         </setting>
       </group>
       <group id="g_timer_10_notify" label="32097">
-        <setting id="timer_10_notify" type="boolean" label="32098" help="">
+        <setting id="timer_10_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -3088,7 +3137,7 @@
     </category>
     <category id="c_timer_11" label="32015" help="">
       <group id="g_timer_11" label="32015">
-        <setting id="timer_11_label" type="string" label="32026" help="">
+        <setting id="timer_11_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 10</default>
           <constraints>
@@ -3100,7 +3149,7 @@
         </setting>
       </group>
       <group id="g_timer_11_schedule" label="32060">
-        <setting id="timer_11_days" type="list[integer]" label="32037">
+        <setting id="timer_11_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -3121,7 +3170,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_11_start" type="time" label="32061" help="">
+        <setting id="timer_11_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -3132,7 +3181,7 @@
             <dependency type="enable" setting="timer_11_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_11_end_type" type="integer" label="32062" help="">
+        <setting id="timer_11_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -3148,7 +3197,7 @@
             <dependency type="enable" setting="timer_11_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_11_duration" type="time" label="32064" help="">
+        <setting id="timer_11_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -3160,7 +3209,7 @@
             <dependency type="visible" setting="timer_11_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_11_end" type="time" label="32065" help="">
+        <setting id="timer_11_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -3174,7 +3223,7 @@
         </setting>
       </group>
       <group id="g_timer_11_action" label="32070">
-        <setting id="timer_11_media_action" type="integer" label="32070" help="">
+        <setting id="timer_11_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -3190,7 +3239,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_11_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_11_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -3203,7 +3252,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_11_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_11_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -3216,7 +3265,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_11_resume" type="boolean" label="32079" help="">
+        <setting id="timer_11_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -3266,7 +3315,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_11_test" type="action" label="32108" help="">
+        <setting id="timer_11_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,11)</data>
           <control type="button" format="action">
@@ -3278,7 +3327,7 @@
         </setting>
       </group>
       <group id="g_timer_11_fade" label="32090">
-        <setting id="timer_11_fade" type="integer" label="32091" help="">
+        <setting id="timer_11_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -3294,7 +3343,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_11_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_11_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -3309,7 +3358,7 @@
             <dependency type="visible" setting="timer_11_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_11_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_11_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -3331,7 +3380,7 @@
         </setting>
       </group>
       <group id="g_timer_11_system_action" label="32081">
-        <setting id="timer_11_system_action" type="integer" label="32087" help="">
+        <setting id="timer_11_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -3351,7 +3400,7 @@
         </setting>
       </group>
       <group id="g_timer_11_notify" label="32097">
-        <setting id="timer_11_notify" type="boolean" label="32098" help="">
+        <setting id="timer_11_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -3360,7 +3409,7 @@
     </category>
     <category id="c_timer_12" label="32016" help="">
       <group id="g_timer_12" label="32016">
-        <setting id="timer_12_label" type="string" label="32026" help="">
+        <setting id="timer_12_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 11</default>
           <constraints>
@@ -3372,7 +3421,7 @@
         </setting>
       </group>
       <group id="g_timer_12_schedule" label="32060">
-        <setting id="timer_12_days" type="list[integer]" label="32037">
+        <setting id="timer_12_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -3393,7 +3442,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_12_start" type="time" label="32061" help="">
+        <setting id="timer_12_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -3404,7 +3453,7 @@
             <dependency type="enable" setting="timer_12_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_12_end_type" type="integer" label="32062" help="">
+        <setting id="timer_12_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -3420,7 +3469,7 @@
             <dependency type="enable" setting="timer_12_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_12_duration" type="time" label="32064" help="">
+        <setting id="timer_12_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -3432,7 +3481,7 @@
             <dependency type="visible" setting="timer_12_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_12_end" type="time" label="32065" help="">
+        <setting id="timer_12_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -3446,7 +3495,7 @@
         </setting>
       </group>
       <group id="g_timer_12_action" label="32070">
-        <setting id="timer_12_media_action" type="integer" label="32070" help="">
+        <setting id="timer_12_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -3462,7 +3511,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_12_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_12_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -3475,7 +3524,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_12_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_12_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -3488,7 +3537,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_12_resume" type="boolean" label="32079" help="">
+        <setting id="timer_12_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -3538,7 +3587,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_12_test" type="action" label="32108" help="">
+        <setting id="timer_12_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,12)</data>
           <control type="button" format="action">
@@ -3550,7 +3599,7 @@
         </setting>
       </group>
       <group id="g_timer_12_fade" label="32090">
-        <setting id="timer_12_fade" type="integer" label="32091" help="">
+        <setting id="timer_12_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -3566,7 +3615,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_12_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_12_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -3581,7 +3630,7 @@
             <dependency type="visible" setting="timer_12_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_12_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_12_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -3603,7 +3652,7 @@
         </setting>
       </group>
       <group id="g_timer_12_system_action" label="32081">
-        <setting id="timer_12_system_action" type="integer" label="32087" help="">
+        <setting id="timer_12_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -3623,7 +3672,7 @@
         </setting>
       </group>
       <group id="g_timer_12_notify" label="32097">
-        <setting id="timer_12_notify" type="boolean" label="32098" help="">
+        <setting id="timer_12_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -3632,7 +3681,7 @@
     </category>
     <category id="c_timer_13" label="32017" help="">
       <group id="g_timer_13" label="32017">
-        <setting id="timer_13_label" type="string" label="32026" help="">
+        <setting id="timer_13_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 12</default>
           <constraints>
@@ -3644,7 +3693,7 @@
         </setting>
       </group>
       <group id="g_timer_13_schedule" label="32060">
-        <setting id="timer_13_days" type="list[integer]" label="32037">
+        <setting id="timer_13_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -3665,7 +3714,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_13_start" type="time" label="32061" help="">
+        <setting id="timer_13_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -3676,7 +3725,7 @@
             <dependency type="enable" setting="timer_13_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_13_end_type" type="integer" label="32062" help="">
+        <setting id="timer_13_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -3692,7 +3741,7 @@
             <dependency type="enable" setting="timer_13_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_13_duration" type="time" label="32064" help="">
+        <setting id="timer_13_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -3704,7 +3753,7 @@
             <dependency type="visible" setting="timer_13_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_13_end" type="time" label="32065" help="">
+        <setting id="timer_13_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -3718,7 +3767,7 @@
         </setting>
       </group>
       <group id="g_timer_13_action" label="32070">
-        <setting id="timer_13_media_action" type="integer" label="32070" help="">
+        <setting id="timer_13_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -3734,7 +3783,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_13_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_13_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -3747,7 +3796,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_13_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_13_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -3760,7 +3809,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_13_resume" type="boolean" label="32079" help="">
+        <setting id="timer_13_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -3810,7 +3859,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_13_test" type="action" label="32108" help="">
+        <setting id="timer_13_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,13)</data>
           <control type="button" format="action">
@@ -3822,7 +3871,7 @@
         </setting>
       </group>
       <group id="g_timer_13_fade" label="32090">
-        <setting id="timer_13_fade" type="integer" label="32091" help="">
+        <setting id="timer_13_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -3838,7 +3887,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_13_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_13_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -3853,7 +3902,7 @@
             <dependency type="visible" setting="timer_13_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_13_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_13_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -3875,7 +3924,7 @@
         </setting>
       </group>
       <group id="g_timer_13_system_action" label="32081">
-        <setting id="timer_13_system_action" type="integer" label="32087" help="">
+        <setting id="timer_13_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -3895,7 +3944,7 @@
         </setting>
       </group>
       <group id="g_timer_13_notify" label="32097">
-        <setting id="timer_13_notify" type="boolean" label="32098" help="">
+        <setting id="timer_13_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -3904,7 +3953,7 @@
     </category>
     <category id="c_timer_14" label="32018" help="">
       <group id="g_timer_14" label="32018">
-        <setting id="timer_14_label" type="string" label="32026" help="">
+        <setting id="timer_14_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 13</default>
           <constraints>
@@ -3916,7 +3965,7 @@
         </setting>
       </group>
       <group id="g_timer_14_schedule" label="32060">
-        <setting id="timer_14_days" type="list[integer]" label="32037">
+        <setting id="timer_14_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -3937,7 +3986,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_14_start" type="time" label="32061" help="">
+        <setting id="timer_14_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -3948,7 +3997,7 @@
             <dependency type="enable" setting="timer_14_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_14_end_type" type="integer" label="32062" help="">
+        <setting id="timer_14_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -3964,7 +4013,7 @@
             <dependency type="enable" setting="timer_14_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_14_duration" type="time" label="32064" help="">
+        <setting id="timer_14_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -3976,7 +4025,7 @@
             <dependency type="visible" setting="timer_14_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_14_end" type="time" label="32065" help="">
+        <setting id="timer_14_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -3990,7 +4039,7 @@
         </setting>
       </group>
       <group id="g_timer_14_action" label="32070">
-        <setting id="timer_14_media_action" type="integer" label="32070" help="">
+        <setting id="timer_14_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -4006,7 +4055,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_14_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_14_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -4019,7 +4068,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_14_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_14_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -4032,7 +4081,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_14_resume" type="boolean" label="32079" help="">
+        <setting id="timer_14_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -4082,7 +4131,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_14_test" type="action" label="32108" help="">
+        <setting id="timer_14_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,14)</data>
           <control type="button" format="action">
@@ -4094,7 +4143,7 @@
         </setting>
       </group>
       <group id="g_timer_14_fade" label="32090">
-        <setting id="timer_14_fade" type="integer" label="32091" help="">
+        <setting id="timer_14_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -4110,7 +4159,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_14_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_14_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -4125,7 +4174,7 @@
             <dependency type="visible" setting="timer_14_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_14_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_14_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -4147,7 +4196,7 @@
         </setting>
       </group>
       <group id="g_timer_14_system_action" label="32081">
-        <setting id="timer_14_system_action" type="integer" label="32087" help="">
+        <setting id="timer_14_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -4167,7 +4216,7 @@
         </setting>
       </group>
       <group id="g_timer_14_notify" label="32097">
-        <setting id="timer_14_notify" type="boolean" label="32098" help="">
+        <setting id="timer_14_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -4176,7 +4225,7 @@
     </category>
     <category id="c_timer_15" label="32019" help="">
       <group id="g_timer_15" label="32019">
-        <setting id="timer_15_label" type="string" label="32026" help="">
+        <setting id="timer_15_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 14</default>
           <constraints>
@@ -4188,7 +4237,7 @@
         </setting>
       </group>
       <group id="g_timer_15_schedule" label="32060">
-        <setting id="timer_15_days" type="list[integer]" label="32037">
+        <setting id="timer_15_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -4209,7 +4258,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_15_start" type="time" label="32061" help="">
+        <setting id="timer_15_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -4220,7 +4269,7 @@
             <dependency type="enable" setting="timer_15_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_15_end_type" type="integer" label="32062" help="">
+        <setting id="timer_15_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -4236,7 +4285,7 @@
             <dependency type="enable" setting="timer_15_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_15_duration" type="time" label="32064" help="">
+        <setting id="timer_15_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -4248,7 +4297,7 @@
             <dependency type="visible" setting="timer_15_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_15_end" type="time" label="32065" help="">
+        <setting id="timer_15_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -4262,7 +4311,7 @@
         </setting>
       </group>
       <group id="g_timer_15_action" label="32070">
-        <setting id="timer_15_media_action" type="integer" label="32070" help="">
+        <setting id="timer_15_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -4278,7 +4327,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_15_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_15_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -4291,7 +4340,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_15_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_15_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -4304,7 +4353,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_15_resume" type="boolean" label="32079" help="">
+        <setting id="timer_15_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -4354,7 +4403,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_15_test" type="action" label="32108" help="">
+        <setting id="timer_15_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,15)</data>
           <control type="button" format="action">
@@ -4366,7 +4415,7 @@
         </setting>
       </group>
       <group id="g_timer_15_fade" label="32090">
-        <setting id="timer_15_fade" type="integer" label="32091" help="">
+        <setting id="timer_15_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -4382,7 +4431,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_15_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_15_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -4397,7 +4446,7 @@
             <dependency type="visible" setting="timer_15_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_15_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_15_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -4419,7 +4468,7 @@
         </setting>
       </group>
       <group id="g_timer_15_system_action" label="32081">
-        <setting id="timer_15_system_action" type="integer" label="32087" help="">
+        <setting id="timer_15_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -4439,7 +4488,7 @@
         </setting>
       </group>
       <group id="g_timer_15_notify" label="32097">
-        <setting id="timer_15_notify" type="boolean" label="32098" help="">
+        <setting id="timer_15_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />
@@ -4448,7 +4497,7 @@
     </category>
     <category id="c_timer_16" label="32020" help="">
       <group id="g_timer_16" label="32020">
-        <setting id="timer_16_label" type="string" label="32026" help="">
+        <setting id="timer_16_label" type="string" label="32026" help="32330">
           <level>0</level>
           <default>Timer 15</default>
           <constraints>
@@ -4460,7 +4509,7 @@
         </setting>
       </group>
       <group id="g_timer_16_schedule" label="32060">
-        <setting id="timer_16_days" type="list[integer]" label="32037">
+        <setting id="timer_16_days" type="list[integer]" label="32037" help="32331">
           <level>0</level>
           <default></default>
           <constraints>
@@ -4481,7 +4530,7 @@
             <hidevalue>false</hidevalue>
           </control>
         </setting>
-        <setting id="timer_16_start" type="time" label="32061" help="">
+        <setting id="timer_16_start" type="time" label="32061" help="32332">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -4492,7 +4541,7 @@
             <dependency type="enable" setting="timer_16_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_16_end_type" type="integer" label="32062" help="">
+        <setting id="timer_16_end_type" type="integer" label="32062" help="32333">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -4508,7 +4557,7 @@
             <dependency type="enable" setting="timer_16_days" operator="!is">7</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_16_duration" type="time" label="32064" help="">
+        <setting id="timer_16_duration" type="time" label="32064" help="32335">
           <level>0</level>
           <default>01:00</default>
           <control type="button" format="time">
@@ -4520,7 +4569,7 @@
             <dependency type="visible" setting="timer_16_end_type" operator="is">1</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_16_end" type="time" label="32065" help="">
+        <setting id="timer_16_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
           <control type="button" format="time">
@@ -4534,7 +4583,7 @@
         </setting>
       </group>
       <group id="g_timer_16_action" label="32070">
-        <setting id="timer_16_media_action" type="integer" label="32070" help="">
+        <setting id="timer_16_media_action" type="integer" label="32070" help="32340">
           <level>0</level>
           <default>2</default>
           <constraints>
@@ -4550,7 +4599,7 @@
           </constraints>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_16_repeat" type="boolean" label="32078" help="">
+        <setting id="timer_16_repeat" type="boolean" label="32078" help="32341">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -4563,7 +4612,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_16_shuffle" type="boolean" label="32088" help="">
+        <setting id="timer_16_shuffle" type="boolean" label="32088" help="32342">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -4576,7 +4625,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_16_resume" type="boolean" label="32079" help="">
+        <setting id="timer_16_resume" type="boolean" label="32079" help="32343">
           <level>2</level>
           <default>false</default>
           <control type="toggle" />
@@ -4626,7 +4675,7 @@
             </dependency>
           </dependencies>
         </setting>
-        <setting id="timer_16_test" type="action" label="32108" help="">
+        <setting id="timer_16_test" type="action" label="32108" help="32344">
           <level>0</level>
           <data>RunScript($ID,play,16)</data>
           <control type="button" format="action">
@@ -4638,7 +4687,7 @@
         </setting>
       </group>
       <group id="g_timer_16_fade" label="32090">
-        <setting id="timer_16_fade" type="integer" label="32091" help="">
+        <setting id="timer_16_fade" type="integer" label="32091" help="32350">
           <level>0</level>
           <default>0</default>
           <constraints>
@@ -4654,7 +4703,7 @@
           </dependencies>
           <control type="spinner" format="string" />
         </setting>
-        <setting id="timer_16_vol_min" type="integer" label="32095" help="">
+        <setting id="timer_16_vol_min" type="integer" label="32095" help="32351">
           <level>0</level>
           <default>75</default>
           <constraints>
@@ -4669,7 +4718,7 @@
             <dependency type="visible" setting="timer_16_fade" operator="!is">0</dependency>
           </dependencies>
         </setting>
-        <setting id="timer_16_vol_max" type="integer" label="32096" help="">
+        <setting id="timer_16_vol_max" type="integer" label="32096" help="32352">
           <level>0</level>
           <default>100</default>
           <constraints>
@@ -4691,7 +4740,7 @@
         </setting>
       </group>
       <group id="g_timer_16_system_action" label="32081">
-        <setting id="timer_16_system_action" type="integer" label="32087" help="">
+        <setting id="timer_16_system_action" type="integer" label="32087" help="32360">
           <level>3</level>
           <default>0</default>
           <constraints>
@@ -4711,7 +4760,7 @@
         </setting>
       </group>
       <group id="g_timer_16_notify" label="32097">
-        <setting id="timer_16_notify" type="boolean" label="32098" help="">
+        <setting id="timer_16_notify" type="boolean" label="32098" help="32370">
           <level>1</level>
           <default>true</default>
           <control type="toggle" />

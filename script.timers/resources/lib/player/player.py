@@ -76,7 +76,8 @@ class Player(xbmc.Player):
                                 shuffle=timer.b_shuffle, beginSlide=beginSlide)
 
         else:
-            playlist = self._buildPlaylist(files, type=type)
+            playlist = self._buildPlaylist(
+                paths=files, type=type, label=timer.s_label)
 
             if timer.b_shuffle:
                 playlist.shuffle()
@@ -115,9 +116,9 @@ class Player(xbmc.Player):
 
         return get_files_and_type(path)
 
-    def _buildPlaylist(self, paths: 'list[str]', type: str) -> 'xbmc.PlayList':
+    def _buildPlaylist(self, paths: 'list[str]', type: str, label: str) -> 'xbmc.PlayList':
 
-        return convert_to_playlist(paths, type)
+        return convert_to_playlist(paths=paths, type=type, label=label)
 
     def stopPlayer(self, type: str) -> 'player_utils.State':
 
@@ -183,7 +184,9 @@ class Player(xbmc.Player):
                         pass
 
                     elif _type in [VIDEO, AUDIO]:
-                        playlist = self._buildPlaylist(paths, type=state.type)
+                        label = state.playlist[state.position]["label"]
+                        playlist = self._buildPlaylist(
+                            paths=paths, type=state.type, label=label)
                         self._playAV(
                             playlist,
                             startpos=state.position,
@@ -348,5 +351,5 @@ class Player(xbmc.Player):
 
     def _getNow(self) -> timedelta:
 
-        t_now, td_now = datetime_utils.get_now()
+        dt_now, td_now = datetime_utils.get_now()
         return td_now

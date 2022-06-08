@@ -5,6 +5,7 @@ import xbmc
 import xbmcaddon
 import xbmcgui
 from resources.lib.contextmenu import pvr_utils
+from resources.lib.timer.scheduler import TIMERS
 from resources.lib.timer.timer import (END_TYPE_DURATION, END_TYPE_NO,
                                        FADE_OFF, MEDIA_ACTION_START_STOP,
                                        SYSTEM_ACTION_NONE, TIMER_WEEKLY, Timer)
@@ -39,25 +40,25 @@ class AbstractSetTimer:
         if not ok:
             return
 
-        label = self.ask_label(label, path, is_epg, timer)
+        label = self.ask_label(timer.s_label, path, is_epg, timer)
         if label == None:
             return
         else:
             timer.s_label = label
 
-        days = self.ask_days(label, path, is_epg, timer)
+        days = self.ask_days(timer.s_label, path, is_epg, timer)
         if days == None:
             return
         else:
             timer.days = days
 
-        starttime = self.ask_starttime(label, path, is_epg, timer)
+        starttime = self.ask_starttime(timer.s_label, path, is_epg, timer)
         if starttime == None:
             return
         else:
             timer.s_start = starttime
 
-        duration = self.ask_duration(label, path, is_epg, timer)
+        duration = self.ask_duration(timer.s_label, path, is_epg, timer)
         if duration == None:
             return
         else:
@@ -67,7 +68,7 @@ class AbstractSetTimer:
             timer.i_end_type = END_TYPE_NO if timer.s_duration == datetime_utils.DEFAULT_TIME else END_TYPE_DURATION
 
         system_action, media_action = self.ask_action(
-            label, path, is_epg, timer)
+            timer.s_label, path, is_epg, timer)
         if system_action == None or media_action == None:
             return
         else:
@@ -113,7 +114,26 @@ class AbstractSetTimer:
 
     def ask_timer(self, timerid: int) -> int:
 
-        return timerid
+        options = [self.addon.getLocalizedString(32102)]
+        for i in range(2, TIMERS):
+            label, path, start, days = Timer.get_quick_info(i)
+            options.append("%i: %s (%s%s)" % (
+                i - 1,
+                label,
+                self.days_to_short(
+                    days) or self.addon.getLocalizedString(32034),
+                ", %s" % start if days else ""
+            ))
+
+        selection = xbmcgui.Dialog().select(
+            self.addon.getLocalizedString(32103), options, preselect=0)
+        if selection == -1:
+            return None
+        elif selection == 0:
+            self.addon.openSettings()
+            return None
+        else:
+            return selection + 1
 
     def ask_days(self, label: str, path: str, is_epg: bool, timer: Timer) -> 'list[int]':
 
@@ -176,6 +196,8 @@ class AbstractSetTimer:
 
             if pvr_channel_path:
                 is_epg = True
+                timer.s_label = "%s | %s" % (
+                    xbmc.getInfoLabel("ListItem.ChannelName"), label)
                 timer.s_path = pvr_channel_path
                 startDate = datetime_utils.parse_xbmc_shortdate(
                     xbmc.getInfoLabel("ListItem.Date").split(" ")[0])
@@ -188,8 +210,8 @@ class AbstractSetTimer:
         if not is_epg:
 
             if TIMER_WEEKLY not in timer.days:
-                t_now, td_now = datetime_utils.get_now()
-                timer.days = [t_now.tm_wday]
+                dt_now, td_now = datetime_utils.get_now()
+                timer.days = [dt_now.weekday()]
 
             if vfs_utils.is_favourites(path):
                 timer.s_path = vfs_utils.get_favourites_target(path)

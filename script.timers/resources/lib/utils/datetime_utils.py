@@ -53,10 +53,14 @@ def format_from_seconds(secs: int) -> str:
     return "%02i:%02i" % (secs // 3600, (secs % 3600) // 60)
 
 
-def get_now() -> 'tuple[time.struct_time, datetime.timedelta]':
-    t_now = time.localtime()
-    td_now = datetime.timedelta(hours=t_now.tm_hour,
-                                minutes=t_now.tm_min,
-                                seconds=t_now.tm_sec,
-                                days=t_now.tm_wday)
-    return t_now, td_now
+def get_now(offset=0) -> 'tuple[datetime.datetime, datetime.timedelta]':
+    dt_now = datetime.datetime.today()
+    td_now = datetime.timedelta(hours=dt_now.hour, minutes=dt_now.minute,
+                                seconds=dt_now.second, days=dt_now.weekday())
+    if offset:
+        if offset > 0:
+            td_now += datetime.timedelta(seconds=offset)
+        else:
+            td_now -= datetime.timedelta(seconds=abs(offset))
+
+    return dt_now, td_now

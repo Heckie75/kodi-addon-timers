@@ -48,7 +48,7 @@ def preview(addon: xbmcaddon.Addon, timerid: int, player: 'xbmc.Player') -> None
             play_slideshow(timer.s_path, shuffle=timer.b_shuffle)
 
         else:
-            playlist = build_playlist(timer.s_path)
+            playlist = build_playlist(path=timer.s_path, label=timer.s_label)
             player.play(playlist)
 
     else:
@@ -131,6 +131,11 @@ def get_active_players_with_playlist(type=None) -> 'dict[str, State]':
         }
         return json_rpc("Playlist.GetItems", _params)
 
+    def _get_player_item(playListID: int) -> dict:
+
+        _params = [playListID, ["file"]]
+        return json_rpc("Player.GetItem", _params)
+
     result = dict()
 
     _activePlayers = get_active_players()
@@ -148,11 +153,13 @@ def get_active_players_with_playlist(type=None) -> 'dict[str, State]':
             _playList = {
                 "items": []
             }
-            if xbmc.Player().isPlaying():
+            _player = xbmc.Player()
+            if _player.isPlaying():
+                _item = _get_player_item(_playerId)
                 _playList["items"].append(
                     {
-                        "label": None,
-                        "file": xbmc.Player().getPlayingFile()
+                        "label": _item["item"]["label"],
+                        "file": _player.getPlayingFile()
                     })
 
         state = State()
