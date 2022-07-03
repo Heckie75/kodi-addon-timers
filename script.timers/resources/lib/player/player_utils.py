@@ -1,13 +1,11 @@
-import os
-
 import xbmc
 import xbmcaddon
 import xbmcgui
-import xbmcvfs
 from resources.lib.player.mediatype import AUDIO, PICTURE, VIDEO
-from resources.lib.timer.timer import Timer
+from resources.lib.timer import storage
 from resources.lib.utils.jsonrpc_utils import json_rpc
-from resources.lib.utils.vfs_utils import build_playlist, is_script
+from resources.lib.utils.vfs_utils import (build_playlist, get_asset_path,
+                                           is_script)
 
 REPEAT_OFF = "off"
 REPEAT_ONE = "one"
@@ -29,26 +27,21 @@ class State():
 
 def preview(addon: xbmcaddon.Addon, timerid: int, player: 'xbmc.Player') -> None:
 
-    addon_dir = xbmcvfs.translatePath(addon.getAddonInfo('path'))
-
-    timer = Timer.init_from_settings(timerid)
+    timer = storage.load_timer_from_storage(timerid)
 
     if timer._is_playing_media_timer():
-        icon_file = os.path.join(
-            addon_dir, "resources", "assets", "icon.png")
 
-        xbmcgui.Dialog().notification(addon.getLocalizedString(
-            32027), addon.getLocalizedString(32110) % addon.getLocalizedString(32004 + timerid),
-            icon=icon_file)
+        xbmcgui.Dialog().notification(addon.getLocalizedString(32027), timer.label,
+                                      icon=get_asset_path("icon.png"))
 
-        if is_script(timer.s_path):
-            run_addon(timer.s_path)
+        if is_script(timer.path):
+            run_addon(timer.path)
 
-        elif timer.s_mediatype == PICTURE:
-            play_slideshow(timer.s_path, shuffle=timer.b_shuffle)
+        elif timer.media_type == PICTURE:
+            play_slideshow(timer.path, shuffle=timer.shuffle)
 
         else:
-            playlist = build_playlist(path=timer.s_path, label=timer.s_label)
+            playlist = build_playlist(path=timer.path, label=timer.label)
             player.play(playlist)
 
     else:

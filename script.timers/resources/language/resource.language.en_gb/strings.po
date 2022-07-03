@@ -17,9 +17,17 @@ msgctxt "#32000"
 msgid "Timers"
 msgstr ""
 
-# msgctxt "#32002"
-# msgid "Extras"
-# msgstr ""
+msgctxt "#32001"
+msgid "Pause"
+msgstr ""
+
+msgctxt "#32002"
+msgid "Extras"
+msgstr ""
+
+msgctxt "#32003"
+msgid "Misc"
+msgstr ""
 
 msgctxt "#32004"
 msgid "Sleep timer"
@@ -27,70 +35,6 @@ msgstr ""
 
 msgctxt "#32005"
 msgid "Snooze timer"
-msgstr ""
-
-msgctxt "#32006"
-msgid "Timer 1"
-msgstr ""
-
-msgctxt "#32007"
-msgid "Timer 2"
-msgstr ""
-
-msgctxt "#32008"
-msgid "Timer 3"
-msgstr ""
-
-msgctxt "#32009"
-msgid "Timer 4"
-msgstr ""
-
-msgctxt "#32010"
-msgid "Timer 5"
-msgstr ""
-
-msgctxt "#32011"
-msgid "Timer 6"
-msgstr ""
-
-msgctxt "#32012"
-msgid "Timer 7"
-msgstr ""
-
-msgctxt "#32013"
-msgid "Timer 8"
-msgstr ""
-
-msgctxt "#32014"
-msgid "Timer 9"
-msgstr ""
-
-msgctxt "#32015"
-msgid "Timer 10"
-msgstr ""
-
-msgctxt "#32016"
-msgid "Timer 11"
-msgstr ""
-
-msgctxt "#32017"
-msgid "Timer 12"
-msgstr ""
-
-msgctxt "#32018"
-msgid "Timer 13"
-msgstr ""
-
-msgctxt "#32019"
-msgid "Timer 14"
-msgstr ""
-
-msgctxt "#32020"
-msgid "Timer 15"
-msgstr ""
-
-msgctxt "#32021"
-msgid "Edit"
 msgstr ""
 
 msgctxt "#32022"
@@ -102,7 +46,7 @@ msgid "Apply"
 msgstr ""
 
 msgctxt "#32024"
-msgid "%s at %s until %s"
+msgid "until"
 msgstr ""
 
 msgctxt "#32025"
@@ -117,24 +61,16 @@ msgctxt "#32027"
 msgid "Timers"
 msgstr ""
 
-msgctxt "#32028"
-msgid "Update succeeded"
+msgctxt "#32029"
+msgid "Timer deleted"
 msgstr ""
 
-msgctxt "#32030"
-msgid "General"
+msgctxt "#32032"
+msgid "Prevent lock screen"
 msgstr ""
-
-msgctxt "#32031"
-msgid "Preset volume"
-msgstr ""
-
-# msgctxt "#32032"
-# msgid "Prevent lock screen"
-# msgstr ""
 
 msgctxt "#32033"
-msgid "Execution"
+msgid "Presets for sleep timer"
 msgstr ""
 
 msgctxt "#32034"
@@ -142,7 +78,7 @@ msgid "off"
 msgstr ""
 
 msgctxt "#32035"
-msgid "once"
+msgid "every day"
 msgstr ""
 
 msgctxt "#32036"
@@ -151,6 +87,18 @@ msgstr ""
 
 msgctxt "#32037"
 msgid "Days"
+msgstr ""
+
+msgctxt "#32040"
+msgid "and"
+msgstr ""
+
+msgctxt "#32041"
+msgid "at"
+msgstr ""
+
+msgctxt "#32042"
+msgid "from"
 msgstr ""
 
 msgctxt "#32060"
@@ -257,6 +205,10 @@ msgctxt "#32090"
 msgid "Volume"
 msgstr ""
 
+msgctxt "#32092"
+msgid "Default volume"
+msgstr ""
+
 msgctxt "#32091"
 msgid "Fading"
 msgstr ""
@@ -286,7 +238,7 @@ msgid "Timer ended"
 msgstr ""
 
 msgctxt "#32102"
-msgid "Open settings ..."
+msgid "Open settings"
 msgstr ""
 
 msgctxt "#32103"
@@ -306,19 +258,15 @@ msgid "Enter duration"
 msgstr ""
 
 msgctxt "#32107"
-msgid "Confirm %s"
+msgid "Confirm timer"
 msgstr ""
 
 msgctxt "#32108"
-msgid "play now"
+msgid "Play now"
 msgstr ""
 
 msgctxt "#32109"
 msgid "Media not set. Nothing to play."
-msgstr ""
-
-msgctxt "#32110"
-msgid "Play %s"
 msgstr ""
 
 msgctxt "#32111"
@@ -337,20 +285,12 @@ msgctxt "#32114"
 msgid "Select media and set timer via context menu first."
 msgstr ""
 
-msgctxt "#32115"
-msgid "No free timer slots."
-msgstr ""
-
-msgctxt "#32116"
-msgid "Quick %s"
-msgstr ""
-
 msgctxt "#32117"
 msgid "Quick Timer"
 msgstr ""
 
 msgctxt "#32118"
-msgid "Selected item is not supported."
+msgid "Selected item is not supported. Would you like to open settings?"
 msgstr ""
 
 msgctxt "#32120"
@@ -369,120 +309,120 @@ msgctxt "#32123"
 msgid "fade out from current"
 msgstr ""
 
-# msgctxt "#32130"
-# msgid "Put display only in fullscreen mode to sleep"
-# msgstr ""
+msgctxt "#32130"
+msgid "Put display only in fullscreen mode to sleep"
+msgstr ""
 
-# msgctxt "#32131"
-# msgid "acc. system setting"
-# msgstr ""
+msgctxt "#32131"
+msgid "acc. system setting"
+msgstr ""
 
-# msgctxt "#32132"
-# msgid "5 min"
-# msgstr ""
+msgctxt "#32132"
+msgid "5 min"
+msgstr ""
 
-# msgctxt "#32133"
-# msgid "10 min"
-# msgstr ""
+msgctxt "#32133"
+msgid "10 min"
+msgstr ""
 
-# msgctxt "#32134"
-# msgid "15 min"
-# msgstr ""
+msgctxt "#32134"
+msgid "15 min"
+msgstr ""
 
-# msgctxt "#32135"
-# msgid "20 min"
-# msgstr ""
+msgctxt "#32135"
+msgid "20 min"
+msgstr ""
 
-# msgctxt "#32136"
-# msgid "25 min"
-# msgstr ""
+msgctxt "#32136"
+msgid "25 min"
+msgstr ""
 
-# msgctxt "#32137"
-# msgid "30 min"
-# msgstr ""
+msgctxt "#32137"
+msgid "30 min"
+msgstr ""
 
-# msgctxt "#32138"
-# msgid "35 min"
-# msgstr ""
+msgctxt "#32138"
+msgid "35 min"
+msgstr ""
 
-# msgctxt "#32139"
-# msgid "40 min"
-# msgstr ""
+msgctxt "#32139"
+msgid "40 min"
+msgstr ""
 
-# msgctxt "#32140"
-# msgid "45 min"
-# msgstr ""
+msgctxt "#32140"
+msgid "45 min"
+msgstr ""
 
-# msgctxt "#32141"
-# msgid "50 min"
-# msgstr ""
+msgctxt "#32141"
+msgid "50 min"
+msgstr ""
 
-# msgctxt "#32142"
-# msgid "55 min"
-# msgstr ""
+msgctxt "#32142"
+msgid "55 min"
+msgstr ""
 
-# msgctxt "#32143"
-# msgid "60 min"
-# msgstr ""
+msgctxt "#32143"
+msgid "60 min"
+msgstr ""
 
-# msgctxt "#32144"
-# msgid "65 min"
-# msgstr ""
+msgctxt "#32144"
+msgid "65 min"
+msgstr ""
 
-# msgctxt "#32145"
-# msgid "70 min"
-# msgstr ""
+msgctxt "#32145"
+msgid "70 min"
+msgstr ""
 
-# msgctxt "#32146"
-# msgid "75 min"
-# msgstr ""
+msgctxt "#32146"
+msgid "75 min"
+msgstr ""
 
-# msgctxt "#32147"
-# msgid "80 min"
-# msgstr ""
+msgctxt "#32147"
+msgid "80 min"
+msgstr ""
 
-# msgctxt "#32148"
-# msgid "85 min"
-# msgstr ""
+msgctxt "#32148"
+msgid "85 min"
+msgstr ""
 
-# msgctxt "#32149"
-# msgid "90 min"
-# msgstr ""
+msgctxt "#32149"
+msgid "90 min"
+msgstr ""
 
-# msgctxt "#32150"
-# msgid "95 min"
-# msgstr ""
+msgctxt "#32150"
+msgid "95 min"
+msgstr ""
 
-# msgctxt "#32151"
-# msgid "100 min"
-# msgstr ""
+msgctxt "#32151"
+msgid "100 min"
+msgstr ""
 
-# msgctxt "#32152"
-# msgid "105 min"
-# msgstr ""
+msgctxt "#32152"
+msgid "105 min"
+msgstr ""
 
-# msgctxt "#32153"
-# msgid "110 min"
-# msgstr ""
+msgctxt "#32153"
+msgid "110 min"
+msgstr ""
 
-# msgctxt "#32154"
-# msgid "115 min"
-# msgstr ""
+msgctxt "#32154"
+msgid "115 min"
+msgstr ""
 
-# msgctxt "#32155"
-# msgid "120 min"
-# msgstr ""
+msgctxt "#32155"
+msgid "120 min"
+msgstr ""
 
 msgctxt "#32160"
 msgid "Pause timers"
 msgstr ""
 
 msgctxt "#32161"
-msgid "Until date"
+msgid "Date"
 msgstr ""
 
 msgctxt "#32162"
-msgid "Until time"
+msgid "Time"
 msgstr ""
 
 msgctxt "#32163"
@@ -499,6 +439,14 @@ msgstr ""
 
 msgctxt "#32166"
 msgid "Pause ended"
+msgstr ""
+
+msgctxt "#32167"
+msgid "Pause until"
+msgstr ""
+
+msgctxt "#32168"
+msgid "Pause from"
 msgstr ""
 
 msgctxt "#32170"
@@ -538,31 +486,83 @@ msgid "Sunday"
 msgstr ""
 
 msgctxt "#32210"
-msgid "Mon"
+msgid "Mondays"
 msgstr ""
 
 msgctxt "#32211"
-msgid "Tue"
+msgid "Tuedays"
 msgstr ""
 
 msgctxt "#32212"
-msgid "Wed"
+msgid "Wednesdays"
 msgstr ""
 
 msgctxt "#32213"
-msgid "Thu"
+msgid "Thursdays"
 msgstr ""
 
 msgctxt "#32214"
-msgid "Fri"
+msgid "Fridays"
 msgstr ""
 
 msgctxt "#32215"
-msgid "Sat"
+msgid "Saturdays"
 msgstr ""
 
 msgctxt "#32216"
-msgid "Sun"
+msgid "Sundays"
+msgstr ""
+
+msgctxt "#32250"
+msgid "Add timer"
+msgstr ""
+
+msgctxt "#32251"
+msgid "View / Edit timer ..."
+msgstr ""
+
+msgctxt "#32252"
+msgid "Remove timer ..."
+msgstr ""
+
+msgctxt "#32253"
+msgid "Save changes"
+msgstr ""
+
+msgctxt "#32254"
+msgid "Back"
+msgstr ""
+
+msgctxt "#32255"
+msgid "Edit timer"
+msgstr ""
+
+msgctxt "#32256"
+msgid "Timer"
+msgstr ""
+
+msgctxt "#32257"
+msgid "New timer"
+msgstr ""
+
+msgctxt "#32258"
+msgid "No timers to select."
+msgstr ""
+
+msgctxt "#32270"
+msgid "Timer is ending with system action:"
+msgstr ""
+
+msgctxt "#32271"
+msgid "Do you want to skip system action?"
+msgstr ""
+
+msgctxt "#32272"
+msgid "Continue"
+msgstr ""
+
+msgctxt "#32273"
+msgid "Skip"
 msgstr ""
 
 msgctxt "#32300"
@@ -659,4 +659,16 @@ msgstr ""
 
 msgctxt "#32370"
 msgid "Display notifications when timer starts and ends."
+msgstr ""
+
+msgctxt "#32380"
+msgid "Click here in order to add a new timer. Note that media timer must be configured via context menu."
+msgstr ""
+
+msgctxt "#32381"
+msgid "Click here in order to display and edit an existing timer."
+msgstr ""
+
+msgctxt "#32382"
+msgid "Click here in order to delete an existing timer."
 msgstr ""

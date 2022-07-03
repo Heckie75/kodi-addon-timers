@@ -6,8 +6,8 @@ I wanted to have a Kodi addon that is a sleep timer, a doze timer, has several o
 The result is a powerful timer addon.
 
 ## Overview of features:
-* 15 timer slots. All of them can be quickly set up by using context menu
-* 2 additional slots for sleep and doze timers with single-click-setup
+* Unlimeted timer slots. All of them can be quickly set up by using context menu
+* single-click-setup for sleep and doze timers
 * Timers can play any ressource that it available in Kodi, e.g. music, video files, TV/radio programs, ressources from 3rd party plugins, e.g. Zattoo channels.
 * Timers can be set from TV / Radio EPG
 * Different schedule modes: once, everyday, Mon-Fri, Fri-Sat, Sat-Sun, Sun-Thu, Mon-Thu, specific weekday and many more
@@ -38,13 +38,15 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
-v3.2.0 (2022-08-xx)
+v3.3.0 (2022-08-xx)
+- Unlimited amount of timers
 - Added feature in order to pause timers for a certain period
 - Set adequate label for playing items instead of internal path
 - Added global configurable offset in order to perform timers ahead of time or later in time
 - Removed feature to prevent display sleep and lockscreen for MS Windows, see new addon 'Prevent display sleep and lockscreen'
 - Changed context menu 'timers' for EPG
 - Changed resume behaviour if there are two parallel ending timers so that non-resuming timer wins and stops media
+- Added dialog in order to abort system action
 - Added help texts for all settings
 
 v3.1.0 (2022-05-26)

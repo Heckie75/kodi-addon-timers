@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.timers" name="Timers" version="3.2.0-pre3" provider-name="Heckie">
+<addon id="script.timers" name="Timers" version="3.2.0-pre7" provider-name="Heckie">
   <requires>
     <import addon="xbmc.python" version="3.0.0" />
   </requires>
@@ -29,8 +29,8 @@
     <summary lang="en_GB">Timers</summary>
     <summary lang="de_DE">Timers</summary>
     <description lang="en_GB">A powerful timer addon with the following features
-* 15 timer slots. All of them can be quickly set up by using context menu
-* 2 additional slots for sleep and doze timers with single-click-setup 
+* Unlimeted timer slots. All of them can be quickly set up by using context menu
+* single-click-setup for sleep and doze timers
 * Timers can play any ressource that it available in Kodi, e.g. music folders, video files, TV/radio programs, slideshows, ressources from 3rd party plugins, e.g. Zattoo channels. 
 * Timers can be set from TV / Radio EPG, One-click-setup from epg (Quick Timer)
 * Different schedule modes: once, everyday, Mon-Fri, Fri-Sat, Sat-Sun, Sun-Thu, Mon-Thu, specific weekday and many more
@@ -65,13 +65,15 @@
     <website>https://github.com/Heckie75/kodi-addon-timers</website>
     <source>https://github.com/Heckie75/kodi-addon-timers</source>
     <news>
-v3.2.0 (2022-08-xx)
+v3.3.0 (2022-08-xx)
+- Unlimited amount of timers
 - Added feature in order to pause timers for a certain period
 - Set adequate label for playing items instead of internal path
 - Added global configurable offset in order to perform timers ahead of time or later in time
 - Removed feature to prevent display sleep and lockscreen for MS Windows, see new addon 'Prevent display sleep and lockscreen'
 - Changed context menu 'timers' for EPG
 - Changed resume behaviour if there are two parallel ending timers so that non-resuming timer wins and stops media
+- Added dialog in order to abort system action
 - Added help texts for all settings
 
 v3.1.0 (2022-05-26)
@@ -91,13 +93,6 @@ v3.0.0 (2022-04-12)
 
 v2.1.2 (2022-02-09)
 - Device wakeup (Issue #6): Explicitly activate CEC Source before player starts
-
-v2.1.1 (2022-01-29)
-- Improved behaviour after update addon. No need to restart Kodi anymore after update
-- Improved prevention lock screen, no restart of Kodi required anymore after setting has changed
-- Refactoring: Usage of modern Kodi API (read and write settings)
-- Added timer actions, i.e. quit Kodi, suspend system, hibernate system, shutdown system
-- Minor bugfixes, e.g. displayed wrong timer no. in some dialogs
     </news>
     <assets>
       <icon>resources/assets/icon.png</icon>
@@ -111,6 +106,7 @@ v2.1.1 (2022-01-29)
       <screenshot>resources/assets/screenshot_07.png</screenshot>
       <screenshot>resources/assets/screenshot_08.png</screenshot>
       <screenshot>resources/assets/screenshot_09.png</screenshot>
+      <screenshot>resources/assets/screenshot_10.png</screenshot>
     </assets>
   </extension>
 </addon>
