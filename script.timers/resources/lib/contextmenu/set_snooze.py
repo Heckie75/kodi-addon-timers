@@ -2,7 +2,7 @@ import xbmc
 import xbmcgui
 from resources.lib.contextmenu.abstract_set_timer import AbstractSetTimer
 from resources.lib.timer.timer import (MEDIA_ACTION_START,
-                                       MEDIA_ACTION_START_AT_END, SNOOZE_TIMER,
+                                       MEDIA_ACTION_START_AT_END,
                                        SYSTEM_ACTION_NONE, Timer)
 from resources.lib.utils.datetime_utils import DEFAULT_TIME
 
@@ -12,10 +12,6 @@ class SetSnooze(AbstractSetTimer):
     def is_supported(self, label: str, path: str) -> bool:
 
         return True
-
-    def ask_timer(self, timerid: int) -> int:
-
-        return SNOOZE_TIMER
 
     def ask_label(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
 

@@ -1,7 +1,7 @@
 import xbmc
 import xbmcgui
 from resources.lib.contextmenu.abstract_set_timer import AbstractSetTimer
-from resources.lib.timer.timer import (MEDIA_ACTION_STOP_AT_END, SLEEP_TIMER,
+from resources.lib.timer.timer import (MEDIA_ACTION_STOP_AT_END,
                                        SYSTEM_ACTION_NONE, Timer)
 from resources.lib.utils.datetime_utils import DEFAULT_TIME
 
@@ -12,9 +12,10 @@ class SetSleep(AbstractSetTimer):
 
         return True
 
-    def ask_timer(self, timerid: int) -> int:
+    def perform_ahead(self, timer: Timer) -> bool:
 
-        return SLEEP_TIMER
+        timer.notify = False
+        return True
 
     def ask_label(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
 
@@ -23,7 +24,7 @@ class SetSleep(AbstractSetTimer):
     def ask_duration(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
 
         if is_epg:
-            return timer.s_duration
+            return timer.duration
 
         if xbmc.getInfoLabel("PVR.EpgEventSeekTime(hh:mm:ss)") != "00:00:00":
             _current = xbmc.getInfoLabel("PVR.EpgEventRemainingTime(hh:mm)")
@@ -41,4 +42,8 @@ class SetSleep(AbstractSetTimer):
 
     def ask_action(self, label: str, path: str, is_epg: bool, timer: Timer) -> 'tuple[int, int]':
 
-        return SYSTEM_ACTION_NONE, MEDIA_ACTION_STOP_AT_END
+        return self.addon.getSettingInt("sleep_system_action"), MEDIA_ACTION_STOP_AT_END
+
+    def ask_fader(self, timer: Timer) -> 'tuple[int, int, int]':
+
+        return self.addon.getSettingInt("sleep_fade"), self.addon.getSettingInt("vol_min_default"), self.addon.getSettingInt("vol_default")

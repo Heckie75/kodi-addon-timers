@@ -2,6 +2,7 @@ import os
 import re
 
 import xbmc
+import xbmcaddon
 import xbmcgui
 import xbmcvfs
 from resources.lib.player.mediatype import AUDIO, PICTURE, TYPES, VIDEO
@@ -213,7 +214,7 @@ def build_playlist(path: str, label: str) -> 'xbmc.PlayList':
 
 def convert_to_playlist(paths: 'list[str]', type=VIDEO, label="") -> 'xbmc.PlayList':
 
-    _type_id = TYPES.index(type)
+    _type_id = TYPES.index(type or VIDEO)
     playlist = xbmc.PlayList(_type_id)
     playlist.clear()
 
@@ -362,3 +363,11 @@ def get_longest_common_path(files: 'list[str]') -> str:
                 return None
 
     return sep.join(longest_common_path) + sep if longest_common_path else None
+
+
+def get_asset_path(asset: str) -> str:
+
+    addon = xbmcaddon.Addon()
+    return os.path.join(xbmcvfs.translatePath(addon.getAddonInfo('path')),
+                        "resources",
+                        "assets", asset)

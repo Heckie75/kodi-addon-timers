@@ -49,20 +49,20 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
         # ------------ setup timers ------------
         # Timer 1 (T1)
         timer1 = Timer(1)
-        timer1.s_label = "Timer 1"
-        timer1.i_end_type = END_TYPE_DURATION
-        timer1.td_duration = timedelta(minutes=self._t3 - self._t1)
-        timer1.i_media_action = MEDIA_ACTION_START_STOP
-        timer1.s_path = "Audio T1"
-        timer1.s_mediatype = AUDIO
-        timer1.b_repeat = False
-        timer1.b_resume = True
-        timer1.i_fade = FADE_IN_FROM_MIN
-        timer1.i_vol_min = 50
-        timer1.i_vol_max = 100
-        timer1.i_system_action = SYSTEM_ACTION_NONE
-        timer1.b_active = False
-        timer1.b_notify = False
+        timer1.label = "Timer 1"
+        timer1.end_type = END_TYPE_DURATION
+        timer1.duration_timedelta = timedelta(minutes=self._t3 - self._t1)
+        timer1.media_action = MEDIA_ACTION_START_STOP
+        timer1.path = "Audio T1"
+        timer1.media_type = AUDIO
+        timer1.repeat = False
+        timer1.resume = True
+        timer1.fade = FADE_IN_FROM_MIN
+        timer1.vol_min = 50
+        timer1.vol_max = 100
+        timer1.system_action = SYSTEM_ACTION_NONE
+        timer1.active = False
+        timer1.notify = False
         timer1.periods = [
             Period(timedelta(minutes=self._t1), timedelta(minutes=self._t3))]
 
@@ -72,7 +72,7 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
         schedulderaction.initFromTimers(
             timers, timedelta(minutes=self._t0))
 
-        self.assertEqual(timers[0].b_active, False)
+        self.assertEqual(timers[0].active, False)
         self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
         self.assertEqual(len(schedulderaction._getRunningTimers()), 0)
         self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
@@ -96,14 +96,14 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
         schedulderaction.initFromTimers(
             timers, timedelta(minutes=self._t1))
 
-        self.assertEqual(timers[0].b_active, True)
+        self.assertEqual(timers[0].active, True)
         self.assertEqual(len(schedulderaction._getBeginningTimers()), 1)
         self.assertEqual(len(schedulderaction._getRunningTimers()), 0)
         self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
         self.assertEqual(schedulderaction._getFader(
-        ).getTimer().s_label, timers[0].s_label)
+        ).getTimer().label, timers[0].label)
         self.assertEqual(schedulderaction._getTimerToPlayAV(
-        ).getTimer().i_timer, timers[0].i_timer)
+        ).getTimer().id, timers[0].id)
         self.assertEqual(schedulderaction._getTimerToStopAV(), None)
         self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
         self.assertEqual(schedulderaction._volume, 50)
@@ -119,7 +119,7 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
         # Audio
         self.assertEqual(AUDIO in apwpl, True)
         self.assertEqual(apwpl[AUDIO].playlist[0]
-                         ["file"], timers[0].s_path)
+                         ["file"], timers[0].path)
         self.assertEqual(player.getVolume(), 50)
         self.assertNotEqual(player._getResumeStatus(AUDIO), None)
 
@@ -129,12 +129,12 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
         schedulderaction.initFromTimers(
             timers, timedelta(minutes=self._t2))
 
-        self.assertEqual(timers[0].b_active, True)
+        self.assertEqual(timers[0].active, True)
         self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
         self.assertEqual(len(schedulderaction._getRunningTimers()), 1)
         self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
         self.assertEqual(schedulderaction._getFader(
-        ).getTimer().s_label, timers[0].s_label)
+        ).getTimer().label, timers[0].label)
         self.assertEqual(schedulderaction._getTimerToPlayAV(), None)
         self.assertEqual(schedulderaction._getTimerToStopAV(), None)
         self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
@@ -151,7 +151,7 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
         # Audio
         self.assertEqual(AUDIO in apwpl, True)
         self.assertEqual(apwpl[AUDIO].playlist[0]
-                         ["file"], timers[0].s_path)
+                         ["file"], timers[0].path)
         self.assertEqual(player.getVolume(), 75)
         self.assertNotEqual(player._getResumeStatus(AUDIO), None)
 
@@ -161,14 +161,14 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
         schedulderaction.initFromTimers(
             timers, timedelta(minutes=self._t3))
 
-        self.assertEqual(timers[0].b_active, False)
+        self.assertEqual(timers[0].active, False)
         self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
         self.assertEqual(len(schedulderaction._getRunningTimers()), 0)
         self.assertEqual(len(schedulderaction._getEndingTimers()), 1)
         self.assertEqual(schedulderaction._getFader(), None)
         self.assertEqual(schedulderaction._getTimerToPlayAV(), None)
         self.assertEqual(schedulderaction._getTimerToStopAV(
-        ).getTimer().i_timer, timers[0].i_timer)
+        ).getTimer().id, timers[0].id)
         self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
         self.assertEqual(schedulderaction._volume, 100)
 
@@ -190,7 +190,7 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
         schedulderaction.initFromTimers(
             timers, timedelta(minutes=self._t4))
 
-        self.assertEqual(timers[0].b_active, False)
+        self.assertEqual(timers[0].active, False)
         self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
         self.assertEqual(len(schedulderaction._getRunningTimers()), 0)
         self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
@@ -252,20 +252,20 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
         # ------------ setup timers ------------
         # Timer 1 (T1)
         timer1 = Timer(1)
-        timer1.s_label = "Timer 1"
-        timer1.i_end_type = END_TYPE_DURATION
-        timer1.td_duration = timedelta(minutes=self._t3 - self._t1)
-        timer1.i_media_action = MEDIA_ACTION_START_STOP
-        timer1.s_path = "Pictures T1"
-        timer1.s_mediatype = PICTURE
-        timer1.b_repeat = False
-        timer1.b_resume = True
-        timer1.i_fade = FADE_OUT_FROM_CURRENT
-        timer1.i_vol_min = 50
-        timer1.i_vol_max = 100
-        timer1.i_system_action = SYSTEM_ACTION_NONE
-        timer1.b_active = False
-        timer1.b_notify = False
+        timer1.label = "Timer 1"
+        timer1.end_type = END_TYPE_DURATION
+        timer1.duration_timedelta = timedelta(minutes=self._t3 - self._t1)
+        timer1.media_action = MEDIA_ACTION_START_STOP
+        timer1.path = "Pictures T1"
+        timer1.media_type = PICTURE
+        timer1.repeat = False
+        timer1.resume = True
+        timer1.fade = FADE_OUT_FROM_CURRENT
+        timer1.vol_min = 50
+        timer1.vol_max = 100
+        timer1.system_action = SYSTEM_ACTION_NONE
+        timer1.active = False
+        timer1.notify = False
         timer1.periods = [
             Period(timedelta(minutes=self._t1), timedelta(minutes=self._t3))]
 
@@ -275,7 +275,7 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
         schedulderaction.initFromTimers(
             timers, timedelta(minutes=self._t0))
 
-        self.assertEqual(timers[0].b_active, False)
+        self.assertEqual(timers[0].active, False)
         self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
         self.assertEqual(len(schedulderaction._getRunningTimers()), 0)
         self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
@@ -299,14 +299,14 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
         schedulderaction.initFromTimers(
             timers, timedelta(minutes=self._t1))
 
-        self.assertEqual(timers[0].b_active, True)
+        self.assertEqual(timers[0].active, True)
         self.assertEqual(len(schedulderaction._getBeginningTimers()), 1)
         self.assertEqual(len(schedulderaction._getRunningTimers()), 0)
         self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
         self.assertEqual(schedulderaction._getFader(
-        ).getTimer().s_label, timers[0].s_label)
+        ).getTimer().label, timers[0].label)
         self.assertEqual(schedulderaction._getTimerToPlaySlideshow(
-        ).getTimer().i_timer, timers[0].i_timer)
+        ).getTimer().id, timers[0].id)
         self.assertEqual(schedulderaction._getTimerToStopSlideshow(), None)
         self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
         self.assertEqual(schedulderaction._volume, 80)
@@ -317,7 +317,7 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
         # Picture
         self.assertEqual(PICTURE in apwpl, True)
         self.assertEqual(apwpl[PICTURE].playlist[0]
-                         ["file"], timers[0].s_path)
+                         ["file"], timers[0].path)
         self.assertNotEqual(player._getResumeStatus(PICTURE), None)
         self.assertEqual(player._getResumeStatus(PICTURE).getState(), None)
 
@@ -334,12 +334,12 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
         schedulderaction.initFromTimers(
             timers, timedelta(minutes=self._t2))
 
-        self.assertEqual(timers[0].b_active, True)
+        self.assertEqual(timers[0].active, True)
         self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
         self.assertEqual(len(schedulderaction._getRunningTimers()), 1)
         self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
         self.assertEqual(schedulderaction._getFader(
-        ).getTimer().s_label, timers[0].s_label)
+        ).getTimer().label, timers[0].label)
         self.assertEqual(schedulderaction._getTimerToPlaySlideshow(), None)
         self.assertEqual(schedulderaction._getTimerToStopSlideshow(), None)
         self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
@@ -351,7 +351,7 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
         # Picture
         self.assertEqual(PICTURE in apwpl, True)
         self.assertEqual(apwpl[PICTURE].playlist[0]
-                         ["file"], timers[0].s_path)
+                         ["file"], timers[0].path)
         self.assertNotEqual(player._getResumeStatus(PICTURE), None)
         self.assertEqual(player._getResumeStatus(PICTURE).getState(), None)
 
@@ -368,14 +368,14 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
         schedulderaction.initFromTimers(
             timers, timedelta(minutes=self._t3))
 
-        self.assertEqual(timers[0].b_active, False)
+        self.assertEqual(timers[0].active, False)
         self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
         self.assertEqual(len(schedulderaction._getRunningTimers()), 0)
         self.assertEqual(len(schedulderaction._getEndingTimers()), 1)
         self.assertEqual(schedulderaction._getFader(), None)
         self.assertEqual(schedulderaction._getTimerToPlaySlideshow(), None)
         self.assertEqual(schedulderaction._getTimerToStopSlideshow(
-        ).getTimer().i_timer, timers[0].i_timer)
+        ).getTimer().id, timers[0].id)
         self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
         self.assertEqual(schedulderaction._volume, 80)
 
@@ -398,7 +398,7 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
         schedulderaction.initFromTimers(
             timers, timedelta(minutes=self._t3))
 
-        self.assertEqual(timers[0].b_active, False)
+        self.assertEqual(timers[0].active, False)
         self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
         self.assertEqual(len(schedulderaction._getRunningTimers()), 0)
         self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
