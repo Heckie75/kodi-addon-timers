@@ -1,11 +1,12 @@
 import xbmc
 import xbmcaddon
 import xbmcgui
-from resources.lib.player.mediatype import AUDIO, PICTURE, VIDEO
+from resources.lib.player.mediatype import AUDIO, PICTURE, TYPES, VIDEO
 from resources.lib.timer import storage
 from resources.lib.utils.jsonrpc_utils import json_rpc
-from resources.lib.utils.vfs_utils import (build_playlist, get_asset_path,
-                                           is_script)
+from resources.lib.utils.vfs_utils import (build_playlist, convert_to_playlist,
+                                           get_asset_path, get_files_and_type,
+                                           get_longest_common_path, is_script)
 
 REPEAT_OFF = "off"
 REPEAT_ONE = "one"
@@ -132,10 +133,13 @@ def get_active_players_with_playlist(type=None) -> 'dict[str, State]':
     result = dict()
 
     _activePlayers = get_active_players()
-    if type and type in _activePlayers:
-        _activePlayers = {
-            type: _activePlayers[type]
-        }
+    if type:
+        if type in _activePlayers:
+            _activePlayers = {
+                type: _activePlayers[type]
+            }
+        else:
+            return result
 
     for _type in _activePlayers:
         _playerId = _activePlayers[_type]
@@ -237,3 +241,42 @@ def get_types_replaced_by_type(type: str) -> 'list[str]':
 
     else:
         return []
+
+
+def add_player_state_to_path(state: State) -> str:
+
+    paths = [item["file"] for item in state.playlist]
+    longest_common_path = get_longest_common_path(paths)
+    playing_file = xbmc.Player().getPlayingFile()
+    if len(paths) > 1 and playing_file:
+        files, type = get_files_and_type(longest_common_path)
+        state.position = files.index(playing_file)
+
+    return "%s#%i|%i" % (longest_common_path, state.position, state.time)
+
+
+def parse_player_state_from_path(path: str, label="") -> 'tuple[str,State]':
+
+    if "#" not in path:
+        return path, None
+
+    try:
+        i = path.rindex("#")
+        real_path = path[:i]
+        paths, type = get_files_and_type(real_path)
+        params = path[i+1:].split("|")
+
+        state = State()
+        state.playerId = TYPES.index(type)
+        state.type = type
+        state.playlistId = TYPES.index(type)
+        state.playlist = convert_to_playlist(
+            paths=paths, type=type, label=label)
+
+        state.position = int(params[0])
+        state.time = int(params[1])
+
+        return real_path, state
+
+    except:
+        return path, None

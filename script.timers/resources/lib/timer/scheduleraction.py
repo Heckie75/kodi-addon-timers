@@ -313,6 +313,7 @@ class SchedulerAction:
 
             timerToPlay = self._getTimerToPlayAV()
             timerToStop = self._getTimerToStopAV()
+
             if timerToPlay:
                 self._player.playTimer(timerToPlay.getTimer())
 
