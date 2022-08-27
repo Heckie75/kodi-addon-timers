@@ -89,6 +89,10 @@ msgctxt "#32037"
 msgid "Days"
 msgstr "Tage"
 
+msgctxt "#32038"
+msgid "Presets for snooze timer"
+msgstr "Voreinstellungen für Schlummern"
+
 msgctxt "#32040"
 msgid "and"
 msgstr "und"
@@ -672,3 +676,11 @@ msgstr "Klicke hier, um bestehende Timer zu sehen und zu bearbeiten."
 msgctxt "#32382"
 msgid "Click here in order to delete an existing timer."
 msgstr "Klicke hier, um bestehende Timer zu entfernen."
+
+msgctxt "#32383"
+msgid "Deactivate sleep display in window mode"
+msgstr "Deaktiviere Ruhezustand des Bildschirms im Fenstermodus"
+
+msgctxt "#32384"
+msgid "Prevent lookscreen in MS Windows while Kodi is running"
+msgstr "Verhindere Sperrbildschirm von MS Windows während Kodi ausgeführt wird"

@@ -9,6 +9,7 @@ from resources.lib.utils.settings_utils import (ask_timer_for_edit_in_settings,
                                                 prepare_empty_timer_in_setting,
                                                 reset_timer_settings)
 
+
 def main(argv: 'list[str]') -> None:
 
     addon = xbmcaddon.Addon()

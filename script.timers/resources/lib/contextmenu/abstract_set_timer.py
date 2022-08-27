@@ -5,10 +5,11 @@ import xbmc
 import xbmcaddon
 import xbmcgui
 from resources.lib.contextmenu import pvr_utils
+from resources.lib.player.mediatype import VIDEO
 from resources.lib.timer import storage
 from resources.lib.timer.timer import (END_TYPE_DURATION, END_TYPE_NO,
                                        FADE_OFF, MEDIA_ACTION_START_STOP,
-                                       SYSTEM_ACTION_NONE, TIMER_WEEKLY, Timer)
+                                       SYSTEM_ACTION_NONE, Timer)
 from resources.lib.utils import datetime_utils, vfs_utils
 from resources.lib.utils.settings_utils import trigger_settings_changed_event
 
@@ -102,7 +103,7 @@ class AbstractSetTimer:
             return
 
         else:
-            self._apply(timer)
+            self.apply(timer)
             self.post_apply(timer, confirm)
 
     def is_supported(self, label: str, path: str) -> bool:
@@ -234,11 +235,11 @@ class AbstractSetTimer:
         if vfs_utils.is_script(timer.path):
             timer.media_type = "script"
         else:
-            timer.media_type = vfs_utils.get_media_type(timer.path)
+            timer.media_type = vfs_utils.get_media_type(timer.path) or VIDEO
 
         return timer, is_epg
 
-    def _apply(self, timer: Timer) -> None:
+    def apply(self, timer: Timer) -> None:
 
         storage.save_timer(timer=timer)
         trigger_settings_changed_event()

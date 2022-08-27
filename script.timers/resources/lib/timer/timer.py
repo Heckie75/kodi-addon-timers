@@ -3,9 +3,11 @@ from datetime import timedelta
 import xbmc
 import xbmcaddon
 from resources.lib.timer.period import Period
-from resources.lib.utils.datetime_utils import (DEFAULT_TIME, periods_to_human_readable,
+from resources.lib.utils.datetime_utils import (DEFAULT_TIME,
                                                 format_from_seconds,
-                                                parse_time, time_duration_str)
+                                                parse_time,
+                                                periods_to_human_readable,
+                                                time_duration_str)
 from resources.lib.utils.vfs_utils import is_script
 
 TIMER_WEEKLY = 7
