@@ -6,17 +6,18 @@ I wanted to have a Kodi addon that is a sleep timer, a doze timer, has several o
 The result is a powerful timer addon.
 
 ## Overview of features:
-* Unlimeted timer slots. All of them can be quickly set up by using context menu
+* Unlimited timer slots. All of them can be quickly set up by using context menu
 * single-click-setup for sleep and doze timers
-* Timers can play any ressource that it available in Kodi, e.g. music, video files, TV/radio programs, ressources from 3rd party plugins, e.g. Zattoo channels.
-* Timers can be set from TV / Radio EPG
+* Timers can play any resource that it available in Kodi, e.g. music folders, video files, TV/radio programs, slideshows, ressources from 3rd party plugins, e.g. Zattoo channels.
+* Timers can be set from TV / Radio EPG, One-click-setup from epg (Quick Timer)
 * Different schedule modes: once, everyday, Mon-Fri, Fri-Sat, Sat-Sun, Sun-Thu, Mon-Thu, specific weekday and many more
 * Date change is supported, e.g. from 23:30 (p.m.) until 1:30 (a.m.)
-* Two end modes, i.e. duration or specific time
+* Shuffle, repeat, 2 end modes, i.e. duration or specific time
 * Actions related to media: start media and stop at end, just start media, start media at end, stop media immediately, stop media at end, powerdown system
 * Linear fading in timer period: fade-in, fade-out, no fading. Min and max volume can be set for each timer
 * Custom label for timer
-* After KODI startup timers, that are in period, start retroactivly altought KODI was not running at start time. Fading volume is calculated correctly.
+* After KODI startup timers, that are in period, start retroactivly although KODI was not running at start time. Fading volume is calculated correctly.
+* Feature in order to prevent that display is turned off if Kodi idles but is not in fullscreen mode
 * MS Windows only: Feature in order to prevent that Windows displays lock screen if Kodi idles
 
 <img src="script.timers/resources/assets/screenshot_01.png?raw=true">
@@ -38,7 +39,12 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
-v3.3.0 (2022-08-xx)
+v3.3.0 (2022-10-08)
+- Added fields for start and end time in order to schedule to the second (expert only)
+- Improved scheduler that enables scheduling to the second, reduces CPU load and enables smoother fading
+- Fixed Zattoo PVR support and other audio/video addons
+
+v3.2.0 (2022-08-27)
 - Unlimited amount of timers
 - Added feature in order to pause timers for a certain period
 - Set adequate label for playing items instead of internal path
