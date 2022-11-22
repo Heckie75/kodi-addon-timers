@@ -31,6 +31,7 @@ MEDIA_ACTION_START_AT_END = 3
 MEDIA_ACTION_STOP_START = 4
 MEDIA_ACTION_STOP = 5
 MEDIA_ACTION_STOP_AT_END = 6
+MEDIA_ACTION_PAUSE = 7
 
 FADE_OFF = 0
 FADE_IN_FROM_MIN = 1
@@ -187,6 +188,10 @@ class Timer():
 
         return self.media_action in [MEDIA_ACTION_STOP_START, MEDIA_ACTION_START_AT_END] and self.path
 
+    def is_pause_timer(self) -> bool:
+
+        return self.media_action == MEDIA_ACTION_PAUSE
+
     def is_resuming_timer(self) -> bool:
 
         return self.media_action == MEDIA_ACTION_START_STOP and self.resume
@@ -226,7 +231,7 @@ class Timer():
                                                                                                                                                                                                                                                                 self.end, self.end_offset,
                                                                                                                                                                                                                                                                 ["none", "shutdown", "quit", "standby", "hibernate", "poweroff"][self.system_action or 0],
                                                                                                                                                                                                                                                                 ["none", "start stop", "start", "start at end",
-                                                                                                                                                                                                                                                                 "stop start", "stop", "stop at end"][self.media_action or 0],
+                                                                                                                                                                                                                                                                 "stop start", "stop", "stop at end", "pause"][self.media_action or 0],
                                                                                                                                                                                                                                                                 self.path,
                                                                                                                                                                                                                                                                 self.media_type,
                                                                                                                                                                                                                                                                 self.repeat,

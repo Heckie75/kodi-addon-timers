@@ -39,6 +39,10 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v3.4.0 (2022-12-01)
+- Added feature: Media action in order to pause audio or video, feature request #21
+- Improved logging
+
 v3.3.2 (2022-12-01)
 - Improved logging
 
