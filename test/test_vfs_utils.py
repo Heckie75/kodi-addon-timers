@@ -120,14 +120,19 @@ class TestVfsUtils(unittest.TestCase):
         self.assertEquals(vfs_utils.is_script("plugin://script.pasink/"), True)
         self.assertEquals(vfs_utils.is_script("script.pasink/"), True)
 
-        self.assertEquals(vfs_utils.is_script("script://plugin.audio.radio/"), False)
-        self.assertEquals(vfs_utils.is_script("plugin://plugin.audio.radio/"), False)
-        self.assertEquals(vfs_utils.is_script("/home/user/music/song.mp3"), False)
+        self.assertEquals(vfs_utils.is_script(
+            "script://plugin.audio.radio/"), False)
+        self.assertEquals(vfs_utils.is_script(
+            "plugin://plugin.audio.radio/"), False)
+        self.assertEquals(vfs_utils.is_script(
+            "/home/user/music/song.mp3"), False)
 
     def test_get_file_name(self):
 
-        self.assertEquals(vfs_utils.get_file_name("script://script.pasink/media.mp3"), "media")
-        self.assertEquals(vfs_utils.get_file_name("/script.pasink/media.mp3"), "media")
+        self.assertEquals(vfs_utils.get_file_name(
+            "script://script.pasink/media.mp3"), "media")
+        self.assertEquals(vfs_utils.get_file_name(
+            "/script.pasink/media.mp3"), "media")
         self.assertEquals(vfs_utils.get_file_name("/media.mp3"), "media")
         self.assertEquals(vfs_utils.get_file_name("media.mp3"), "media")
         self.assertEquals(vfs_utils.get_file_name("media"), "media")

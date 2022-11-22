@@ -6,7 +6,8 @@ import xbmcgui
 from resources.lib.player.player import Player
 from resources.lib.timer import storage
 from resources.lib.timer.scheduleraction import SchedulerAction
-from resources.lib.timer.timer import END_TYPE_DURATION, END_TYPE_TIME, Timer
+from resources.lib.timer.timer import (END_TYPE_DURATION, END_TYPE_TIME,
+                                       STATE_WAITING, Timer)
 from resources.lib.utils.datetime_utils import get_now, parse_datetime_str
 from resources.lib.utils.settings_utils import (is_settings_changed_events,
                                                 save_timer_from_settings)
@@ -100,14 +101,14 @@ class Scheduler(xbmc.Monitor):
                 if not former_timer:
                     continue
 
-                timer.active = former_timer[0].active
+                timer.state = former_timer[0].state
                 timer.return_vol = former_timer[0].return_vol
 
                 changed, restart = _has_changed(
                     former_timer=former_timer[0], timer_from_storage=timer)
 
-                if timer.active and restart:
-                    timer.active = False
+                if timer.state is not STATE_WAITING and restart:
+                    timer.state = STATE_WAITING
 
                 if changed:
                     self._player.resetResumeOfTimer(timer=former_timer[0])
@@ -169,12 +170,14 @@ class Scheduler(xbmc.Monitor):
 
                 if self.action.upcoming_event is None or self.action.upcoming_event < dt_now:
                     self.action.calculate(self._timers, dt_now, td_now)
-                    xbmc.log("[script.timers] calculated action: %s" % self.action, xbmc.LOGINFO)
+                    xbmc.log("[script.timers] calculated action: %s" %
+                             self.action, xbmc.LOGINFO)
 
                     interval = self.action.getFaderInterval() or CHECK_INTERVAL
 
                 if self.action.hasEventToPerform:
-                    xbmc.log("[script.timers] perform action: %s" % self.action, xbmc.LOGINFO)
+                    xbmc.log("[script.timers] perform action: %s" %
+                             self.action, xbmc.LOGINFO)
 
                 self.action.perform(td_now)
 

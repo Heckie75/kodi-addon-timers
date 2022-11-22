@@ -1,12 +1,14 @@
 import unittest
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from resources.lib.player.mediatype import VIDEO
 from resources.lib.test.mockplayer import MockPlayer
 from resources.lib.timer.scheduleraction import SchedulerAction
 from resources.lib.timer.timer import (END_TYPE_DURATION, FADE_OFF,
-                                       MEDIA_ACTION_START_STOP,
-                                       SYSTEM_ACTION_NONE, Period, Timer)
+                                       MEDIA_ACTION_START_STOP, STATE_ENDING,
+                                       STATE_RUNNING, STATE_STARTING,
+                                       STATE_WAITING, SYSTEM_ACTION_NONE,
+                                       Period, Timer)
 
 
 class TestSchedulerActions_3_3(unittest.TestCase):
@@ -85,10 +87,10 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t0 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t0))
+            timers, datetime.fromtimestamp(self._t0), timedelta(minutes=self._t0))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_WAITING)
+        self.assertEqual(timers[1].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
@@ -109,16 +111,16 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t1 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t1))
+            timers, datetime.fromtimestamp(self._t1), timedelta(minutes=self._t1))
 
-        self.assertEqual(timers[0].active, True)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_STARTING)
+        self.assertEqual(timers[1].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 1)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
         self.assertEqual(schedulderaction.fader, None)
         self.assertEqual(
-            schedulderaction.timerToPlayAV.timer.id, timers[0].id)
+            schedulderaction.timerToPlayAV.id, timers[0].id)
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
@@ -135,10 +137,10 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t2 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t2))
+            timers, datetime.fromtimestamp(self._t2), timedelta(minutes=self._t2))
 
-        self.assertEqual(timers[0].active, True)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_RUNNING)
+        self.assertEqual(timers[1].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 1)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
@@ -160,16 +162,16 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t3 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t3))
+            timers, datetime.fromtimestamp(self._t3), timedelta(minutes=self._t3))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, True)
+        self.assertEqual(timers[0].state, STATE_ENDING)
+        self.assertEqual(timers[1].state, STATE_STARTING)
         self.assertEqual(len(schedulderaction._beginningTimers), 1)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 1)
         self.assertEqual(schedulderaction.fader, None)
         self.assertEqual(
-            schedulderaction.timerToPlayAV.timer.id, timers[1].id)
+            schedulderaction.timerToPlayAV.id, timers[1].id)
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
@@ -186,10 +188,10 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t4 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t4))
+            timers, datetime.fromtimestamp(self._t4), timedelta(minutes=self._t4))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, True)
+        self.assertEqual(timers[0].state, STATE_WAITING)
+        self.assertEqual(timers[1].state, STATE_RUNNING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 1)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
@@ -211,17 +213,17 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t5 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t5))
+            timers, datetime.fromtimestamp(self._t5), timedelta(minutes=self._t5))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_WAITING)
+        self.assertEqual(timers[1].state, STATE_ENDING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 1)
         self.assertEqual(schedulderaction.fader, None)
         self.assertEqual(schedulderaction.timerToPlayAV, None)
         self.assertEqual(
-            schedulderaction.timerToStopAV.timer.id, timers[1].id)
+            schedulderaction.timerToStopAV.id, timers[1].id)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
         schedulderaction.perform(timedelta(minutes=self._t5))
@@ -235,10 +237,10 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t6 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t6))
+            timers, datetime.fromtimestamp(self._t6), timedelta(minutes=self._t6))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_WAITING)
+        self.assertEqual(timers[1].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
@@ -318,10 +320,10 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t0 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t0))
+            timers, datetime.fromtimestamp(self._t0), timedelta(minutes=self._t0))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_WAITING)
+        self.assertEqual(timers[1].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
@@ -342,16 +344,16 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t1 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t1))
+            timers, datetime.fromtimestamp(self._t1), timedelta(minutes=self._t1))
 
-        self.assertEqual(timers[0].active, True)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_STARTING)
+        self.assertEqual(timers[1].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 1)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
         self.assertEqual(schedulderaction.fader, None)
         self.assertEqual(
-            schedulderaction.timerToPlayAV.timer.id, timers[0].id)
+            schedulderaction.timerToPlayAV.id, timers[0].id)
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
@@ -368,10 +370,10 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t2 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t2))
+            timers, datetime.fromtimestamp(self._t2), timedelta(minutes=self._t2))
 
-        self.assertEqual(timers[0].active, True)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_RUNNING)
+        self.assertEqual(timers[1].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 1)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
@@ -393,16 +395,16 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t3 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t3))
+            timers, datetime.fromtimestamp(self._t3), timedelta(minutes=self._t3))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, True)
+        self.assertEqual(timers[0].state, STATE_ENDING)
+        self.assertEqual(timers[1].state, STATE_STARTING)
         self.assertEqual(len(schedulderaction._beginningTimers), 1)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 1)
         self.assertEqual(schedulderaction.fader, None)
         self.assertEqual(
-            schedulderaction.timerToPlayAV.timer.id, timers[1].id)
+            schedulderaction.timerToPlayAV.id, timers[1].id)
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
@@ -419,10 +421,10 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t4 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t4))
+            timers, datetime.fromtimestamp(self._t4), timedelta(minutes=self._t4))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, True)
+        self.assertEqual(timers[0].state, STATE_WAITING)
+        self.assertEqual(timers[1].state, STATE_RUNNING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 1)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
@@ -444,17 +446,17 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t5 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t5))
+            timers, datetime.fromtimestamp(self._t5), timedelta(minutes=self._t5))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_WAITING)
+        self.assertEqual(timers[1].state, STATE_ENDING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 1)
         self.assertEqual(schedulderaction.fader, None)
         self.assertEqual(schedulderaction.timerToPlayAV, None)
         self.assertEqual(
-            schedulderaction.timerToStopAV.timer.id, timers[1].id)
+            schedulderaction.timerToStopAV.id, timers[1].id)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
         schedulderaction.perform(timedelta(minutes=self._t5))
@@ -468,10 +470,10 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t6 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t6))
+            timers, datetime.fromtimestamp(self._t6), timedelta(minutes=self._t6))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_WAITING)
+        self.assertEqual(timers[1].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
@@ -551,10 +553,10 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t0 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t0))
+            timers, datetime.fromtimestamp(self._t0), timedelta(minutes=self._t0))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_WAITING)
+        self.assertEqual(timers[1].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
@@ -575,16 +577,16 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t1 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t1))
+            timers, datetime.fromtimestamp(self._t1), timedelta(minutes=self._t1))
 
-        self.assertEqual(timers[0].active, True)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_STARTING)
+        self.assertEqual(timers[1].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 1)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
         self.assertEqual(schedulderaction.fader, None)
         self.assertEqual(
-            schedulderaction.timerToPlayAV.timer.id, timers[0].id)
+            schedulderaction.timerToPlayAV.id, timers[0].id)
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
@@ -605,10 +607,10 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t2 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t2))
+            timers, datetime.fromtimestamp(self._t2), timedelta(minutes=self._t2))
 
-        self.assertEqual(timers[0].active, True)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_RUNNING)
+        self.assertEqual(timers[1].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 1)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
@@ -634,16 +636,16 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t3 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t3))
+            timers, datetime.fromtimestamp(self._t3), timedelta(minutes=self._t3))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, True)
+        self.assertEqual(timers[0].state, STATE_ENDING)
+        self.assertEqual(timers[1].state, STATE_STARTING)
         self.assertEqual(len(schedulderaction._beginningTimers), 1)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 1)
         self.assertEqual(schedulderaction.fader, None)
         self.assertEqual(
-            schedulderaction.timerToPlayAV.timer.id, timers[1].id)
+            schedulderaction.timerToPlayAV.id, timers[1].id)
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
@@ -660,10 +662,10 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t4 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t4))
+            timers, datetime.fromtimestamp(self._t4), timedelta(minutes=self._t4))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, True)
+        self.assertEqual(timers[0].state, STATE_WAITING)
+        self.assertEqual(timers[1].state, STATE_RUNNING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 1)
         self.assertEqual(len(schedulderaction._endingTimers), 0)
@@ -685,17 +687,17 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t5 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t5))
+            timers, datetime.fromtimestamp(self._t5), timedelta(minutes=self._t5))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_WAITING)
+        self.assertEqual(timers[1].state, STATE_ENDING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 1)
         self.assertEqual(schedulderaction.fader, None)
         self.assertEqual(schedulderaction.timerToPlayAV, None)
         self.assertEqual(
-            schedulderaction.timerToStopAV.timer.id, timers[1].id)
+            schedulderaction.timerToStopAV.id, timers[1].id)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
         schedulderaction.perform(timedelta(minutes=self._t5))
@@ -709,10 +711,10 @@ class TestSchedulerActions_3_3(unittest.TestCase):
 
         # ------------ t6 ------------
         schedulderaction.calculate(
-            timers, None, timedelta(minutes=self._t6))
+            timers, datetime.fromtimestamp(self._t6), timedelta(minutes=self._t6))
 
-        self.assertEqual(timers[0].active, False)
-        self.assertEqual(timers[1].active, False)
+        self.assertEqual(timers[0].state, STATE_WAITING)
+        self.assertEqual(timers[1].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
         self.assertEqual(len(schedulderaction._runningTimers), 0)
         self.assertEqual(len(schedulderaction._endingTimers), 0)

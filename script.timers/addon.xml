@@ -65,8 +65,9 @@
     <website>https://github.com/Heckie75/kodi-addon-timers</website>
     <source>https://github.com/Heckie75/kodi-addon-timers</source>
     <news>
-v3.4.0 (2022-12-01)
+v3.4.0 (2023-02-xx)
 - New feature: Media action in order to pause audio or video, feature request #21
+- Refactoring: moved state to timer object
 - Improved logging
 
 v3.3.1 (2022-11-26)

@@ -26,6 +26,8 @@ class Player(xbmc.Player):
 
         self._paused: bool = False
 
+        self._paused: bool = False
+
         self._seektime: float = None
         self._playlist_timeline: 'list[float]' = list()
         self._playlist: PlayList = None
@@ -57,12 +59,10 @@ class Player(xbmc.Player):
 
             seektime = None
             if self._seek_delayed_timer and _timer.is_play_at_start_timer():
-                dt_now, td_now = self._getNow()
-                matching_period, upcoming_period = timer.get_matching_period_and_upcoming_event(
-                    dt_now, td_now)
-                if matching_period:
+                if timer.current_period:
+                    dt_now, td_now = self._getNow()
                     seektime = datetime_utils.abs_time_diff(
-                        td_now, matching_period.start)
+                        td_now, timer.current_period.start)
                     seektime = None if seektime * 1000 <= self._RESPITE else seektime
 
             return seektime
@@ -143,8 +143,13 @@ class Player(xbmc.Player):
 
         self._paused = False
 
+    def onPlayBackStarted(self) -> None:
+
+        self._paused = False
+
     def onAVStarted(self) -> None:
 
+        self._paused = False
         self._paused = False
         self._skip_next_stop_event_until_started = False
         if self._recent_volume == None:
@@ -153,6 +158,7 @@ class Player(xbmc.Player):
 
     def onPlayBackStopped(self) -> None:
 
+        self._paused = False
         self._paused = False
         if self._skip_next_stop_event_until_started:
             self._skip_next_stop_event_until_started = False
@@ -163,6 +169,7 @@ class Player(xbmc.Player):
     def onPlayBackEnded(self) -> None:
 
         self._paused = False
+        self._paused = False
         if VIDEO in self._resume_status:
             self._resumeFormer(type=VIDEO, keep=True)
 
@@ -172,6 +179,18 @@ class Player(xbmc.Player):
     def onPlayBackError(self) -> None:
 
         self._reset()
+
+    def onPlayBackPaused(self) -> None:
+
+        self._paused = True
+
+    def onPlayBackResumed(self) -> None:
+
+        self._paused = False
+
+    def isPaused(self) -> bool:
+
+        return self._paused
 
     def onPlayBackPaused(self) -> None:
 
@@ -343,6 +362,7 @@ class Player(xbmc.Player):
 
     def _reset(self, type=None) -> None:
 
+        self._paused = False
         self._paused = False
         self._playlist = None
         self._skip_next_stop_event_until_started = False

@@ -181,7 +181,7 @@
             <dependency type="enable" setting="timer_days" operator="!is">7</dependency>
             <dependency type="visible" setting="timer_end_type" operator="is">1</dependency>
           </dependencies>
-        </setting>        
+        </setting>
         <setting id="timer_end" type="time" label="32065" help="32334">
           <level>0</level>
           <default>00:00</default>
