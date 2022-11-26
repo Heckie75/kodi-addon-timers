@@ -3,18 +3,10 @@ from datetime import timedelta
 
 class Period:
 
-    _start = None
-    _end = None
-
     def __init__(self, start: timedelta, end: timedelta) -> None:
 
-        self._start = start
-        self._end = end
+        self.start: timedelta = start
+        self.end: timedelta = end
 
-    def getStart(self) -> timedelta:
-
-        return self._start
-
-    def getEnd(self) -> timedelta:
-
-        return self._end
+    def __str__(self) -> str:
+        return "Period[start=%s, end=%s]" % (self.start, self.end)

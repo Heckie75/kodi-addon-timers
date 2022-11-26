@@ -84,18 +84,17 @@ class TestSchedulerActions_2_2(unittest.TestCase):
 
         # ------------ t0 ------------
         schedulderaction.calculate(
-            timers, timedelta(minutes=self._t0))
+            timers, None, timedelta(minutes=self._t0))
 
         self.assertEqual(timers[0].active, False)
         self.assertEqual(timers[1].active, False)
-        self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
-        self.assertEqual(len(schedulderaction._getRunningTimers()), 0)
-        self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
-        self.assertEqual(schedulderaction._getFader(), None)
-        self.assertEqual(schedulderaction._getTimerToPlayAV(), None)
-        self.assertEqual(schedulderaction._getTimerToStopAV(), None)
-        self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
-        
+        self.assertEqual(len(schedulderaction._beginningTimers), 0)
+        self.assertEqual(len(schedulderaction._runningTimers), 0)
+        self.assertEqual(len(schedulderaction._endingTimers), 0)
+        self.assertEqual(schedulderaction.fader, None)
+        self.assertEqual(schedulderaction.timerToPlayAV, None)
+        self.assertEqual(schedulderaction.timerToStopAV, None)
+        self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
         schedulderaction.perform(timedelta(minutes=self._t0))
 
@@ -109,19 +108,18 @@ class TestSchedulerActions_2_2(unittest.TestCase):
 
         # ------------ t1 ------------
         schedulderaction.calculate(
-            timers, timedelta(minutes=self._t1))
+            timers, None, timedelta(minutes=self._t1))
 
         self.assertEqual(timers[0].active, True)
         self.assertEqual(timers[1].active, False)
-        self.assertEqual(len(schedulderaction._getBeginningTimers()), 1)
-        self.assertEqual(len(schedulderaction._getRunningTimers()), 0)
-        self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
-        self.assertEqual(schedulderaction._getFader(), None)
-        self.assertEqual(schedulderaction._getTimerToPlayAV(
-        ).getTimer().id, timers[0].id)
-        self.assertEqual(schedulderaction._getTimerToStopAV(), None)
-        self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
-        
+        self.assertEqual(len(schedulderaction._beginningTimers), 1)
+        self.assertEqual(len(schedulderaction._runningTimers), 0)
+        self.assertEqual(len(schedulderaction._endingTimers), 0)
+        self.assertEqual(schedulderaction.fader, None)
+        self.assertEqual(
+            schedulderaction.timerToPlayAV.timer.id, timers[0].id)
+        self.assertEqual(schedulderaction.timerToStopAV, None)
+        self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
         schedulderaction.perform(timedelta(minutes=self._t1))
 
@@ -132,26 +130,25 @@ class TestSchedulerActions_2_2(unittest.TestCase):
         self.assertEqual(player.getVolume(), 100)
         self.assertNotEqual(player._getResumeStatus(VIDEO), None)
         self.assertEqual(player._getResumeStatus(
-            VIDEO)._timer.id, timers[0].id)
+            VIDEO).timer.id, timers[0].id)
         self.assertEqual(player._getResumeStatus(
-            VIDEO)._state.playlist[0]["file"], "Media M1")
+            VIDEO).state.playlist[0]["file"], "Media M1")
 
         schedulderaction.reset()
 
         # ------------ t2 ------------
         schedulderaction.calculate(
-            timers, timedelta(minutes=self._t2))
+            timers, None, timedelta(minutes=self._t2))
 
         self.assertEqual(timers[0].active, True)
         self.assertEqual(timers[1].active, False)
-        self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
-        self.assertEqual(len(schedulderaction._getRunningTimers()), 1)
-        self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
-        self.assertEqual(schedulderaction._getFader(), None)
-        self.assertEqual(schedulderaction._getTimerToPlayAV(), None)
-        self.assertEqual(schedulderaction._getTimerToStopAV(), None)
-        self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
-        
+        self.assertEqual(len(schedulderaction._beginningTimers), 0)
+        self.assertEqual(len(schedulderaction._runningTimers), 1)
+        self.assertEqual(len(schedulderaction._endingTimers), 0)
+        self.assertEqual(schedulderaction.fader, None)
+        self.assertEqual(schedulderaction.timerToPlayAV, None)
+        self.assertEqual(schedulderaction.timerToStopAV, None)
+        self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
         schedulderaction.perform(timedelta(minutes=self._t2))
 
@@ -162,27 +159,26 @@ class TestSchedulerActions_2_2(unittest.TestCase):
         self.assertEqual(player.getVolume(), 100)
         self.assertNotEqual(player._getResumeStatus(VIDEO), None)
         self.assertEqual(player._getResumeStatus(
-            VIDEO)._timer.id, timers[0].id)
+            VIDEO).timer.id, timers[0].id)
         self.assertEqual(player._getResumeStatus(
-            VIDEO)._state.playlist[0]["file"], "Media M1")
+            VIDEO).state.playlist[0]["file"], "Media M1")
 
         schedulderaction.reset()
 
         # ------------ t3 ------------
         schedulderaction.calculate(
-            timers, timedelta(minutes=self._t3))
+            timers, None, timedelta(minutes=self._t3))
 
         self.assertEqual(timers[0].active, True)
         self.assertEqual(timers[1].active, True)
-        self.assertEqual(len(schedulderaction._getBeginningTimers()), 1)
-        self.assertEqual(len(schedulderaction._getRunningTimers()), 1)
-        self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
-        self.assertEqual(schedulderaction._getFader(), None)
-        self.assertEqual(schedulderaction._getTimerToPlayAV(
-        ).getTimer().id, timers[1].id)
-        self.assertEqual(schedulderaction._getTimerToStopAV(), None)
-        self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
-        
+        self.assertEqual(len(schedulderaction._beginningTimers), 1)
+        self.assertEqual(len(schedulderaction._runningTimers), 1)
+        self.assertEqual(len(schedulderaction._endingTimers), 0)
+        self.assertEqual(schedulderaction.fader, None)
+        self.assertEqual(
+            schedulderaction.timerToPlayAV.timer.id, timers[1].id)
+        self.assertEqual(schedulderaction.timerToStopAV, None)
+        self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
         schedulderaction.perform(timedelta(minutes=self._t3))
 
@@ -193,26 +189,25 @@ class TestSchedulerActions_2_2(unittest.TestCase):
         self.assertEqual(player.getVolume(), 100)
         self.assertNotEqual(player._getResumeStatus(VIDEO), None)
         self.assertEqual(player._getResumeStatus(
-            VIDEO)._timer.id, timers[1].id)
+            VIDEO).timer.id, timers[1].id)
         self.assertEqual(player._getResumeStatus(
-            VIDEO)._state.playlist[0]["file"], "Media M1")
+            VIDEO).state.playlist[0]["file"], "Media M1")
 
         schedulderaction.reset()
 
         # ------------ t4 ------------
         schedulderaction.calculate(
-            timers, timedelta(minutes=self._t4))
+            timers, None, timedelta(minutes=self._t4))
 
         self.assertEqual(timers[0].active, True)
         self.assertEqual(timers[1].active, True)
-        self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
-        self.assertEqual(len(schedulderaction._getRunningTimers()), 2)
-        self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
-        self.assertEqual(schedulderaction._getFader(), None)
-        self.assertEqual(schedulderaction._getTimerToPlayAV(), None)
-        self.assertEqual(schedulderaction._getTimerToStopAV(), None)
-        self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
-        
+        self.assertEqual(len(schedulderaction._beginningTimers), 0)
+        self.assertEqual(len(schedulderaction._runningTimers), 2)
+        self.assertEqual(len(schedulderaction._endingTimers), 0)
+        self.assertEqual(schedulderaction.fader, None)
+        self.assertEqual(schedulderaction.timerToPlayAV, None)
+        self.assertEqual(schedulderaction.timerToStopAV, None)
+        self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
         schedulderaction.perform(timedelta(minutes=self._t4))
 
@@ -223,26 +218,25 @@ class TestSchedulerActions_2_2(unittest.TestCase):
         self.assertEqual(player.getVolume(), 100)
         self.assertNotEqual(player._getResumeStatus(VIDEO), None)
         self.assertEqual(player._getResumeStatus(
-            VIDEO)._timer.id, timers[1].id)
+            VIDEO).timer.id, timers[1].id)
         self.assertEqual(player._getResumeStatus(
-            VIDEO)._state.playlist[0]["file"], "Media M1")
+            VIDEO).state.playlist[0]["file"], "Media M1")
 
         schedulderaction.reset()
 
         # ------------ t5 ------------
         schedulderaction.calculate(
-            timers, timedelta(minutes=self._t5))
+            timers, None, timedelta(minutes=self._t5))
 
         self.assertEqual(timers[0].active, False)
         self.assertEqual(timers[1].active, True)
-        self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
-        self.assertEqual(len(schedulderaction._getRunningTimers()), 1)
-        self.assertEqual(len(schedulderaction._getEndingTimers()), 1)
-        self.assertEqual(schedulderaction._getFader(), None)
-        self.assertEqual(schedulderaction._getTimerToPlayAV(), None)
-        self.assertEqual(schedulderaction._getTimerToStopAV(), None)
-        self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
-        
+        self.assertEqual(len(schedulderaction._beginningTimers), 0)
+        self.assertEqual(len(schedulderaction._runningTimers), 1)
+        self.assertEqual(len(schedulderaction._endingTimers), 1)
+        self.assertEqual(schedulderaction.fader, None)
+        self.assertEqual(schedulderaction.timerToPlayAV, None)
+        self.assertEqual(schedulderaction.timerToStopAV, None)
+        self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
         schedulderaction.perform(timedelta(minutes=self._t5))
 
@@ -253,26 +247,25 @@ class TestSchedulerActions_2_2(unittest.TestCase):
         self.assertEqual(player.getVolume(), 100)
         self.assertNotEqual(player._getResumeStatus(VIDEO), None)
         self.assertEqual(player._getResumeStatus(
-            VIDEO)._timer.id, timers[1].id)
+            VIDEO).timer.id, timers[1].id)
         self.assertEqual(player._getResumeStatus(
-            VIDEO)._state.playlist[0]["file"], "Media M1")
+            VIDEO).state.playlist[0]["file"], "Media M1")
 
         schedulderaction.reset()
 
         # ------------ t6 ------------
         schedulderaction.calculate(
-            timers, timedelta(minutes=self._t6))
+            timers, None, timedelta(minutes=self._t6))
 
         self.assertEqual(timers[0].active, False)
         self.assertEqual(timers[1].active, True)
-        self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
-        self.assertEqual(len(schedulderaction._getRunningTimers()), 1)
-        self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
-        self.assertEqual(schedulderaction._getFader(), None)
-        self.assertEqual(schedulderaction._getTimerToPlayAV(), None)
-        self.assertEqual(schedulderaction._getTimerToStopAV(), None)
-        self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
-        
+        self.assertEqual(len(schedulderaction._beginningTimers), 0)
+        self.assertEqual(len(schedulderaction._runningTimers), 1)
+        self.assertEqual(len(schedulderaction._endingTimers), 0)
+        self.assertEqual(schedulderaction.fader, None)
+        self.assertEqual(schedulderaction.timerToPlayAV, None)
+        self.assertEqual(schedulderaction.timerToStopAV, None)
+        self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
         schedulderaction.perform(timedelta(minutes=self._t6))
 
@@ -283,27 +276,26 @@ class TestSchedulerActions_2_2(unittest.TestCase):
         self.assertEqual(player.getVolume(), 100)
         self.assertNotEqual(player._getResumeStatus(VIDEO), None)
         self.assertEqual(player._getResumeStatus(
-            VIDEO)._timer.id, timers[1].id)
+            VIDEO).timer.id, timers[1].id)
         self.assertEqual(player._getResumeStatus(
-            VIDEO)._state.playlist[0]["file"], "Media M1")
+            VIDEO).state.playlist[0]["file"], "Media M1")
 
         schedulderaction.reset()
 
         # ------------ t7 ------------
         schedulderaction.calculate(
-            timers, timedelta(minutes=self._t7))
+            timers, None, timedelta(minutes=self._t7))
 
         self.assertEqual(timers[0].active, False)
         self.assertEqual(timers[1].active, False)
-        self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
-        self.assertEqual(len(schedulderaction._getRunningTimers()), 0)
-        self.assertEqual(len(schedulderaction._getEndingTimers()), 1)
-        self.assertEqual(schedulderaction._getFader(), None)
-        self.assertEqual(schedulderaction._getTimerToPlayAV(), None)
-        self.assertEqual(schedulderaction._getTimerToStopAV(
-        ).getTimer().id, timers[1].id)
-        self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
-        
+        self.assertEqual(len(schedulderaction._beginningTimers), 0)
+        self.assertEqual(len(schedulderaction._runningTimers), 0)
+        self.assertEqual(len(schedulderaction._endingTimers), 1)
+        self.assertEqual(schedulderaction.fader, None)
+        self.assertEqual(schedulderaction.timerToPlayAV, None)
+        self.assertEqual(
+            schedulderaction.timerToStopAV.timer.id, timers[1].id)
+        self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
         schedulderaction.perform(timedelta(minutes=self._t7))
 
@@ -315,23 +307,21 @@ class TestSchedulerActions_2_2(unittest.TestCase):
         self.assertEqual(player._getResumeStatus(VIDEO), None)
         self.assertEqual(player._getResumeStatus(PICTURE), None)
 
-
         schedulderaction.reset()
 
         # ------------ t8 ------------
         schedulderaction.calculate(
-            timers, timedelta(minutes=self._t8))
+            timers, None, timedelta(minutes=self._t8))
 
         self.assertEqual(timers[0].active, False)
         self.assertEqual(timers[1].active, False)
-        self.assertEqual(len(schedulderaction._getBeginningTimers()), 0)
-        self.assertEqual(len(schedulderaction._getRunningTimers()), 0)
-        self.assertEqual(len(schedulderaction._getEndingTimers()), 0)
-        self.assertEqual(schedulderaction._getFader(), None)
-        self.assertEqual(schedulderaction._getTimerToPlayAV(), None)
-        self.assertEqual(schedulderaction._getTimerToStopAV(), None)
-        self.assertEqual(schedulderaction._getTimerWithSystemAction(), None)
-        
+        self.assertEqual(len(schedulderaction._beginningTimers), 0)
+        self.assertEqual(len(schedulderaction._runningTimers), 0)
+        self.assertEqual(len(schedulderaction._endingTimers), 0)
+        self.assertEqual(schedulderaction.fader, None)
+        self.assertEqual(schedulderaction.timerToPlayAV, None)
+        self.assertEqual(schedulderaction.timerToStopAV, None)
+        self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
         schedulderaction.perform(timedelta(minutes=self._t8))
 

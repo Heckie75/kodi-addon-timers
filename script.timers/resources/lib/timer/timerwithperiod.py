@@ -4,18 +4,9 @@ from resources.lib.timer.timer import Timer
 
 class TimerWithPeriod:
 
-    _timer = None
-    _period = None
-
     def __init__(self, timer: Timer, period: Period) -> None:
+        self.timer: Timer = timer
+        self.period: Period = period
 
-        self._timer = timer
-        self._period = period
-
-    def getTimer(self) -> Timer:
-
-        return self._timer
-
-    def getPeriod(self) -> Period:
-
-        return self._period
+    def __str__(self) -> str:
+        return "TimerWithPeriod[timer=%s, period=%s]" % (self.timer, self.period)
