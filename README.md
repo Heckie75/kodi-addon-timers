@@ -39,6 +39,10 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v3.3.1 (2022-11-26)
+- Bugfix: scheduled timers stop working that are scheduled after Sunday (week change Sun -> Mon)
+- Refactoring
+
 v3.3.0 (2022-10-08)
 - Added fields for start and end time in order to schedule to the second (expert only)
 - Improved scheduler that enables scheduling to the second, reduces CPU load and enables smoother fading

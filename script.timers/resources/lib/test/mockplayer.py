@@ -1,17 +1,20 @@
 import re
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from resources.lib.player import player_utils
 from resources.lib.player.mediatype import AUDIO, PICTURE, TYPES, VIDEO
 from resources.lib.player.player import Player
+from resources.lib.player.playerstatus import PlayerStatus
 from resources.lib.utils.vfs_utils import get_file_name
 
 
 class PlayList():
 
-    playListId = -1
-    paths = None
-    position = 0
+    def __init__(self) -> None:
+        self.playListId: int = -1
+        self.paths: 'list[str]' = None
+        self.position: int = 0
+        self.directUrl: str = None
 
     def getPlayListId(self) -> int:
 
@@ -33,10 +36,13 @@ class PlayList():
 
 class MockPlayer(Player):
 
-    _player_status = dict()
-    _volume = 100
-    _slideShowStaytime = 5
-    _td_now = timedelta(days=0, minutes=0)
+    def __init__(self) -> None:
+        super().__init__()
+        self._player_status: 'dict[PlayerStatus]' = dict()
+        self._volume: int = 100
+        self._slideShowStaytime: int = 5
+        self._dt_now: datetime = datetime.today()
+        self._td_now: timedelta = timedelta(days=0, minutes=0)
 
     def _playSlideShow(self, path: str, beginSlide=None, shuffle=False) -> None:
 
@@ -193,6 +199,6 @@ class MockPlayer(Player):
 
         return self._slideShowStaytime
 
-    def _getNow(self) -> timedelta:
+    def _getNow(self) -> 'tuple[datetime, timedelta]':
 
-        return self._td_now
+        return self._dt_now, self._td_now
