@@ -169,7 +169,12 @@ class Scheduler(xbmc.Monitor):
 
                 if self.action.upcoming_event is None or self.action.upcoming_event < dt_now:
                     self.action.calculate(self._timers, dt_now, td_now)
+                    xbmc.log("[script.timers] calculated action: %s" % self.action, xbmc.LOGINFO)
+
                     interval = self.action.getFaderInterval() or CHECK_INTERVAL
+
+                if self.action.hasEventToPerform:
+                    xbmc.log("[script.timers] perform action: %s" % self.action, xbmc.LOGINFO)
 
                 self.action.perform(td_now)
 
