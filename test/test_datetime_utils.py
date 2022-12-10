@@ -1,4 +1,6 @@
 import unittest
+
+from resources.lib.utils.datetime_utils import DateTimeDelta
 from datetime import datetime, timedelta
 
 from resources.lib.utils import datetime_utils
@@ -71,12 +73,14 @@ class TestDateTimeUtils(unittest.TestCase):
         td_now = timedelta(hours=dt_now.hour, minutes=dt_now.minute,
                            seconds=dt_now.second, days=dt_now.weekday())
 
-        dt, td = datetime_utils.get_now()
-        self.assertAlmostEqual(dt_now.second, dt.second, delta=1)
-        self.assertAlmostEqual(td_now.seconds, td.seconds, delta=1)
+        now = datetime_utils.DateTimeDelta.now()
+        self.assertAlmostEqual(dt_now.second, now.dt.second, delta=1)
+        self.assertAlmostEqual(td_now.seconds, now.td.seconds, delta=1)
 
-        dt, td = datetime_utils.get_now(offset=5)
-        self.assertAlmostEqual(td_now.seconds + 5, td.seconds, delta=1)
+        now = datetime_utils.DateTimeDelta.now(offset=5)
+        self.assertAlmostEqual(td_now.seconds + 5, now.td.seconds, delta=1)
+        self.assertAlmostEqual(dt_now.second + 5, now.dt.second, delta=1)
 
-        dt, td = datetime_utils.get_now(offset=-5)
-        self.assertAlmostEqual(td_now.seconds - 5, td.seconds, delta=1)
+        now = datetime_utils.DateTimeDelta.now(offset=-5)
+        self.assertAlmostEqual(td_now.seconds - 5, now.td.seconds, delta=1)
+        self.assertAlmostEqual(dt_now.second - 5, now.dt.second, delta=1)

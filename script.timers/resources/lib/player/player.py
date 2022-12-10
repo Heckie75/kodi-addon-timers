@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 import xbmc
 from resources.lib.player import player_utils
@@ -35,7 +35,7 @@ class Player(xbmc.Player):
 
         self._resume_status: 'dict[PlayerStatus]' = dict()
 
-    def playTimer(self, timer: Timer) -> None:
+    def playTimer(self, timer: Timer, dtd: datetime_utils.DateTimeDelta) -> None:
 
         def _save_resume(_timer: Timer) -> None:
 
@@ -55,14 +55,13 @@ class Player(xbmc.Player):
                 elif _resume_status:
                     self.resetResumeStatus(_type)
 
-        def _get_delay_for_seektime(_timer: Timer) -> timedelta:
+        def _get_delay_for_seektime(_timer: Timer, _dtd: datetime_utils.DateTimeDelta) -> timedelta:
 
             seektime = None
             if self._seek_delayed_timer and _timer.is_play_at_start_timer():
                 if timer.current_period:
-                    dt_now, td_now = self._getNow()
                     seektime = datetime_utils.abs_time_diff(
-                        td_now, timer.current_period.start)
+                        _dtd.td, timer.current_period.start)
                     seektime = None if seektime * 1000 <= self._RESPITE else seektime
 
             return seektime
@@ -81,7 +80,7 @@ class Player(xbmc.Player):
         if state_from_path:
             seektime = state_from_path.time
         else:
-            seektime = _get_delay_for_seektime(timer)
+            seektime = _get_delay_for_seektime(timer, dtd)
 
         if type == PICTURE:
             beginSlide = files[(seektime // self._getSlideshowStaytime()) %
@@ -404,6 +403,10 @@ class Player(xbmc.Player):
 
         return player_utils.get_slideshow_staytime()
 
-    def _getNow(self) -> 'tuple[datetime, timedelta]':
-
-        return datetime_utils.get_now()
+    def __str__(self) -> str:
+        return "Player[_seek_delayed_timer=%s, _default_volume=%i, _recent_volume=%i, _paused=%s, _seektime=%f, _resume_status=[%s]]" % (self._seek_delayed_timer,
+                                                                                                                                         self._default_volume or -1,
+                                                                                                                                         self._recent_volume or -1,
+                                                                                                                                         self._paused,
+                                                                                                                                         self._seektime or 0,
+                                                                                                                                         ", ".join(["%s=%s" % (k, self._resume_status[k]) for k in self._resume_status]))

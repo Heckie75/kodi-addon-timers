@@ -569,9 +569,9 @@
           <level>3</level>
           <default>0</default>
           <constraints>
-            <minimum>-30</minimum>
+            <minimum>-59</minimum>
             <step>1</step>
-            <maximum>30</maximum>
+            <maximum>59</maximum>
           </constraints>
           <control type="slider" format="integer">
             <popup>false</popup>

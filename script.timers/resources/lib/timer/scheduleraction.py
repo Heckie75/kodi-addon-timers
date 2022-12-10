@@ -1,5 +1,6 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
+import xbmc
 import xbmcaddon
 import xbmcgui
 from resources.lib.player.mediatype import AUDIO, PICTURE, TYPES, VIDEO
@@ -10,8 +11,11 @@ from resources.lib.timer import storage
 from resources.lib.timer.timer import (END_TYPE_NO, FADE_IN_FROM_MIN,
                                        FADE_OUT_FROM_CURRENT, STATE_ENDING,
                                        STATE_RUNNING, STATE_STARTING,
-                                       STATE_WAITING, TIMER_WEEKLY, Timer)
-from resources.lib.utils.datetime_utils import abs_time_diff
+                                       STATE_WAITING, SYSTEM_ACTION_HIBERNATE,
+                                       SYSTEM_ACTION_POWEROFF, SYSTEM_ACTION_QUIT_KODI,
+                                       SYSTEM_ACTION_SHUTDOWN_KODI, SYSTEM_ACTION_STANDBY,
+                                       TIMER_WEEKLY, Timer)
+from resources.lib.utils.datetime_utils import DateTimeDelta, abs_time_diff
 from resources.lib.utils.vfs_utils import get_asset_path
 
 
@@ -46,7 +50,7 @@ class SchedulerAction:
 
         self.reset()
 
-    def calculate(self, timers: 'list[Timer]', dt_now: datetime, td_now: timedelta) -> None:
+    def calculate(self, timers: 'list[Timer]', now: DateTimeDelta) -> None:
 
         def _collectEndingTimer(timer: Timer) -> None:
 
@@ -70,10 +74,10 @@ class SchedulerAction:
             elif timer.is_pause_timer():
                 self.timerToUnpauseAV = timer
 
-        def _collectTimers(timers: 'list[Timer]', dt_now: datetime, td_now: timedelta) -> None:
+        def _collectTimers(timers: 'list[Timer]', now: DateTimeDelta) -> None:
 
             for timer in timers:
-                timer.apply(dt_now, td_now)
+                timer.apply(now)
 
                 if timer.state == STATE_STARTING:
                     self._beginningTimers.append(timer)
@@ -213,7 +217,7 @@ class SchedulerAction:
 
         self.reset()
 
-        _collectTimers(timers, dt_now, td_now)
+        _collectTimers(timers, now)
 
         if self.hasEventToPerform:
             _handleNestedStoppingTimer(self.timerToStopAV)
@@ -254,13 +258,13 @@ class SchedulerAction:
         else:
             self.timerToPlayAV = timer
 
-    def fade(self, td_now: timedelta) -> None:
+    def fade(self, dtd: DateTimeDelta) -> None:
 
         if not self.fader:
             return
 
         delta_now_start = abs_time_diff(
-            td_now, self.fader.current_period.start)
+            dtd.td, self.fader.current_period.start)
         delta_end_start = abs_time_diff(
             self.fader.current_period.end, self.fader.current_period.start)
         delta_percent = delta_now_start / delta_end_start
@@ -276,12 +280,12 @@ class SchedulerAction:
 
         self._player.setVolume(_volume)
 
-    def perform(self, td_now: timedelta) -> None:
+    def perform(self, now: DateTimeDelta) -> None:
 
-        def _performPlayerAction() -> None:
+        def _performPlayerAction(_now: DateTimeDelta) -> None:
 
             if self.timerToPlayAV:
-                self._player.playTimer(self.timerToPlayAV)
+                self._player.playTimer(self.timerToPlayAV, _now)
 
             elif self.timerToStopAV:
                 self._player.resumeFormerOrStop(self.timerToStopAV)
@@ -303,20 +307,20 @@ class SchedulerAction:
 
             if not self.timerToPlayAV or self.timerToPlayAV.media_type != VIDEO:
                 if self.timerToPlaySlideshow:
-                    self._player.playTimer(self.timerToPlaySlideshow)
+                    self._player.playTimer(self.timerToPlaySlideshow, _now)
 
                 elif self.timerToStopSlideshow:
                     self._player.resumeFormerOrStop(
                         self.timerToStopSlideshow)
 
-        def _setVolume(td_now: timedelta) -> None:
+        def _setVolume(dtd: DateTimeDelta) -> None:
 
             if self.timerWithSystemAction:
                 self._player.setVolume(self._player.getDefaultVolume())
                 return
 
             else:
-                self.fade(td_now)
+                self.fade(dtd)
 
             return_vols = [
                 t.return_vol for t in self._endingTimers if t.is_fading_timer()]
@@ -366,19 +370,43 @@ class SchedulerAction:
 
         def _performSystemAction() -> None:
 
-            if self.timerWithSystemAction:
-                self.timerWithSystemAction.execute_system_action()
+            if not self.timerWithSystemAction:
+                pass
+
+            elif self.timerWithSystemAction.system_action == SYSTEM_ACTION_SHUTDOWN_KODI:
+                xbmc.shutdown()
+
+            elif self.timerWithSystemAction.system_action == SYSTEM_ACTION_QUIT_KODI:
+                xbmc.executebuiltin("Quit()")
+
+            elif self.timerWithSystemAction.system_action == SYSTEM_ACTION_STANDBY:
+                xbmc.executebuiltin("Suspend()")
+
+            elif self.timerWithSystemAction.system_action == SYSTEM_ACTION_HIBERNATE:
+                xbmc.executebuiltin("Hibernate()")
+
+            elif self.timerWithSystemAction.system_action == SYSTEM_ACTION_POWEROFF:
+                xbmc.executebuiltin("Powerdown()")
+
+        def _adjustState() -> None:
+
+            for t in self._beginningTimers:
+                t.state = STATE_RUNNING
+
+            for t in self._endingTimers:
+                t.state = STATE_WAITING
 
         if self.hasEventToPerform:
-            _performPlayerAction()
+            _performPlayerAction(now)
 
-        _setVolume(td_now)
+        _setVolume(now)
 
         if self.hasEventToPerform:
             _runScripts()
             _showNotifications()
             _consumeSingleRunTimers()
             _performSystemAction()
+            _adjustState()
 
         self.hasEventToPerform = False
 
