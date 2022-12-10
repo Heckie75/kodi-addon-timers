@@ -1,9 +1,8 @@
 from datetime import datetime, timedelta
 
-import xbmc
 import xbmcaddon
 from resources.lib.timer.period import Period
-from resources.lib.utils.datetime_utils import (DEFAULT_TIME, apply_for_now,
+from resources.lib.utils.datetime_utils import (DEFAULT_TIME, DateTimeDelta, apply_for_now,
                                                 format_from_seconds,
                                                 parse_time,
                                                 periods_to_human_readable,
@@ -31,7 +30,6 @@ MEDIA_ACTION_STOP_START = 4
 MEDIA_ACTION_STOP = 5
 MEDIA_ACTION_STOP_AT_END = 6
 MEDIA_ACTION_PAUSE = 7
-MEDIA_ACTION_PAUSE = 7
 
 FADE_OFF = 0
 FADE_IN_FROM_MIN = 1
@@ -53,6 +51,7 @@ class Timer():
         # master data
         self.id: int = i
         self.label: str = ""
+        self.days: 'list[int]' = list()
         self.start: str = DEFAULT_TIME
         self.start_offset: int = 0
         self.end_type: int = END_TYPE_NO
@@ -74,7 +73,6 @@ class Timer():
 
         # state
         self.periods: 'list[Period]' = list()
-        self.days: 'list[int]' = list()
         self.duration_timedelta: timedelta = timedelta()
         self.state: int = STATE_WAITING
         self.current_period: Period = None
@@ -134,40 +132,41 @@ class Timer():
 
         self.periods = periods
 
-    def apply(self, dt_now: datetime, td_time: timedelta) -> None:
+    def apply(self, dtd: DateTimeDelta) -> None:
 
         upcoming_event: timedelta = None
         current_period: Period = None
 
         for period in self.periods:
 
-            if period.start > td_time:
+            if period.start > dtd.td:
                 upcoming_event = period.start if upcoming_event is None or upcoming_event > period.start else upcoming_event
 
-            elif td_time < period.end:
+            elif dtd.td < period.end:
                 current_period = period
                 upcoming_event = period.end
                 break
 
+        if current_period is not None and self.state is not STATE_RUNNING:
+            self.state = STATE_STARTING
+
+        elif current_period is None and self.state is not STATE_WAITING:
+            current_period = Period(dtd.td - self.duration_timedelta, dtd.td)
+            self.state = STATE_ENDING
+
+        elif current_period is None:
+            self.state = STATE_WAITING
+
+        else:
+            self.state = STATE_RUNNING
+
+        self.current_period = current_period
+
         if not upcoming_event and self.periods:
             upcoming_event = self.periods[0].start + timedelta(days=7)
 
-        if current_period is not None and self.state == STATE_WAITING:
-            self.state = STATE_STARTING
-
-        elif current_period is None and self.state == STATE_RUNNING:
-            current_period = Period(td_time - self.duration_timedelta, td_time)
-            self.state = STATE_ENDING
-
-        elif current_period is not None:
-            self.state = STATE_RUNNING
-
-        else:
-            self.state = STATE_WAITING
-
-        self.current_period = current_period
         self.upcoming_event = apply_for_now(
-            dt_now, upcoming_event) if dt_now else None
+            dtd.dt, upcoming_event) if dtd.dt else None
 
     def get_duration(self) -> str:
 
@@ -217,10 +216,6 @@ class Timer():
 
         return self.media_action == MEDIA_ACTION_PAUSE
 
-    def is_pause_timer(self) -> bool:
-
-        return self.media_action == MEDIA_ACTION_PAUSE
-
     def is_resuming_timer(self) -> bool:
 
         return self.media_action == MEDIA_ACTION_START_STOP and self.resume
@@ -233,42 +228,25 @@ class Timer():
 
         return self.system_action != SYSTEM_ACTION_NONE
 
-    def execute_system_action(self) -> None:
-
-        if self.system_action == SYSTEM_ACTION_SHUTDOWN_KODI:
-            xbmc.shutdown()
-
-        elif self.system_action == SYSTEM_ACTION_QUIT_KODI:
-            xbmc.executebuiltin("Quit()")
-
-        elif self.system_action == SYSTEM_ACTION_STANDBY:
-            xbmc.executebuiltin("Suspend()")
-
-        elif self.system_action == SYSTEM_ACTION_HIBERNATE:
-            xbmc.executebuiltin("Hibernate()")
-
-        elif self.system_action == SYSTEM_ACTION_POWEROFF:
-            xbmc.executebuiltin("Powerdown()")
-
     def __str__(self) -> str:
 
-        return "Timer[id=%i, label=%s, days=%s, start=%s:%02i, endtype=%s, duration=%s:%02i, end=%s:%02i, systemaction=%s, mediaaction=%s, path=%s, type=%s, repeat=%s, shuffle=%s, resume=%s, fade=%s, min=%i, max=%i, returnvol=%i, notify=%s, state=%s]" % (self.id, self.label, [["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "weekly"][d] for d in self.days],
+        return "Timer[id=%i, label=%s, state=%s, days=%s, start=%s:%02i, endtype=%s, duration=%s:%02i, end=%s:%02i, systemaction=%s, mediaaction=%s, path=%s, type=%s, repeat=%s, shuffle=%s, resume=%s, fade=%s, min=%i, max=%i, returnvol=%i, notify=%s]" % (self.id, self.label, ["waiting", "starting", "running", "ending"][self.state],
+                                                                                                                                                                                                                                                               [["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "weekly"][d] for d in self.days],
                                                                                                                                                                                                                                                                self.start,
                                                                                                                                                                                                                                                                self.start_offset,
                                                                                                                                                                                                                                                                ["no", "duration", "time"][self.end_type],
                                                                                                                                                                                                                                                                self.duration, self.duration_offset,
                                                                                                                                                                                                                                                                self.end, self.end_offset,
-                                                                                                                                                                                                                                                               ["none", "shutdown", "quit", "standby", "hibernate", "poweroff"][self.system_action or 0],
-                                                                                                                                                                                                                                                               ["none", "start stop", "start", "start at end",
-                                                                                                                                                                                                                                                                "stop start", "stop", "stop at end", "pause"][self.media_action or 0],
+                                                                                                                                                                                                                                                               ["off", "shutdown", "quit", "standby", "hibernate", "poweroff"][self.system_action or 0],
+                                                                                                                                                                                                                                                               ["off", "start-stop", "start", "start-at-end",
+                                                                                                                                                                                                                                                                "stop-start", "stop", "stop-at-end", "pause"][self.media_action or 0],
                                                                                                                                                                                                                                                                self.path,
                                                                                                                                                                                                                                                                self.media_type,
                                                                                                                                                                                                                                                                self.repeat,
                                                                                                                                                                                                                                                                self.shuffle,
                                                                                                                                                                                                                                                                self.resume,
-                                                                                                                                                                                                                                                               ["off", "in from min", "out from max", "out from current"][self.fade],
+                                                                                                                                                                                                                                                               ["off", "in", "out", "current_out"][self.fade],
                                                                                                                                                                                                                                                                self.vol_min,
                                                                                                                                                                                                                                                                self.vol_max,
                                                                                                                                                                                                                                                                self.return_vol or self.vol_max,
-                                                                                                                                                                                                                                                               self.notify,
-                                                                                                                                                                                                                                                               ["waiting", "starting", "running", "ending"][self.state])
+                                                                                                                                                                                                                                                               self.notify)

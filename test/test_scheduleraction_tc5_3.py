@@ -1,4 +1,6 @@
 import unittest
+
+from resources.lib.utils.datetime_utils import DateTimeDelta
 from datetime import datetime, timedelta
 
 from resources.lib.player.mediatype import AUDIO, PICTURE, VIDEO
@@ -58,7 +60,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         timer1.active = False
         timer1.notify = False
         timer1.periods = [
-            Period(timedelta(minutes=self._t1), timedelta(minutes=self._t5))]
+            Period(timedelta(days=3, minutes=self._t1), timedelta(days=3, minutes=self._t5))]
 
         # Timer 2 (T2)
         timer2 = Timer(2)
@@ -77,13 +79,13 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         timer2.active = False
         timer2.notify = False
         timer2.periods = [
-            Period(timedelta(minutes=self._t3), timedelta(minutes=self._t7))]
+            Period(timedelta(days=3, minutes=self._t3), timedelta(days=3, minutes=self._t7))]
 
         timers = [timer1, timer2]
 
         # ------------ t0 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t0), timedelta(minutes=self._t0))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t0)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
@@ -94,7 +96,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t0))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t0)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         self.assertEqual(len(apwpl), 0)
@@ -104,7 +106,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t1 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t1), timedelta(minutes=self._t1))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t1)))
 
         self.assertEqual(timers[0].state, STATE_STARTING)
         self.assertEqual(len(schedulderaction._beginningTimers), 1)
@@ -117,7 +119,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t1))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t1)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -132,7 +134,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t2 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t2), timedelta(minutes=self._t2))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t2)))
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
@@ -144,7 +146,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t2))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t2)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -159,7 +161,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t3 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t3), timedelta(minutes=self._t3))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t3)))
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
         self.assertEqual(timers[1].state, STATE_STARTING)
@@ -173,7 +175,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t3))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t3)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -188,7 +190,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t4 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t4), timedelta(minutes=self._t4))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t4)))
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
         self.assertEqual(timers[1].state, STATE_RUNNING)
@@ -201,7 +203,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t4))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t4)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -216,7 +218,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t5 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t5), timedelta(minutes=self._t5))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t5)))
 
         self.assertEqual(timers[0].state, STATE_ENDING)
         self.assertEqual(timers[1].state, STATE_RUNNING)
@@ -229,7 +231,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t5))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t5)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -244,7 +246,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t6 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t6), timedelta(minutes=self._t6))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t6)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(timers[1].state, STATE_RUNNING)
@@ -257,7 +259,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t6))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t6)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -272,7 +274,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t7 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t7), timedelta(minutes=self._t7))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t7)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(timers[1].state, STATE_ENDING)
@@ -286,7 +288,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
             schedulderaction.timerToStopSlideshow.id, timers[1].id)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t7))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t7)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -299,7 +301,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t8 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t8), timedelta(minutes=self._t8))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t8)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(timers[1].state, STATE_WAITING)
@@ -312,7 +314,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t8))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t8)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -359,7 +361,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         timer1.active = False
         timer1.notify = False
         timer1.periods = [
-            Period(timedelta(minutes=self._t1), timedelta(minutes=self._t3))]
+            Period(timedelta(days=3, minutes=self._t1), timedelta(days=3, minutes=self._t3))]
 
         # Timer 2 (T2)
         timer2 = Timer(2)
@@ -378,13 +380,13 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         timer2.active = False
         timer2.notify = False
         timer2.periods = [
-            Period(timedelta(minutes=self._t3), timedelta(minutes=self._t5))]
+            Period(timedelta(days=3, minutes=self._t3), timedelta(days=3, minutes=self._t5))]
 
         timers = [timer1, timer2]
 
         # ------------ t0 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t0), timedelta(minutes=self._t0))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t0)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
@@ -395,7 +397,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t0))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t0)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         self.assertEqual(len(apwpl), 1)
@@ -406,7 +408,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t1 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t1), timedelta(minutes=self._t1))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t1)))
 
         self.assertEqual(timers[0].state, STATE_STARTING)
         self.assertEqual(len(schedulderaction._beginningTimers), 1)
@@ -419,7 +421,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t1))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t1)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -435,7 +437,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t2 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t2), timedelta(minutes=self._t2))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t2)))
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
@@ -447,7 +449,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t2))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t2)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -463,7 +465,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t3 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t3), timedelta(minutes=self._t3))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t3)))
 
         self.assertEqual(timers[0].state, STATE_ENDING)
         self.assertEqual(timers[1].state, STATE_STARTING)
@@ -477,7 +479,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t3))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t3)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -493,7 +495,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t4 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t4), timedelta(minutes=self._t4))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t4)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(timers[1].state, STATE_RUNNING)
@@ -506,7 +508,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t4))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t4)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -522,7 +524,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t5 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t5), timedelta(minutes=self._t5))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t5)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(timers[1].state, STATE_ENDING)
@@ -536,7 +538,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
             schedulderaction.timerToStopSlideshow.id, timers[1].id)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t5))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t5)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -552,7 +554,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t6 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t6), timedelta(minutes=self._t6))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t6)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(timers[1].state, STATE_WAITING)
@@ -565,7 +567,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t6))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t6)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -614,7 +616,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         timer1.active = False
         timer1.notify = False
         timer1.periods = [
-            Period(timedelta(minutes=self._t1), timedelta(minutes=self._t7))]
+            Period(timedelta(days=3, minutes=self._t1), timedelta(days=3, minutes=self._t7))]
 
         # Timer 2 (T2)
         timer2 = Timer(2)
@@ -633,13 +635,13 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         timer2.active = False
         timer2.notify = False
         timer2.periods = [
-            Period(timedelta(minutes=self._t3), timedelta(minutes=self._t5))]
+            Period(timedelta(days=3, minutes=self._t3), timedelta(days=3, minutes=self._t5))]
 
         timers = [timer1, timer2]
 
         # ------------ t0 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t0), timedelta(minutes=self._t0))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t0)))
         player._td_now = timedelta(minutes=self._t0)
 
         self.assertEqual(timers[0].state, STATE_WAITING)
@@ -651,7 +653,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t0))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t0)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         self.assertEqual(len(apwpl), 0)
@@ -661,7 +663,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t1 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t1), timedelta(minutes=self._t1))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t1)))
         player._td_now = timedelta(minutes=self._t1)
 
         self.assertEqual(timers[0].state, STATE_STARTING)
@@ -675,7 +677,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t1))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t1)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -690,7 +692,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t2 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t2), timedelta(minutes=self._t2))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t2)))
         player._td_now = timedelta(minutes=self._t2)
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
@@ -703,7 +705,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t2))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t2)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -718,7 +720,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t3 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t3), timedelta(minutes=self._t3))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t3)))
         player._td_now = timedelta(minutes=self._t3)
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
@@ -733,7 +735,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t3))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t3)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -748,7 +750,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t4 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t4), timedelta(minutes=self._t4))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t4)))
         player._td_now = timedelta(minutes=self._t4)
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
@@ -762,7 +764,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t4))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t4)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -777,7 +779,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t5 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t5), timedelta(minutes=self._t5))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t5)))
         player._td_now = timedelta(minutes=self._t5)
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
@@ -792,7 +794,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t5))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t5)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -808,7 +810,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t6 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t6), timedelta(minutes=self._t6))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t6)))
         player._td_now = timedelta(minutes=self._t6)
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
@@ -821,7 +823,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t6))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t6)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -836,7 +838,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t7 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t7), timedelta(minutes=self._t7))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t7)))
         player._td_now = timedelta(minutes=self._t7)
 
         self.assertEqual(timers[0].state, STATE_ENDING)
@@ -851,7 +853,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
             schedulderaction.timerToStopSlideshow.id, timers[0].id)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t7))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t7)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -864,7 +866,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t8 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t8), timedelta(minutes=self._t8))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t8)))
         player._td_now = timedelta(minutes=self._t8)
 
         self.assertEqual(timers[0].state, STATE_WAITING)
@@ -878,7 +880,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t8))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t8)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -925,7 +927,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         timer1.active = False
         timer1.notify = False
         timer1.periods = [
-            Period(timedelta(minutes=self._t1), timedelta(minutes=self._t7))]
+            Period(timedelta(days=3, minutes=self._t1), timedelta(days=3, minutes=self._t7))]
 
         # Timer 2 (T2)
         timer2 = Timer(2)
@@ -944,13 +946,13 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         timer2.active = False
         timer2.notify = False
         timer2.periods = [
-            Period(timedelta(minutes=self._t3), timedelta(minutes=self._t5))]
+            Period(timedelta(days=3, minutes=self._t3), timedelta(days=3, minutes=self._t5))]
 
         timers = [timer1, timer2]
 
         # ------------ t0 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t0), timedelta(minutes=self._t0))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t0)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
@@ -961,7 +963,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t0))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t0)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         self.assertEqual(len(apwpl), 1)
@@ -972,7 +974,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t1 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t1), timedelta(minutes=self._t1))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t1)))
 
         self.assertEqual(timers[0].state, STATE_STARTING)
         self.assertEqual(len(schedulderaction._beginningTimers), 1)
@@ -985,7 +987,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t1))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t1)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -1001,7 +1003,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t2 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t2), timedelta(minutes=self._t2))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t2)))
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
@@ -1013,7 +1015,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t2))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t2)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -1029,7 +1031,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t3 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t3), timedelta(minutes=self._t3))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t3)))
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
         self.assertEqual(timers[1].state, STATE_STARTING)
@@ -1043,7 +1045,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t3))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t3)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -1059,7 +1061,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t4 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t4), timedelta(minutes=self._t4))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t4)))
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
         self.assertEqual(timers[1].state, STATE_RUNNING)
@@ -1072,7 +1074,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t4))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t4)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -1088,7 +1090,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t5 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t5), timedelta(minutes=self._t5))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t5)))
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
         self.assertEqual(timers[1].state, STATE_ENDING)
@@ -1102,7 +1104,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t5))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t5)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -1118,7 +1120,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t6 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t6), timedelta(minutes=self._t6))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t6)))
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
@@ -1130,7 +1132,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t6))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t6)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -1146,7 +1148,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t7 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t7), timedelta(minutes=self._t7))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t7)))
 
         self.assertEqual(timers[0].state, STATE_ENDING)
         self.assertEqual(timers[1].state, STATE_WAITING)
@@ -1160,7 +1162,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
             schedulderaction.timerToStopSlideshow.id, timers[0].id)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t7))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t7)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         self.assertEqual(len(apwpl), 1)
@@ -1175,7 +1177,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t8 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t8), timedelta(minutes=self._t8))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t8)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(timers[1].state, STATE_WAITING)
@@ -1188,7 +1190,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t8))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t8)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         self.assertEqual(len(apwpl), 1)
@@ -1237,7 +1239,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         timer1.active = False
         timer1.notify = False
         timer1.periods = [
-            Period(timedelta(minutes=self._t1), timedelta(minutes=self._t5))]
+            Period(timedelta(days=3, minutes=self._t1), timedelta(days=3, minutes=self._t5))]
 
         # Timer 2 (T2)
         timer2 = Timer(2)
@@ -1256,13 +1258,13 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         timer2.active = False
         timer2.notify = False
         timer2.periods = [
-            Period(timedelta(minutes=self._t3), timedelta(minutes=self._t7))]
+            Period(timedelta(days=3, minutes=self._t3), timedelta(days=3, minutes=self._t7))]
 
         timers = [timer1, timer2]
 
         # ------------ t0 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t0), timedelta(minutes=self._t0))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t0)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
@@ -1273,7 +1275,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t0))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t0)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         self.assertEqual(len(apwpl), 1)
@@ -1284,7 +1286,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t1 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t1), timedelta(minutes=self._t1))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t1)))
 
         self.assertEqual(timers[0].state, STATE_STARTING)
         self.assertEqual(len(schedulderaction._beginningTimers), 1)
@@ -1297,7 +1299,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t1))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t1)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -1313,7 +1315,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t2 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t2), timedelta(minutes=self._t2))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t2)))
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
         self.assertEqual(len(schedulderaction._beginningTimers), 0)
@@ -1325,7 +1327,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t2))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t2)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -1341,7 +1343,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t3 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t3), timedelta(minutes=self._t3))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t3)))
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
         self.assertEqual(timers[1].state, STATE_STARTING)
@@ -1355,7 +1357,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t3))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t3)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -1371,7 +1373,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t4 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t4), timedelta(minutes=self._t4))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t4)))
 
         self.assertEqual(timers[0].state, STATE_RUNNING)
         self.assertEqual(timers[1].state, STATE_RUNNING)
@@ -1384,7 +1386,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t4))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t4)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -1400,7 +1402,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t5 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t5), timedelta(minutes=self._t5))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t5)))
 
         self.assertEqual(timers[0].state, STATE_ENDING)
         self.assertEqual(timers[1].state, STATE_RUNNING)
@@ -1413,7 +1415,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t5))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t5)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -1429,7 +1431,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t6 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t6), timedelta(minutes=self._t6))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t6)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(timers[1].state, STATE_RUNNING)
@@ -1442,7 +1444,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t6))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t6)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -1458,7 +1460,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t7 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t7), timedelta(minutes=self._t7))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t7)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(timers[1].state, STATE_ENDING)
@@ -1472,7 +1474,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
             schedulderaction.timerToStopSlideshow.id, timers[1].id)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t7))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t7)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         self.assertEqual(len(apwpl), 1)
@@ -1487,7 +1489,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ t8 ------------
         schedulderaction.calculate(
-            timers, datetime.fromtimestamp(self._t8), timedelta(minutes=self._t8))
+            timers, DateTimeDelta(datetime.utcfromtimestamp(60 * self._t8)))
 
         self.assertEqual(timers[0].state, STATE_WAITING)
         self.assertEqual(timers[1].state, STATE_WAITING)
@@ -1500,7 +1502,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(timedelta(minutes=self._t8))
+        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t8)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         self.assertEqual(len(apwpl), 1)
