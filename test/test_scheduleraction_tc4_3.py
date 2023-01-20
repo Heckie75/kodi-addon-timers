@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from resources.lib.player.mediatype import VIDEO
 from resources.lib.player.player_utils import REPEAT_ALL, REPEAT_OFF
 from resources.lib.test.mockplayer import MockPlayer
+from resources.lib.test.mockstorage import MockStorage
 from resources.lib.timer.scheduleraction import SchedulerAction
 from resources.lib.timer.timer import (END_TYPE_DURATION, FADE_OFF,
                                        FADE_OUT_FROM_CURRENT,
@@ -48,7 +49,7 @@ class TestSchedulerActions_4_3(unittest.TestCase):
         player.setDefaultVolume(100)
         player.setVolume(80)
 
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
 
         # ------------ setup timers ------------
         # Timer 1 (T1)
@@ -331,7 +332,7 @@ class TestSchedulerActions_4_3(unittest.TestCase):
         player.setShuffled(True)
         player.setRepeat(REPEAT_ALL)
 
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
 
         # ------------ setup timers ------------
         # Timer 1 (T1)
@@ -652,7 +653,7 @@ class TestSchedulerActions_4_3(unittest.TestCase):
         player.play(playlist)
         player.setDefaultVolume(100)
 
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
 
         # ------------ setup timers ------------
         # Timer 1 (T1)
@@ -933,7 +934,7 @@ class TestSchedulerActions_4_3(unittest.TestCase):
 
         # ------------ setup player ------------
         player = MockPlayer()
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
         player.setVolume(100)
 
         # ------------ setup timers ------------
@@ -1212,7 +1213,7 @@ class TestSchedulerActions_4_3(unittest.TestCase):
 
         # ------------ setup player ------------
         player = MockPlayer()
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
         player.setVolume(100)
 
         # ------------ setup timers ------------
@@ -1503,7 +1504,7 @@ class TestSchedulerActions_4_3(unittest.TestCase):
         player.play(playlist)
         player.setDefaultVolume(100)
 
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
 
         # ------------ setup timers ------------
         # Timer 1 (T1)
@@ -1812,7 +1813,7 @@ class TestSchedulerActions_4_3(unittest.TestCase):
         player.play(playlist)
         player.setDefaultVolume(100)
 
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
 
         # ------------ setup timers ------------
         # Timer 1 (T1)

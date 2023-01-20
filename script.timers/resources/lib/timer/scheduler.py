@@ -4,7 +4,7 @@ import xbmc
 import xbmcaddon
 import xbmcgui
 from resources.lib.player.player import Player
-from resources.lib.timer import storage
+from resources.lib.timer.storage import Storage
 from resources.lib.timer.scheduleraction import SchedulerAction
 from resources.lib.timer.timer import (END_TYPE_DURATION, END_TYPE_TIME,
                                        STATE_WAITING, Timer)
@@ -39,9 +39,10 @@ class Scheduler(xbmc.Monitor):
         self._player.setDefaultVolume(_default_volume)
         self._player.setVolume(_default_volume)
 
-        self.action = SchedulerAction(self._player)
+        self._storage = Storage()
+        self.action = SchedulerAction(self._player, self._storage)
 
-        storage.release_lock()
+        self._storage.release_lock()
 
         self._update()
 
@@ -113,7 +114,7 @@ class Scheduler(xbmc.Monitor):
                 if changed:
                     self._player.resetResumeOfTimer(timer=former_timer[0])
 
-        scheduled_timers = storage.get_scheduled_timers()
+        scheduled_timers = self._storage.get_scheduled_timers()
 
         if self._timers:
             _update_from_storage(scheduled_timers)

@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 from resources.lib.player.mediatype import AUDIO, PICTURE, VIDEO
 from resources.lib.test.mockplayer import MockPlayer
+from resources.lib.test.mockstorage import MockStorage
 from resources.lib.timer.scheduleraction import SchedulerAction
 from resources.lib.timer.timer import (END_TYPE_DURATION, FADE_OFF,
                                        MEDIA_ACTION_START_STOP, STATE_ENDING,
@@ -39,7 +40,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ setup player ------------
         player = MockPlayer()
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
         player.setVolume(100)
 
         # ------------ setup timers ------------
@@ -338,7 +339,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ setup player ------------
         player = MockPlayer()
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
         player.setVolume(100)
         playlist = player._buildPlaylist(["Video M1"], VIDEO)
         player.play(playlist)
@@ -595,7 +596,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
         player = MockPlayer()
         player.setSeekDelayedTimer(True)
         player._slideShowStaytime = 60
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
         player.setVolume(100)
 
         # ------------ setup timers ------------
@@ -904,7 +905,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ setup player ------------
         player = MockPlayer()
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
         player.setVolume(100)
         playlist = player._buildPlaylist(["Video M1"], VIDEO)
         player.play(playlist)
@@ -1216,7 +1217,7 @@ class TestSchedulerActions_5_3(unittest.TestCase):
 
         # ------------ setup player ------------
         player = MockPlayer()
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
         player.setVolume(100)
         playlist = player._buildPlaylist(["Video M1"], VIDEO)
         player.play(playlist)

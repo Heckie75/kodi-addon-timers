@@ -2,7 +2,7 @@ import xbmc
 import xbmcaddon
 import xbmcgui
 from resources.lib.player.mediatype import AUDIO, PICTURE, TYPES, VIDEO
-from resources.lib.timer import storage
+from resources.lib.timer.storage import Storage
 from resources.lib.utils.jsonrpc_utils import json_rpc
 from resources.lib.utils.vfs_utils import (build_playlist, convert_to_playlist,
                                            get_asset_path, get_files_and_type,
@@ -40,6 +40,7 @@ class State():
 
 def preview(addon: xbmcaddon.Addon, timerid: int, player: 'xbmc.Player') -> None:
 
+    storage = Storage()
     timer = storage.load_timer_from_storage(timerid)
 
     if timer._is_playing_media_timer():

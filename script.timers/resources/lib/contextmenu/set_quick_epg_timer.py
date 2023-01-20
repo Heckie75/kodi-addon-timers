@@ -1,6 +1,5 @@
 from resources.lib.contextmenu.abstract_set_timer import (CONFIRM_YES,
                                                           AbstractSetTimer)
-from resources.lib.timer import storage
 from resources.lib.timer.timer import Timer
 
 
@@ -8,7 +7,7 @@ class SetQuickEpgTimer(AbstractSetTimer):
 
     def perform_ahead(self, timer: Timer) -> bool:
 
-        timers = storage.load_timers_from_storage()
+        timers = self.storage.load_timers_from_storage()
 
         found = -1
         for i, t in enumerate(timers):

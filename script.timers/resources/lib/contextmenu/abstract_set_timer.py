@@ -6,7 +6,7 @@ import xbmcaddon
 import xbmcgui
 from resources.lib.contextmenu import pvr_utils
 from resources.lib.player.mediatype import VIDEO
-from resources.lib.timer import storage
+from resources.lib.timer.storage import Storage
 from resources.lib.timer.timer import (END_TYPE_DURATION, END_TYPE_NO,
                                        FADE_OFF, MEDIA_ACTION_START_STOP,
                                        SYSTEM_ACTION_NONE, Timer)
@@ -24,6 +24,7 @@ class AbstractSetTimer:
     def __init__(self, label: str, path: str, timerid=-1) -> None:
 
         self.addon = xbmcaddon.Addon()
+        self.storage = Storage()
 
         if not self.is_supported(label, path):
             yes = xbmcgui.Dialog().yesno(heading=self.addon.getLocalizedString(
@@ -128,7 +129,7 @@ class AbstractSetTimer:
 
     def ask_timer(self, timerid: int) -> int:
 
-        return storage.get_next_id()
+        return self.storage.get_next_id()
 
     def ask_days(self, label: str, path: str, is_epg: bool, timer: Timer) -> 'list[int]':
 
@@ -180,7 +181,7 @@ class AbstractSetTimer:
 
     def _get_timer_preselection(self, timerid: int, label: str, path: str) -> 'tuple[Timer,bool]':
 
-        timer = storage.load_timer_from_storage(timerid)
+        timer = self.storage.load_timer_from_storage(timerid)
         if not timer:
             timer = Timer(timerid)
             timer.vol_min = self.addon.getSettingInt("vol_min_default")
@@ -239,5 +240,5 @@ class AbstractSetTimer:
 
     def apply(self, timer: Timer) -> None:
 
-        storage.save_timer(timer=timer)
+        self.storage.save_timer(timer=timer)
         trigger_settings_changed_event()

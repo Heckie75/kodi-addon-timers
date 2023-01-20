@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 from resources.lib.player.mediatype import AUDIO, PICTURE, VIDEO
 from resources.lib.test.mockplayer import MockPlayer
+from resources.lib.test.mockstorage import MockStorage
 from resources.lib.timer.scheduleraction import SchedulerAction
 from resources.lib.timer.timer import (END_TYPE_DURATION,
                                        FADE_OUT_FROM_CURRENT,
@@ -43,7 +44,7 @@ class TestSchedulerActions_1_1(unittest.TestCase):
 
         # ------------ setup player ------------d
         player = MockPlayer()
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
         player.setVolume(100)
 
         # ------------ setup timers ------------

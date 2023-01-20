@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 from resources.lib.player.mediatype import VIDEO
 from resources.lib.test.mockplayer import MockPlayer
+from resources.lib.test.mockstorage import MockStorage
 from resources.lib.timer.scheduleraction import SchedulerAction
 from resources.lib.timer.timer import (END_TYPE_DURATION, FADE_OFF,
                                        MEDIA_ACTION_START_STOP, STATE_ENDING,
@@ -40,10 +41,10 @@ class TestSchedulerActions_4_1(unittest.TestCase):
         # ------------ setup player ------------
         player = MockPlayer()
         player.setSeekDelayedTimer(True)
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
         player.setVolume(100)
 
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
 
         # ------------ setup timers ------------
         # Timer 1 (T1)
