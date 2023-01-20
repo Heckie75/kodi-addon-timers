@@ -65,6 +65,10 @@ msgctxt "#32027"
 msgid "Timers"
 msgstr ""
 
+msgctxt "#32028"
+msgid "Priority"
+msgstr ""
+
 msgctxt "#32029"
 msgid "Timer deleted"
 msgstr ""
@@ -635,6 +639,10 @@ msgstr ""
 
 msgctxt "#32335"
 msgid "Enter the duration after the timer ends."
+msgstr ""
+
+msgctxt "#32336"
+msgid "Set the priority if this timer is in competition with another timer."
 msgstr ""
 
 msgctxt "#32340"

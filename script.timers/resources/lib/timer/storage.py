@@ -136,6 +136,8 @@ def _init_timer_from_item(item: dict) -> Timer:
     timer.duration = item["duration"]
     timer.duration_offset = item["duration_offset"]
 
+    timer.priority = item["priority"]
+
     timer.notify = item["notify"]
 
     timer.return_vol = None
@@ -173,6 +175,7 @@ def save_timer(timer: Timer) -> None:
         "media_type": timer.media_type,
         "notify": timer.notify,
         "path": timer.path,
+        "priority": timer.priority,
         "repeat": timer.repeat,
         "resume": timer.resume,
         "shuffle": timer.shuffle,

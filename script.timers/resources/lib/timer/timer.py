@@ -70,6 +70,7 @@ class Timer():
         self.vol_min: int = 75
         self.vol_max: int = 100
         self.notify: bool = True
+        self.priority: int = 0
 
         # state
         self.periods: 'list[Period]' = list()
@@ -230,7 +231,7 @@ class Timer():
 
     def __str__(self) -> str:
 
-        return "Timer[id=%i, label=%s, state=%s, days=%s, start=%s:%02i, endtype=%s, duration=%s:%02i, end=%s:%02i, systemaction=%s, mediaaction=%s, path=%s, type=%s, repeat=%s, shuffle=%s, resume=%s, fade=%s, min=%i, max=%i, returnvol=%i, notify=%s]" % (self.id, self.label, ["waiting", "starting", "running", "ending"][self.state],
+        return "Timer[id=%i, label=%s, state=%s, prio=%i, days=%s, start=%s:%02i, endtype=%s, duration=%s:%02i, end=%s:%02i, systemaction=%s, mediaaction=%s, path=%s, type=%s, repeat=%s, shuffle=%s, resume=%s, fade=%s, min=%i, max=%i, returnvol=%i, notify=%s]" % (self.id, self.label, ["waiting", "starting", "running", "ending"][self.state], self.priority,
                                                                                                                                                                                                                                                                [["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "weekly"][d] for d in self.days],
                                                                                                                                                                                                                                                                self.start,
                                                                                                                                                                                                                                                                self.start_offset,

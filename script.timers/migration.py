@@ -206,6 +206,15 @@ def migrate_from_5_to_6(addon: xbmcaddon.Addon) -> int:
 
     return 6
 
+def migrate_from_6_to_7(addon: xbmcaddon.Addon) -> int:
+
+    items = storage._load_from_storage()
+    for item in items:
+        item["priority"] = 0
+
+    storage._save_to_storage(items)
+
+    return 7
 
 def migrate() -> None:
 
@@ -229,6 +238,9 @@ def migrate() -> None:
 
     if settingsVersion == 5:
         settingsVersion = migrate_from_5_to_6(addon)
+
+    if settingsVersion == 6:
+        settingsVersion = migrate_from_6_to_7(addon)
 
     addon.setSettingInt("settingsVersion", settingsVersion)
 

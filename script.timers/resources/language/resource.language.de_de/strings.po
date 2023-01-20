@@ -65,6 +65,10 @@ msgctxt "#32027"
 msgid "Timers"
 msgstr "Timers"
 
+msgctxt "#32028"
+msgid "Priority"
+msgstr "Priorität"
+
 msgctxt "#32029"
 msgid "Timer deleted"
 msgstr "Timer gelöscht"
@@ -636,6 +640,10 @@ msgstr "Gebe die Endzeit des Timers ein."
 msgctxt "#32335"
 msgid "Enter the duration after the timer ends."
 msgstr "Gebe die Dauer ein, nach der der Timer endet."
+
+msgctxt "#32336"
+msgid "Set the priority if this timer is in competition with another timer."
+msgstr "Setze eine Priorität wenn dieser Timer mit einem anderen Timer konkuriert."
 
 msgctxt "#32340"
 msgid "Select the media action of the timer. Note that you must add a media to the timer by utilizing the context menu first."
