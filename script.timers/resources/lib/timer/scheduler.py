@@ -4,11 +4,12 @@ import xbmc
 import xbmcaddon
 import xbmcgui
 from resources.lib.player.player import Player
-from resources.lib.timer.storage import Storage
 from resources.lib.timer.scheduleraction import SchedulerAction
+from resources.lib.timer.storage import Storage
 from resources.lib.timer.timer import (END_TYPE_DURATION, END_TYPE_TIME,
                                        STATE_WAITING, Timer)
-from resources.lib.utils.datetime_utils import DateTimeDelta, parse_datetime_str
+from resources.lib.utils.datetime_utils import (DateTimeDelta,
+                                                parse_datetime_str)
 from resources.lib.utils.settings_utils import (is_settings_changed_events,
                                                 save_timer_from_settings)
 from resources.lib.utils.system_utils import (is_fullscreen,
@@ -77,7 +78,7 @@ class Scheduler(xbmc.Monitor):
 
             changed |= (former_timer.media_action !=
                         timer_from_storage.media_action)
-            if former_timer._is_playing_media_timer():
+            if former_timer.is_playing_media_timer():
                 restart |= (former_timer.path != timer_from_storage.path)
                 changed |= (former_timer.path != timer_from_storage.path)
                 changed |= (former_timer.media_type !=

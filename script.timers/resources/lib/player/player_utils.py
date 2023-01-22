@@ -36,14 +36,13 @@ class State():
                                                                                                                        self.repeat,
                                                                                                                        self.shuffled,
                                                                                                                        self.speed)
-    
+
 
 def preview(addon: xbmcaddon.Addon, timerid: int, player: 'xbmc.Player') -> None:
 
-    storage = Storage()
-    timer = storage.load_timer_from_storage(timerid)
+    timer = Storage().load_timer_from_storage(timerid)
 
-    if timer._is_playing_media_timer():
+    if timer.is_playing_media_timer():
 
         xbmcgui.Dialog().notification(addon.getLocalizedString(32027), timer.label,
                                       icon=get_asset_path("icon.png"))

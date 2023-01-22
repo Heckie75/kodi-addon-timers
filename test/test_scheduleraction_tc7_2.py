@@ -1,11 +1,12 @@
 import unittest
 
-from resources.lib.utils.datetime_utils import DateTimeDelta
-from resources.lib.utils.datetime_utils import parse_datetime_str
-from resources.lib.test.mockplayer import MockPlayer, VIDEO
+from resources.lib.test.mockplayer import VIDEO, MockPlayer
 from resources.lib.test.mockstorage import MockStorage
 from resources.lib.timer.scheduleraction import SchedulerAction
-from resources.lib.timer.timer import END_TYPE_TIME, FADE_OFF, MEDIA_ACTION_START_STOP
+from resources.lib.timer.timer import (END_TYPE_TIME, FADE_OFF,
+                                       MEDIA_ACTION_START_STOP)
+from resources.lib.utils.datetime_utils import (DateTimeDelta,
+                                                parse_datetime_str)
 
 
 class TestSchedulerActions_7_2(unittest.TestCase):
@@ -640,7 +641,6 @@ class TestSchedulerActions_7_2(unittest.TestCase):
         self.assertEqual(player.getVolume(), 100)
 
         schedulderaction.reset()
-
 
     def test_tc_7_2_4(self):
         """

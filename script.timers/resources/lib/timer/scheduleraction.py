@@ -12,9 +12,11 @@ from resources.lib.timer.timer import (END_TYPE_NO, FADE_IN_FROM_MIN,
                                        FADE_OUT_FROM_CURRENT, STATE_ENDING,
                                        STATE_RUNNING, STATE_STARTING,
                                        STATE_WAITING, SYSTEM_ACTION_HIBERNATE,
-                                       SYSTEM_ACTION_POWEROFF, SYSTEM_ACTION_QUIT_KODI,
-                                       SYSTEM_ACTION_SHUTDOWN_KODI, SYSTEM_ACTION_STANDBY,
-                                       TIMER_WEEKLY, Timer)
+                                       SYSTEM_ACTION_POWEROFF,
+                                       SYSTEM_ACTION_QUIT_KODI,
+                                       SYSTEM_ACTION_SHUTDOWN_KODI,
+                                       SYSTEM_ACTION_STANDBY, TIMER_WEEKLY,
+                                       Timer)
 from resources.lib.utils.datetime_utils import DateTimeDelta, abs_time_diff
 from resources.lib.utils.vfs_utils import get_asset_path
 
@@ -124,8 +126,8 @@ class SchedulerAction:
                         _reset_stop()
 
                 enclosingTimers = [t for t in self._runningTimers if (t.current_period.start < timerToStop.current_period.start
-                                                                        and t.current_period.end > timerToStop.current_period.end)
-                                                                        and t.media_type in _stopMediatype]
+                                                                      and t.current_period.end > timerToStop.current_period.end)
+                                   and t.media_type in _stopMediatype]
 
                 if enclosingTimers and not [t for t in enclosingTimers if timerToStop.priority >= t.priority]:
                     _reset_stop()
@@ -143,8 +145,8 @@ class SchedulerAction:
                     elif timer.return_vol == None:
                         timer.return_vol = self._player.getVolume()
 
-                higher_prio_runnings = [running for running in self._runningTimers if running.priority > timer.priority \
-                            and running.media_type in get_types_replaced_by_type(timer.media_type)]
+                higher_prio_runnings = [running for running in self._runningTimers if running.priority > timer.priority
+                                        and running.media_type in get_types_replaced_by_type(timer.media_type)]
 
                 if not higher_prio_runnings and timer.is_play_at_start_timer():
                     self._setTimerToPlayAny(timer)

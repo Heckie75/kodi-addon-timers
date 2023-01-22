@@ -1,6 +1,4 @@
 import unittest
-
-from resources.lib.utils.datetime_utils import DateTimeDelta
 from datetime import datetime, timedelta
 
 from resources.lib.player.mediatype import VIDEO
@@ -15,6 +13,7 @@ from resources.lib.timer.timer import (END_TYPE_DURATION, FADE_OFF,
                                        STATE_RUNNING, STATE_STARTING,
                                        STATE_WAITING, SYSTEM_ACTION_NONE,
                                        Period, Timer)
+from resources.lib.utils.datetime_utils import DateTimeDelta
 
 
 class TestSchedulerActions_4_3(unittest.TestCase):

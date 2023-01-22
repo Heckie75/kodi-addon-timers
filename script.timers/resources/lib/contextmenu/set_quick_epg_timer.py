@@ -1,5 +1,6 @@
 from resources.lib.contextmenu.abstract_set_timer import (CONFIRM_YES,
                                                           AbstractSetTimer)
+from resources.lib.timer.concurrency import get_next_higher_prio
 from resources.lib.timer.timer import Timer
 
 
@@ -30,6 +31,11 @@ class SetQuickEpgTimer(AbstractSetTimer):
     def ask_repeat_resume(self, timer: Timer) -> 'tuple[bool, bool]':
 
         return False, True
+
+    def handle_overlapping_timers(self, timer: Timer, overlapping_timers: 'list[Timer]') -> int:
+
+        timer.priority = get_next_higher_prio(overlapping_timers)
+        return CONFIRM_YES
 
     def confirm(self, timer: Timer) -> int:
 

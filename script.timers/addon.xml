@@ -33,7 +33,7 @@
 * single-click-setup for sleep and doze timers
 * Timers can play any resource that it available in Kodi, e.g. music folders, video files, TV/radio programs, slideshows, ressources from 3rd party plugins, e.g. Zattoo channels.
 * Timers can be set from TV / Radio EPG, One-click-setup from epg (Quick Timer)
-* Different schedule modes: once, everyday, Mon-Fri, Fri-Sat, Sat-Sun, Sun-Thu, Mon-Thu, specific weekday and many more
+* Free schedule modes: once, everyday, Mon-Fri, Fri-Sat, Sat-Sun, Sun-Thu, Mon-Thu, specific weekday and so on
 * Date change is supported, e.g. from 23:30 (p.m.) until 1:30 (a.m.)
 * Shuffle, repeat, 2 end modes, i.e. duration or specific time
 * Actions related to media: start media and stop at end, just start media, start media at end, stop media immediately, stop media at end, powerdown system
@@ -44,11 +44,11 @@
 * MS Windows only: Feature in order to prevent that Windows displays lock screen if Kodi idles
     </description>
     <description lang="de_DE">Timer Addon mit folgenden Funktionen
-* 15 Timer, die eingestellt werden können. Alle Timer können über das Kontextmenü geöffnet werden
-* 2 zusätzliche Timer für "Einschlaf"- und "Schlummer"-Timer mit nur einem Klick 
+* Unbegrenzte Anzahl an Timer, die eingestellt werden können. Alle Timer können über das Kontextmenü geöffnet werden
+* Timer für "Einschlaf"- und "Schlummer"-Timer mit nur einem Klick 
 * Timer können alle Medien starten, die in Kodi sind wie Musik, Video, TV/Radio programme, Diashows, andere Addons, z.B. Zattoo. 
 * Einstellung mit nur einem Klick aus EPG (Quick Timer)
-* Verschiedene Zeitplanungen möglich: einmalig, pro Wochentag, Mo-Fr, Fr-Sa, Sa-So, So-Do, Mo-Do u.v.m.
+* Beliebige Zeitplanungen möglich: einmalig, pro Wochentag, Mo-Fr, Fr-Sa, Sa-So, So-Do, Mo-Do, ...
 * Tageswechsel wird unterstützt, z.B. Timer von 23:30 bis 1:30 am nächsten Tag
 * Dauer kann über Zeitraum oder Zeitpunkt eingestellt werden
 * Aktionen mit Medien: starte Wiedergabe und beende diese nach Ablauf, starte Wiedergabe, starte Wiedergabe bei Ablauf, stoppe Wiedergabe sofort, stoppe Wiedergabe nach Ablauf, fahre System herunter
@@ -66,7 +66,7 @@
     <source>https://github.com/Heckie75/kodi-addon-timers</source>
     <news>
 v3.5.0 (2023-03-xx)
-- New feature: select competitive behavior
+- New feature: priority of timers and competitive behavior
 
 v3.4.0 (2023-01-10)
 - New feature: Media action in order to pause audio or video, feature request #21

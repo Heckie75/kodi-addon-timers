@@ -6,6 +6,7 @@ import xbmcaddon
 import xbmcgui
 from resources.lib.contextmenu import pvr_utils
 from resources.lib.player.mediatype import VIDEO
+from resources.lib.timer.concurrency import determine_overlappings
 from resources.lib.timer.storage import Storage
 from resources.lib.timer.timer import (END_TYPE_DURATION, END_TYPE_NO,
                                        FADE_OFF, MEDIA_ACTION_START_STOP,
@@ -16,7 +17,7 @@ from resources.lib.utils.settings_utils import trigger_settings_changed_event
 CONFIRM_ESCAPE = -1
 CONFIRM_NO = 0
 CONFIRM_YES = 1
-CONFIRM_EDIT = 2
+CONFIRM_CUSTOM = 2
 
 
 class AbstractSetTimer:
@@ -97,6 +98,15 @@ class AbstractSetTimer:
             timer.vol_min = vol_min
             timer.vol_max = vol_max
 
+        timer.init()
+        overlappings = determine_overlappings(
+            timer, self.storage.load_timers_from_storage())
+        if overlappings:
+            answer = self.handle_overlapping_timers(
+                timer, overlapping_timers=overlappings)
+            if answer in [CONFIRM_ESCAPE, CONFIRM_CUSTOM]:
+                return
+
         confirm = self.confirm(timer)
         if confirm in [CONFIRM_ESCAPE, CONFIRM_NO]:
             return
@@ -162,6 +172,13 @@ class AbstractSetTimer:
     def ask_fader(self, timer: Timer) -> 'tuple[int, int, int]':
 
         return FADE_OFF, timer.vol_min, timer.vol_max
+
+    def handle_overlapping_timers(self, timer: Timer, overlapping_timers: 'list[Timer]') -> int:
+
+        timer.priority = max(overlapping_timers,
+                             key=lambda t: t.priority).priority + 1
+
+        return CONFIRM_YES
 
     def confirm(self, timer: Timer) -> int:
 

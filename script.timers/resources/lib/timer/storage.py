@@ -11,13 +11,11 @@ from resources.lib.timer.timer import STATE_WAITING, Timer
 
 class Storage():
 
-
     def _get_storage_path(self) -> str:
 
         addon = xbmcaddon.Addon()
         profile_path = xbmcvfs.translatePath(addon.getAddonInfo('profile'))
         return os.path.join(profile_path, "timers.json")
-
 
     def _aquire_lock(self) -> str:
 
@@ -29,13 +27,11 @@ class Storage():
 
         return lock
 
-
     def release_lock(self) -> None:
 
         lock_file = "%s.lck" % self._get_storage_path()
         if xbmcvfs.exists(lock_file):
             xbmcvfs.rmdir(lock_file, force=True)
-
 
     def _wait_for_unlock(self) -> None:
 
@@ -49,9 +45,8 @@ class Storage():
 
         if wait == 0:
             xbmc.log("%s is locked. Unlock now with small risk of data loss." %
-                    self._get_storage_path(), xbmc.LOGWARNING)
+                     self._get_storage_path(), xbmc.LOGWARNING)
             self.release_lock()
-
 
     def _load_from_storage(self) -> 'list[dict]':
 
@@ -65,10 +60,10 @@ class Storage():
                     _storage.extend(json.load(file))
                 except:
                     # this should normally not be a problem, but it fails when running unit tests
-                    xbmc.log("Can't read timers from storage.", xbmc.LOGWARNING)
+                    xbmc.log("Can't read timers from storage.",
+                             xbmc.LOGWARNING)
 
         return _storage
-
 
     def _save_to_storage(self, storage: 'list[dict]') -> None:
 
@@ -92,7 +87,6 @@ class Storage():
         finally:
             self.release_lock()
 
-
     def load_timers_from_storage(self) -> 'list[Timer]':
 
         timers = list()
@@ -102,7 +96,6 @@ class Storage():
 
         return timers
 
-
     def load_timer_from_storage(self, id: int) -> Timer:
 
         storage = self._load_from_storage()
@@ -111,7 +104,6 @@ class Storage():
                 return self._init_timer_from_item(item)
 
         return None
-
 
     def _init_timer_from_item(self, item: dict) -> Timer:
 
@@ -150,7 +142,6 @@ class Storage():
 
         return timer
 
-
     def _find_item_index(self, storage: 'list[dict]', id: int) -> int:
 
         for i, item in enumerate(storage):
@@ -158,7 +149,6 @@ class Storage():
                 return i
 
         return -1
-
 
     def save_timer(self, timer: Timer) -> None:
 
@@ -198,7 +188,6 @@ class Storage():
 
         self._save_to_storage(storage)
 
-
     def delete_timer(self, timer_id: int) -> None:
 
         storage = self._load_from_storage()
@@ -207,15 +196,13 @@ class Storage():
             storage.pop(idx)
             self._save_to_storage(storage=storage)
 
-
     def get_scheduled_timers(self) -> 'list[Timer]':
 
         timers = self.load_timers_from_storage()
         scheduled_timers = list([timer for timer in timers if timer.days])
         scheduled_timers.sort(key=lambda timer: (timer.days, timer.start,
-                                                timer.media_action, timer.system_action))
+                                                 timer.media_action, timer.system_action))
         return scheduled_timers
-
 
     def get_next_id(self) -> int:
 

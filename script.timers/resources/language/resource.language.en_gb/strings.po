@@ -113,6 +113,18 @@ msgctxt "#32042"
 msgid "from"
 msgstr ""
 
+msgctxt "#32050"
+msgid "This timer interrupts other timers"
+msgstr ""
+
+msgctxt "#32051"
+msgid "Other timers interrupt this timer"
+msgstr ""
+
+msgctxt "#32052"
+msgid "Is this timer more important?"
+msgstr ""
+
 msgctxt "#32060"
 msgid "Schedule"
 msgstr ""
@@ -642,7 +654,7 @@ msgid "Enter the duration after the timer ends."
 msgstr ""
 
 msgctxt "#32336"
-msgid "Set the priority if this timer is in competition with another timer."
+msgid "Set value if this timer is more important than other. Higher value means more important. Values higher than 10 always win against newbies."
 msgstr ""
 
 msgctxt "#32340"

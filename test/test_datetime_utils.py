@@ -1,6 +1,4 @@
 import unittest
-
-from resources.lib.utils.datetime_utils import DateTimeDelta
 from datetime import datetime, timedelta
 
 from resources.lib.utils import datetime_utils

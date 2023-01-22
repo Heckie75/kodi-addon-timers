@@ -1,6 +1,11 @@
 import xbmcgui
-from resources.lib.contextmenu.abstract_set_timer import (CONFIRM_EDIT,
+from resources.lib.contextmenu.abstract_set_timer import (CONFIRM_CUSTOM,
+                                                          CONFIRM_NO,
+                                                          CONFIRM_YES,
                                                           AbstractSetTimer)
+from resources.lib.timer.concurrency import (DEFAULT_PRIO,
+                                             get_next_higher_prio,
+                                             get_next_lower_prio)
 from resources.lib.timer.timer import (MEDIA_ACTION_START,
                                        MEDIA_ACTION_START_STOP, Timer)
 from resources.lib.utils.datetime_utils import DEFAULT_TIME
@@ -71,6 +76,46 @@ class SetTimer(AbstractSetTimer):
 
         return timer.system_action, MEDIA_ACTION_START_STOP if timer.duration != DEFAULT_TIME else MEDIA_ACTION_START
 
+    def handle_overlapping_timers(self, timer: Timer, overlapping_timers: 'list[Timer]') -> int:
+
+        earlier_timers = [
+            t for t in overlapping_timers if t.periods[0].start < timer.periods[0].start]
+
+        lines = list()
+        for t in overlapping_timers:
+            p = t.periods_to_human_readable()
+            lines.append("%s (%s)" % (t.label if (len(t.label) + len(p))
+                         < 50 else t.label[:max(50 - len(p), 12)] + "...", p))
+        lines.append("\n" + self.addon.getLocalizedString(32052))
+
+        if earlier_timers:
+
+            answer = xbmcgui.Dialog().yesnocustom(heading=self.addon.getLocalizedString(
+                32050), message="\n".join(lines), customlabel=self.addon.getLocalizedString(32022))
+
+            if answer == CONFIRM_NO:
+                timer.priority = get_next_lower_prio(overlapping_timers)
+                return CONFIRM_YES
+
+            elif answer == CONFIRM_YES:
+                timer.priority = max(overlapping_timers,
+                                     key=lambda t: t.priority).priority
+                return CONFIRM_YES
+
+        else:
+            answer = xbmcgui.Dialog().yesnocustom(heading=self.addon.getLocalizedString(
+                32051), message="\n".join(lines), customlabel=self.addon.getLocalizedString(32022))
+
+            if answer == CONFIRM_YES:
+                timer.priority = get_next_higher_prio(overlapping_timers)
+                return CONFIRM_YES
+
+            elif answer == CONFIRM_NO:
+                timer.priority = DEFAULT_PRIO
+                return CONFIRM_YES
+
+        return CONFIRM_CUSTOM
+
     def confirm(self, timer: Timer) -> int:
 
         line1 = timer.label
@@ -93,7 +138,7 @@ class SetTimer(AbstractSetTimer):
 
     def post_apply(self, timer: Timer, confirm: int) -> None:
 
-        if confirm == CONFIRM_EDIT:
+        if confirm == CONFIRM_CUSTOM:
             load_timer_into_settings(timer)
             self.addon.openSettings()
         else:
