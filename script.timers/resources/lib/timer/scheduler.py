@@ -4,11 +4,12 @@ import xbmc
 import xbmcaddon
 import xbmcgui
 from resources.lib.player.player import Player
-from resources.lib.timer import storage
 from resources.lib.timer.scheduleraction import SchedulerAction
+from resources.lib.timer.storage import Storage
 from resources.lib.timer.timer import (END_TYPE_DURATION, END_TYPE_TIME,
                                        STATE_WAITING, Timer)
-from resources.lib.utils.datetime_utils import DateTimeDelta, parse_datetime_str
+from resources.lib.utils.datetime_utils import (DateTimeDelta,
+                                                parse_datetime_str)
 from resources.lib.utils.settings_utils import (is_settings_changed_events,
                                                 save_timer_from_settings)
 from resources.lib.utils.system_utils import (is_fullscreen,
@@ -39,9 +40,10 @@ class Scheduler(xbmc.Monitor):
         self._player.setDefaultVolume(_default_volume)
         self._player.setVolume(_default_volume)
 
-        self.action = SchedulerAction(self._player)
+        self._storage = Storage()
+        self.action = SchedulerAction(self._player, self._storage)
 
-        storage.release_lock()
+        self._storage.release_lock()
 
         self._update()
 
@@ -76,7 +78,7 @@ class Scheduler(xbmc.Monitor):
 
             changed |= (former_timer.media_action !=
                         timer_from_storage.media_action)
-            if former_timer._is_playing_media_timer():
+            if former_timer.is_playing_media_timer():
                 restart |= (former_timer.path != timer_from_storage.path)
                 changed |= (former_timer.path != timer_from_storage.path)
                 changed |= (former_timer.media_type !=
@@ -113,7 +115,7 @@ class Scheduler(xbmc.Monitor):
                 if changed:
                     self._player.resetResumeOfTimer(timer=former_timer[0])
 
-        scheduled_timers = storage.get_scheduled_timers()
+        scheduled_timers = self._storage.get_scheduled_timers()
 
         if self._timers:
             _update_from_storage(scheduled_timers)

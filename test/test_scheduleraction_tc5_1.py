@@ -1,10 +1,9 @@
 import unittest
-
-from resources.lib.utils.datetime_utils import DateTimeDelta
 from datetime import datetime, timedelta
 
 from resources.lib.player.mediatype import AUDIO, PICTURE, VIDEO
 from resources.lib.test.mockplayer import MockPlayer
+from resources.lib.test.mockstorage import MockStorage
 from resources.lib.timer.scheduleraction import SchedulerAction
 from resources.lib.timer.timer import (END_TYPE_DURATION, FADE_IN_FROM_MIN,
                                        FADE_OUT_FROM_CURRENT,
@@ -12,6 +11,7 @@ from resources.lib.timer.timer import (END_TYPE_DURATION, FADE_IN_FROM_MIN,
                                        STATE_RUNNING, STATE_STARTING,
                                        STATE_WAITING, SYSTEM_ACTION_NONE,
                                        Period, Timer)
+from resources.lib.utils.datetime_utils import DateTimeDelta
 
 
 class TestSchedulerActions_5_1_1(unittest.TestCase):
@@ -44,7 +44,7 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
 
         # ------------ setup player ------------
         player = MockPlayer()
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
         playlist = player._buildPlaylist(["Pictures"], PICTURE)
         player.play(playlist)
         player.setVolume(100)
@@ -84,7 +84,8 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t0)))
+        schedulderaction.perform(DateTimeDelta(
+            datetime.utcfromtimestamp(60 * self._t0)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         self.assertEqual(PICTURE in apwpl, True)
@@ -108,7 +109,8 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t1)))
+        schedulderaction.perform(DateTimeDelta(
+            datetime.utcfromtimestamp(60 * self._t1)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -138,7 +140,8 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t2)))
+        schedulderaction.perform(DateTimeDelta(
+            datetime.utcfromtimestamp(60 * self._t2)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -169,7 +172,8 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
             schedulderaction.timerToStopAV.id, timers[0].id)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t3)))
+        schedulderaction.perform(DateTimeDelta(
+            datetime.utcfromtimestamp(60 * self._t3)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -196,7 +200,8 @@ class TestSchedulerActions_5_1_1(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t4)))
+        schedulderaction.perform(DateTimeDelta(
+            datetime.utcfromtimestamp(60 * self._t4)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -241,7 +246,7 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
 
         # ------------ setup player ------------
         player = MockPlayer()
-        schedulderaction = SchedulerAction(player)
+        schedulderaction = SchedulerAction(player, MockStorage())
         playlist = player._buildPlaylist(["Audio M1"], AUDIO)
         player.play(playlist)
         player.setVolume(80)
@@ -281,7 +286,8 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopAV, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t0)))
+        schedulderaction.perform(DateTimeDelta(
+            datetime.utcfromtimestamp(60 * self._t0)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         self.assertEqual(AUDIO in apwpl, True)
@@ -305,7 +311,8 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t1)))
+        schedulderaction.perform(DateTimeDelta(
+            datetime.utcfromtimestamp(60 * self._t1)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -337,7 +344,8 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t2)))
+        schedulderaction.perform(DateTimeDelta(
+            datetime.utcfromtimestamp(60 * self._t2)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -370,7 +378,8 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
             schedulderaction.timerToStopSlideshow.id, timers[0].id)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t3)))
+        schedulderaction.perform(DateTimeDelta(
+            datetime.utcfromtimestamp(60 * self._t3)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
@@ -398,7 +407,8 @@ class TestSchedulerActions_5_1_2(unittest.TestCase):
         self.assertEqual(schedulderaction.timerToStopSlideshow, None)
         self.assertEqual(schedulderaction.timerWithSystemAction, None)
 
-        schedulderaction.perform(DateTimeDelta(datetime.utcfromtimestamp(60 * self._t4)))
+        schedulderaction.perform(DateTimeDelta(
+            datetime.utcfromtimestamp(60 * self._t4)))
 
         apwpl = player.getActivePlayersWithPlaylist()
         # Picture
