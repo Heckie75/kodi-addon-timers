@@ -11,7 +11,9 @@ from resources.lib.timer.storage import Storage
 from resources.lib.timer.timer import (END_TYPE_NO, FADE_IN_FROM_MIN,
                                        FADE_OUT_FROM_CURRENT, STATE_ENDING,
                                        STATE_RUNNING, STATE_STARTING,
-                                       STATE_WAITING, SYSTEM_ACTION_HIBERNATE,
+                                       STATE_WAITING,
+                                       SYSTEM_ACTION_CEC_STANDBY,
+                                       SYSTEM_ACTION_HIBERNATE,
                                        SYSTEM_ACTION_POWEROFF,
                                        SYSTEM_ACTION_QUIT_KODI,
                                        SYSTEM_ACTION_SHUTDOWN_KODI,
@@ -383,6 +385,9 @@ class SchedulerAction:
 
             elif self.timerWithSystemAction.system_action == SYSTEM_ACTION_POWEROFF:
                 xbmc.executebuiltin("Powerdown()")
+
+            elif self.timerWithSystemAction.system_action == SYSTEM_ACTION_CEC_STANDBY:
+                xbmc.executebuiltin("CECStandby()")
 
         def _adjustState() -> None:
 

@@ -237,13 +237,17 @@ msgctxt "#32090"
 msgid "Volume"
 msgstr "Lautstärke"
 
+msgctxt "#32091"
+msgid "Fading"
+msgstr "Ein-/Ausblenden"
+
 msgctxt "#32092"
 msgid "Default volume"
 msgstr "Voreingestellte Lautstärke"
 
-msgctxt "#32091"
-msgid "Fading"
-msgstr "Ein-/Ausblenden"
+msgctxt "#32093"
+msgid "Standby TV via CEC"
+msgstr "Standby TV via CEC"
 
 msgctxt "#32095"
 msgid "Low volume"

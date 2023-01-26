@@ -237,12 +237,16 @@ msgctxt "#32090"
 msgid "Volume"
 msgstr ""
 
+msgctxt "#32091"
+msgid "Fading"
+msgstr ""
+
 msgctxt "#32092"
 msgid "Default volume"
 msgstr ""
 
-msgctxt "#32091"
-msgid "Fading"
+msgctxt "#32093"
+msgid "Standby TV via CEC"
 msgstr ""
 
 msgctxt "#32095"

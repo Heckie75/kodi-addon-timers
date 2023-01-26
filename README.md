@@ -40,7 +40,8 @@ The result is a powerful timer addon.
 
 ## Changelog
 v3.5.0 (2023-03-xx)
-- [WiP] New feature: select competitive behavior
+- New feature: priority of timers and competitive behavior
+- New feature: System action to put playing device on standby via a CEC peripheral
 
 v3.4.0 (2023-01-10)
 - New feature: Media action in order to pause audio or video, feature request #21
