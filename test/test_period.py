@@ -94,14 +94,14 @@ class TestPeriod(unittest.TestCase):
 
         td_start, td_end, td_length = timers[0].periods[0].compare(
             timers[1].periods[0])
-        self.assertEquals(td_start, timedelta(hours=-3))
-        self.assertEquals(td_end, timedelta(hours=-4))
+        self.assertEqual(td_start, timedelta(hours=-3))
+        self.assertEqual(td_end, timedelta(hours=-4))
         self.assertIsNone(td_length)
 
         td_start, td_end, td_length = timers[1].periods[0].compare(
             timers[0].periods[0])
-        self.assertEquals(td_start, timedelta(hours=3))
-        self.assertEquals(td_end, timedelta(hours=4))
+        self.assertEqual(td_start, timedelta(hours=3))
+        self.assertEqual(td_end, timedelta(hours=4))
         self.assertIsNone(td_length)
 
     def test_compare_2(self):
@@ -186,15 +186,15 @@ class TestPeriod(unittest.TestCase):
 
         td_start, td_end, td_length = timers[0].periods[0].compare(
             timers[1].periods[0])
-        self.assertEquals(td_start, timedelta(hours=-2))
-        self.assertEquals(td_end, timedelta(hours=-3))
-        self.assertEquals(td_length, timedelta())
+        self.assertEqual(td_start, timedelta(hours=-2))
+        self.assertEqual(td_end, timedelta(hours=-3))
+        self.assertEqual(td_length, timedelta())
 
         td_start, td_end, td_length = timers[1].periods[0].compare(
             timers[0].periods[0])
-        self.assertEquals(td_start, timedelta(hours=2))
-        self.assertEquals(td_end, timedelta(hours=3))
-        self.assertEquals(td_length, timedelta())
+        self.assertEqual(td_start, timedelta(hours=2))
+        self.assertEqual(td_end, timedelta(hours=3))
+        self.assertEqual(td_length, timedelta())
 
     def test_compare_3(self):
         """
@@ -278,15 +278,15 @@ class TestPeriod(unittest.TestCase):
 
         td_start, td_end, td_length = timers[0].periods[0].compare(
             timers[1].periods[0])
-        self.assertEquals(td_start, timedelta(hours=-1))
-        self.assertEquals(td_end, timedelta(hours=-2))
-        self.assertEquals(td_length, timedelta(hours=1))
+        self.assertEqual(td_start, timedelta(hours=-1))
+        self.assertEqual(td_end, timedelta(hours=-2))
+        self.assertEqual(td_length, timedelta(hours=1))
 
         td_start, td_end, td_length = timers[1].periods[0].compare(
             timers[0].periods[0])
-        self.assertEquals(td_start, timedelta(hours=1))
-        self.assertEquals(td_end, timedelta(hours=2))
-        self.assertEquals(td_length, timedelta(hours=1))
+        self.assertEqual(td_start, timedelta(hours=1))
+        self.assertEqual(td_end, timedelta(hours=2))
+        self.assertEqual(td_length, timedelta(hours=1))
 
     def test_compare_4(self):
         """
@@ -370,15 +370,15 @@ class TestPeriod(unittest.TestCase):
 
         td_start, td_end, td_length = timers[0].periods[0].compare(
             timers[1].periods[0])
-        self.assertEquals(td_start, timedelta())
-        self.assertEquals(td_end, timedelta())
-        self.assertEquals(td_length, timedelta(hours=2))
+        self.assertEqual(td_start, timedelta())
+        self.assertEqual(td_end, timedelta())
+        self.assertEqual(td_length, timedelta(hours=2))
 
         td_start, td_end, td_length = timers[1].periods[0].compare(
             timers[0].periods[0])
-        self.assertEquals(td_start, timedelta())
-        self.assertEquals(td_end, timedelta())
-        self.assertEquals(td_length, timedelta(hours=2))
+        self.assertEqual(td_start, timedelta())
+        self.assertEqual(td_end, timedelta())
+        self.assertEqual(td_length, timedelta(hours=2))
 
     def test_compare_5(self):
         """
@@ -462,15 +462,15 @@ class TestPeriod(unittest.TestCase):
 
         td_start, td_end, td_length = timers[0].periods[0].compare(
             timers[1].periods[0])
-        self.assertEquals(td_start, timedelta(hours=-1))
-        self.assertEquals(td_end, timedelta())
-        self.assertEquals(td_length, timedelta(hours=2))
+        self.assertEqual(td_start, timedelta(hours=-1))
+        self.assertEqual(td_end, timedelta())
+        self.assertEqual(td_length, timedelta(hours=2))
 
         td_start, td_end, td_length = timers[1].periods[0].compare(
             timers[0].periods[0])
-        self.assertEquals(td_start, timedelta(hours=1))
-        self.assertEquals(td_end, timedelta())
-        self.assertEquals(td_length, timedelta(hours=2))
+        self.assertEqual(td_start, timedelta(hours=1))
+        self.assertEqual(td_end, timedelta())
+        self.assertEqual(td_length, timedelta(hours=2))
 
     def test_compare_6(self):
         """
@@ -554,15 +554,15 @@ class TestPeriod(unittest.TestCase):
 
         td_start, td_end, td_length = timers[0].periods[0].compare(
             timers[1].periods[0])
-        self.assertEquals(td_start, timedelta())
-        self.assertEquals(td_end, timedelta(hours=1))
-        self.assertEquals(td_length, timedelta(hours=2))
+        self.assertEqual(td_start, timedelta())
+        self.assertEqual(td_end, timedelta(hours=1))
+        self.assertEqual(td_length, timedelta(hours=2))
 
         td_start, td_end, td_length = timers[1].periods[0].compare(
             timers[0].periods[0])
-        self.assertEquals(td_start, timedelta())
-        self.assertEquals(td_end, timedelta(hours=-1))
-        self.assertEquals(td_length, timedelta(hours=2))
+        self.assertEqual(td_start, timedelta())
+        self.assertEqual(td_end, timedelta(hours=-1))
+        self.assertEqual(td_length, timedelta(hours=2))
 
     def test_compare_7(self):
         """
@@ -646,15 +646,15 @@ class TestPeriod(unittest.TestCase):
 
         td_start, td_end, td_length = timers[0].periods[0].compare(
             timers[1].periods[0])
-        self.assertEquals(td_start, timedelta(hours=-1))
-        self.assertEquals(td_end, timedelta(hours=1))
-        self.assertEquals(td_length, timedelta(hours=2))
+        self.assertEqual(td_start, timedelta(hours=-1))
+        self.assertEqual(td_end, timedelta(hours=1))
+        self.assertEqual(td_length, timedelta(hours=2))
 
         td_start, td_end, td_length = timers[1].periods[0].compare(
             timers[0].periods[0])
-        self.assertEquals(td_start, timedelta(hours=1))
-        self.assertEquals(td_end, timedelta(hours=-1))
-        self.assertEquals(td_length, timedelta(hours=2))
+        self.assertEqual(td_start, timedelta(hours=1))
+        self.assertEqual(td_end, timedelta(hours=-1))
+        self.assertEqual(td_length, timedelta(hours=2))
 
     def test_hit_1(self):
         """
@@ -668,9 +668,9 @@ class TestPeriod(unittest.TestCase):
         timestamp = timedelta(hours=1)
 
         s, e, b = period1.hit(timestamp)
-        self.assertEquals(s, timedelta(hours=1))
-        self.assertEquals(e, timedelta(hours=3))
-        self.assertEquals(b, False)
+        self.assertEqual(s, timedelta(hours=1))
+        self.assertEqual(e, timedelta(hours=3))
+        self.assertEqual(b, False)
 
     def test_hit_2(self):
         """
@@ -684,9 +684,9 @@ class TestPeriod(unittest.TestCase):
         timestamp = timedelta(hours=2)
 
         s, e, b = period1.hit(timestamp)
-        self.assertEquals(s, timedelta(hours=0))
-        self.assertEquals(e, timedelta(hours=2))
-        self.assertEquals(b, True)
+        self.assertEqual(s, timedelta(hours=0))
+        self.assertEqual(e, timedelta(hours=2))
+        self.assertEqual(b, True)
 
     def test_hit_3(self):
         """
@@ -700,9 +700,9 @@ class TestPeriod(unittest.TestCase):
         timestamp = timedelta(hours=3)
 
         s, e, b = period1.hit(timestamp)
-        self.assertEquals(s, timedelta(hours=-1))
-        self.assertEquals(e, timedelta(hours=1))
-        self.assertEquals(b, True)
+        self.assertEqual(s, timedelta(hours=-1))
+        self.assertEqual(e, timedelta(hours=1))
+        self.assertEqual(b, True)
 
     def test_hit_4(self):
         """
@@ -716,9 +716,9 @@ class TestPeriod(unittest.TestCase):
         timestamp = timedelta(hours=4)
 
         s, e, b = period1.hit(timestamp)
-        self.assertEquals(s, timedelta(hours=-2))
-        self.assertEquals(e, timedelta(hours=0))
-        self.assertEquals(b, True)
+        self.assertEqual(s, timedelta(hours=-2))
+        self.assertEqual(e, timedelta(hours=0))
+        self.assertEqual(b, True)
 
     def test_hit_5(self):
         """
@@ -732,6 +732,6 @@ class TestPeriod(unittest.TestCase):
         timestamp = timedelta(hours=5)
 
         s, e, b = period1.hit(timestamp)
-        self.assertEquals(s, timedelta(hours=-3))
-        self.assertEquals(e, timedelta(hours=-1))
-        self.assertEquals(b, False)
+        self.assertEqual(s, timedelta(hours=-3))
+        self.assertEqual(e, timedelta(hours=-1))
+        self.assertEqual(b, False)

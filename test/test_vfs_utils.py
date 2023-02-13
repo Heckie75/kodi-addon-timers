@@ -103,37 +103,37 @@ class TestVfsUtils(unittest.TestCase):
 
     def test_is_favourites(self):
 
-        self.assertEquals(vfs_utils.is_favourites(
+        self.assertEqual(vfs_utils.is_favourites(
             "favourites://PlayMedia(%22plugin%3a%2f%2fplugin.audio.radio_de%2fstation%2f3307%22)/"), True)
-        self.assertEquals(vfs_utils.is_favourites("plugin://test/1/2/"), False)
+        self.assertEqual(vfs_utils.is_favourites("plugin://test/1/2/"), False)
 
     def test_get_favourites_target(self):
 
         target = vfs_utils.get_favourites_target(
             "favourites://PlayMedia(%22plugin%3a%2f%2fplugin.audio.radio_de%2fstation%2f3307%22)/")
-        self.assertEquals(
+        self.assertEqual(
             target, "plugin://plugin.audio.radio_de/station/3307")
 
     def test_is_script(self):
 
-        self.assertEquals(vfs_utils.is_script("script://script.pasink/"), True)
-        self.assertEquals(vfs_utils.is_script("plugin://script.pasink/"), True)
-        self.assertEquals(vfs_utils.is_script("script.pasink/"), True)
+        self.assertEqual(vfs_utils.is_script("script://script.pasink/"), True)
+        self.assertEqual(vfs_utils.is_script("plugin://script.pasink/"), True)
+        self.assertEqual(vfs_utils.is_script("script.pasink/"), True)
 
-        self.assertEquals(vfs_utils.is_script(
+        self.assertEqual(vfs_utils.is_script(
             "script://plugin.audio.radio/"), False)
-        self.assertEquals(vfs_utils.is_script(
+        self.assertEqual(vfs_utils.is_script(
             "plugin://plugin.audio.radio/"), False)
-        self.assertEquals(vfs_utils.is_script(
+        self.assertEqual(vfs_utils.is_script(
             "/home/user/music/song.mp3"), False)
 
     def test_get_file_name(self):
 
-        self.assertEquals(vfs_utils.get_file_name(
+        self.assertEqual(vfs_utils.get_file_name(
             "script://script.pasink/media.mp3"), "media")
-        self.assertEquals(vfs_utils.get_file_name(
+        self.assertEqual(vfs_utils.get_file_name(
             "/script.pasink/media.mp3"), "media")
-        self.assertEquals(vfs_utils.get_file_name("/media.mp3"), "media")
-        self.assertEquals(vfs_utils.get_file_name("media.mp3"), "media")
-        self.assertEquals(vfs_utils.get_file_name("media"), "media")
-        self.assertEquals(vfs_utils.get_file_name("script://path.ext/"), None)
+        self.assertEqual(vfs_utils.get_file_name("/media.mp3"), "media")
+        self.assertEqual(vfs_utils.get_file_name("media.mp3"), "media")
+        self.assertEqual(vfs_utils.get_file_name("media"), "media")
+        self.assertEqual(vfs_utils.get_file_name("script://path.ext/"), None)
