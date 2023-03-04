@@ -39,6 +39,12 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v3.6.0 (2023-04-16)
+- Smart shuffle mode for slideshows (try randomly to find folder that fits into timeframe)
+- Fixed resuming slideshow at right position
+- Fixed resuming of enclosing timers especially combination of concurrent media types like video, audio or slideshow
+- Improved notifications and competitive behavior (introduced extra low priority)
+
 v3.5.0 (2023-02-07)
 - New feature: priority of timers and competitive behavior
 - New feature: System action to put playing device on standby via a CEC peripheral

@@ -41,7 +41,7 @@ class MockPlayer(Player):
         self._volume: int = 100
         self._slideShowStaytime: int = 5
 
-    def _playSlideShow(self, path: str, beginSlide=None, shuffle=False) -> None:
+    def _playSlideShow(self, path: str, beginSlide=None, shuffle=False, amount=0) -> None:
 
         files, type = self._getFilesAndType(path=path, type=PICTURE)
         playlist = self._buildPlaylist(files, type=PICTURE)
