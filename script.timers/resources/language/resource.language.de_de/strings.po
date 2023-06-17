@@ -677,6 +677,14 @@ msgctxt "#32288"
 msgid "run addon"
 msgstr "führe Addon aus"
 
+msgctxt "#32290"
+msgid "Keep stop media action of timer?"
+msgstr "Stoppaktion von Timer behalten?"
+
+msgctxt "#32291"
+msgid "You've stopped playback while a timer with stop action is running. Do you still want to stop media at %s?"
+msgstr "Du hast die Wiedergabe beendet während ein Timer mit Stoppaktion läuft. Möchtest Du die Stoppaktion um %s dennoch ausführen?"
+
 msgctxt "#32300"
 msgid "Opens a dialog where you can enter a duration for pause from now."
 msgstr "Öffnet einen Dialog zur Eingabe der Dauer von jetzt an."

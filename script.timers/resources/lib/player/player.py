@@ -1,6 +1,8 @@
 from datetime import timedelta
 
 import xbmc
+import xbmcaddon
+import xbmcgui
 from resources.lib.player import player_utils
 from resources.lib.player.mediatype import AUDIO, PICTURE, TYPES, VIDEO
 from resources.lib.player.playerstatus import PlayerStatus
@@ -32,6 +34,10 @@ class Player(xbmc.Player):
         self._skip_next_stop_event_until_started = False
 
         self._resume_status: 'dict[PlayerStatus]' = dict()
+
+        self._running_stop_at_end_timer: Timer = None
+
+        self.__is_unit_test__: bool = False
 
     def playTimer(self, timer: Timer, dtd: datetime_utils.DateTimeDelta) -> None:
 
@@ -107,6 +113,9 @@ class Player(xbmc.Player):
                          repeat=player_utils.REPEAT_ALL if timer.repeat else player_utils.REPEAT_OFF,
                          shuffled=timer.shuffle)
 
+            if timer.is_stop_at_end_timer():
+                self._running_stop_at_end_timer = timer
+
     def _playAV(self, playlist: PlayList, startpos=0, seektime=None, repeat=player_utils.REPEAT_OFF, shuffled=False, speed=1.0) -> None:
 
         self._playlist = playlist
@@ -163,7 +172,13 @@ class Player(xbmc.Player):
             self._skip_next_stop_event_until_started = False
 
         else:
+            was_running_stop_at_end_timer = self._running_stop_at_end_timer
             self._reset()
+            if was_running_stop_at_end_timer and not self.__is_unit_test__:
+                addon = xbmcaddon.Addon()
+                if xbmcgui.Dialog().yesno(heading=addon.getLocalizedString(32290), message=addon.getLocalizedString(
+                        32291) % was_running_stop_at_end_timer.end, autoclose=30_000):
+                    self._running_stop_at_end_timer = was_running_stop_at_end_timer
 
     def onPlayBackEnded(self) -> None:
 
@@ -173,6 +188,9 @@ class Player(xbmc.Player):
 
         elif AUDIO in self._resume_status:
             self._resumeFormer(type=AUDIO, keep=True)
+
+        else:
+            self._reset()
 
     def onPlayBackError(self) -> None:
 
@@ -195,7 +213,7 @@ class Player(xbmc.Player):
         if not timer.is_resuming_timer() or not self._resumeFormer(type=timer.media_type, keep=False):
             if timer.media_type == PICTURE:
                 self.stopPlayer(PICTURE)
-            else:
+            elif self._running_stop_at_end_timer:
                 self.stop()
 
             self._reset(type=timer.media_type)
@@ -355,6 +373,7 @@ class Player(xbmc.Player):
 
         self.setRepeat(player_utils.REPEAT_OFF)
         self.setShuffled(False)
+        self._running_stop_at_end_timer = None
 
     def getVolume(self) -> int:
 
@@ -389,9 +408,10 @@ class Player(xbmc.Player):
         return player_utils.get_slideshow_staytime()
 
     def __str__(self) -> str:
-        return "Player[_seek_delayed_timer=%s, _default_volume=%i, _recent_volume=%i, _paused=%s, _seektime=%f, _resume_status=[%s]]" % (self._seek_delayed_timer,
-                                                                                                                                         self._default_volume or -1,
-                                                                                                                                         self._recent_volume or -1,
-                                                                                                                                         self._paused,
-                                                                                                                                         self._seektime or 0,
-                                                                                                                                         ", ".join(["%s=%s" % (k, self._resume_status[k]) for k in self._resume_status]))
+        return "Player[_seek_delayed_timer=%s, _default_volume=%i, _recent_volume=%i, _paused=%s, _seektime=%f, _running_stop_at_end_timer=%s, _resume_status=[%s]]" % (self._seek_delayed_timer,
+                                                                                                                                                                        self._default_volume or -1,
+                                                                                                                                                                        self._recent_volume or -1,
+                                                                                                                                                                        self._paused,
+                                                                                                                                                                        self._seektime or 0,
+                                                                                                                                                                        self._running_stop_at_end_timer or "",
+                                                                                                                                                                        ", ".join(["%s=%s" % (k, self._resume_status[k]) for k in self._resume_status]))

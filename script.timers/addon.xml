@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.timers" name="Timers" version="3.6.0" provider-name="Heckie">
+<addon id="script.timers" name="Timers" version="3.7.0" provider-name="Heckie">
   <requires>
     <import addon="xbmc.python" version="3.0.0" />
   </requires>
@@ -66,6 +66,9 @@
     <website>https://github.com/Heckie75/kodi-addon-timers</website>
     <source>https://github.com/Heckie75/kodi-addon-timers</source>
     <news>
+v3.7.0 (2023-06-17)
+- If you stop explicitly playback while a media-stopping-timer is running you will be asked if timer should keep it's stop action.
+
 v3.6.0 (2023-04-16)
 - Smart shuffle mode for slideshows (try randomly to find folder that fits into timeframe)
 - Fixed resuming slideshow at right position
