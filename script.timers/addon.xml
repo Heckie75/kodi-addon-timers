@@ -67,7 +67,7 @@
     <source>https://github.com/Heckie75/kodi-addon-timers</source>
     <news>
 v3.7.0 (2023-06-17)
-- If you stop explicitly playback while a media-stopping-timer is running you will be asked if timer should keep it's stop action.
+- If you stop explicitly playback while a start-stop-timer is running there won't be another stop action anymore when this timer runs out.
 
 v3.6.0 (2023-04-16)
 - Smart shuffle mode for slideshows (try randomly to find folder that fits into timeframe)

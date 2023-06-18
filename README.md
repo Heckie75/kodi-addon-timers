@@ -39,6 +39,9 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v3.7.0 (2023-06-17)
+- If you stop explicitly playback while a start-stop-timer is running there won't be another stop action anymore when this timer runs out.
+
 v3.6.0 (2023-04-16)
 - Smart shuffle mode for slideshows (try randomly to find folder that fits into timeframe)
 - Fixed resuming slideshow at right position

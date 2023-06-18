@@ -37,8 +37,6 @@ class Player(xbmc.Player):
 
         self._running_stop_at_end_timer: Timer = None
 
-        self.__is_unit_test__: bool = False
-
     def playTimer(self, timer: Timer, dtd: datetime_utils.DateTimeDelta) -> None:
 
         def _save_resume(_timer: Timer) -> None:
@@ -174,11 +172,8 @@ class Player(xbmc.Player):
         else:
             was_running_stop_at_end_timer = self._running_stop_at_end_timer
             self._reset()
-            if was_running_stop_at_end_timer and not self.__is_unit_test__:
-                addon = xbmcaddon.Addon()
-                if xbmcgui.Dialog().yesno(heading=addon.getLocalizedString(32290), message=addon.getLocalizedString(
-                        32291) % was_running_stop_at_end_timer.end, autoclose=30_000):
-                    self._running_stop_at_end_timer = was_running_stop_at_end_timer
+            if was_running_stop_at_end_timer and not was_running_stop_at_end_timer.is_play_at_start_timer():
+                self._running_stop_at_end_timer = was_running_stop_at_end_timer
 
     def onPlayBackEnded(self) -> None:
 
