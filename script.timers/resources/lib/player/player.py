@@ -299,7 +299,7 @@ class Player(xbmc.Player):
 
             _totalTime = self.getTotalTime()
             self._playlist_timeline.append(_totalTime)
-            if self._playlist and self._playlist.getposition() < self._playlist.size() - 1:
+            if self._playlist.getposition() < self._playlist.size() - 1:
                 self._seektime -= _totalTime
                 self._skip_next_stop_event_until_started = True
                 self.playnext()
@@ -335,10 +335,10 @@ class Player(xbmc.Player):
             tries += 1
 
         _totalTime = self.getTotalTime()
-        if tries == self._MAX_TRIES or _totalTime < 1:
+        if tries == self._MAX_TRIES or _totalTime < 10:
             self._resetSeek()
 
-        elif self._seektime >= _totalTime:
+        elif self._playlist.size() and self._seektime >= _totalTime:
             _seekTimeInPlaylist()
 
         else:
