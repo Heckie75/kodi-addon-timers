@@ -39,6 +39,9 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v3.8.0 (2023-xx-xx)
+- Context menu quicktimer: Added dialog if item is already scheduled and ask to replace or delete
+
 v3.7.0 (2023-06-30)
 - If you stop explicitly playback while a start-stop-timer is running there won't be another stop action anymore when this timer runs out.
 - Added workaround that streamed video (probably mpeg-dash) immediately stops after timer has started (only happened if 'seek to correct time if timer starts belatedly' is activated)
