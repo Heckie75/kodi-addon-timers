@@ -39,6 +39,11 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v3.9.0 (2023-11-11)
+- Add new system action 'restart Kodi'
+- Add new extra feature to prevent display off when audio is playing
+- Bugfix: Prevent exception in fader context
+
 v3.8.0 (2023-08-06)
 - Context menu quicktimer: Added dialog if item is already scheduled and ask to replace or delete
 
