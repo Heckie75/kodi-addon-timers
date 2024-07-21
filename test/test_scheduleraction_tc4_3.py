@@ -324,6 +324,7 @@ class TestSchedulerActions_4_3(unittest.TestCase):
 
         # ------------ setup player ------------
         player = MockPlayer()
+        player.__is_unit_test__ = True
         player.setSeekDelayedTimer(True)
         playlist = player._buildPlaylist(["Media M1"], VIDEO)
         player.play(playlist)
