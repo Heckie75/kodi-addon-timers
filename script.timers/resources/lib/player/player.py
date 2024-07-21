@@ -35,6 +35,8 @@ class Player(xbmc.Player):
         self._resume_status: 'dict[PlayerStatus]' = dict()
 
         self._running_stop_at_end_timer: 'tuple[Timer, bool]' = (None, False)
+        
+        self.__is_unit_test__: bool = False
 
     def playTimer(self, timer: Timer, dtd: datetime_utils.DateTimeDelta) -> None:
 
@@ -123,6 +125,10 @@ class Player(xbmc.Player):
             self.stopPlayer(PICTURE)
 
         xbmc.executebuiltin("CECActivateSource")
+
+        if self.__is_unit_test__:
+            self.setRepeat(repeat)
+            
         self.play(playlist.directUrl or playlist, startpos=startpos)
         self.setRepeat(repeat)
         self.setShuffled(shuffled)
