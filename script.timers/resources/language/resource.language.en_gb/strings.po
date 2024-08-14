@@ -125,6 +125,18 @@ msgctxt "#32042"
 msgid "from"
 msgstr ""
 
+msgctxt "#32043"
+msgid "specific date"
+msgstr ""
+
+msgctxt "#32044"
+msgid "Date"
+msgstr ""
+
+msgctxt "#32045"
+msgid "on"
+msgstr ""
+
 msgctxt "#32050"
 msgid "This timer interrupts other timers"
 msgstr ""
@@ -851,4 +863,8 @@ msgstr ""
 
 msgctxt "#32387"
 msgid "Mediatype is normally determined automatically. Set type manually e.g. if resuming doesn't work as expected."
+msgstr ""
+
+msgctxt "#32388"
+msgid "Schedule this timer with full date and not only by day within one week."
 msgstr ""

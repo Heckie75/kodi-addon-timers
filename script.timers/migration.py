@@ -220,6 +220,18 @@ def migrate_from_6_to_7(addon: xbmcaddon.Addon) -> int:
     return 7
 
 
+def migrate_from_7_to_8(addon: xbmcaddon.Addon) -> int:
+
+    storage = Storage()
+    items = storage._load_from_storage()
+    for item in items:
+        item["date"] = ""
+
+    storage._save_to_storage(items)
+
+    return 8
+
+
 def migrate() -> None:
 
     addon = xbmcaddon.Addon()
@@ -245,6 +257,9 @@ def migrate() -> None:
 
     if settingsVersion == 6:
         settingsVersion = migrate_from_6_to_7(addon)
+
+    if settingsVersion == 7:
+        settingsVersion = migrate_from_7_to_8(addon)
 
     addon.setSettingInt("settingsVersion", settingsVersion)
 

@@ -11,6 +11,7 @@ from resources.lib.utils.datetime_utils import (DEFAULT_TIME, DateTimeDelta,
 from resources.lib.utils.vfs_utils import is_script
 
 TIMER_WEEKLY = 7
+TIMER_DATE = 8
 
 END_TYPE_NO = 0
 END_TYPE_DURATION = 1
@@ -56,6 +57,7 @@ class Timer():
         self.id: int = i
         self.label: str = ""
         self.days: 'list[int]' = list()
+        self.date: str = ""
         self.start: str = DEFAULT_TIME
         self.start_offset: int = 0
         self.end_type: int = END_TYPE_NO
@@ -305,7 +307,7 @@ class Timer():
         self.init()
         _start = self._timeStr(self.start, self.start_offset)
         _end = self._timeStr(self.end, self.end_offset)
-        return periods_to_human_readable(self.days, start=_start, end=_end if self.end_type != END_TYPE_NO else None)
+        return periods_to_human_readable(self.days, start=_start, end=_end if self.end_type != END_TYPE_NO else None, date=self.date)
 
     def is_fading_timer(self) -> bool:
 
@@ -349,22 +351,23 @@ class Timer():
 
     def __str__(self) -> str:
 
-        return "Timer[id=%i, label=%s, state=%s, prio=%i, days=%s, start=%s:%02i, endtype=%s, duration=%s:%02i, end=%s:%02i, systemaction=%s, mediaaction=%s, path=%s, type=%s, repeat=%s, shuffle=%s, resume=%s, fade=%s, min=%i, max=%i, returnvol=%i, notify=%s]" % (self.id, self.label, ["waiting", "starting", "running", "ending"][self.state], self.priority,
-                                                                                                                                                                                                                                                                        [["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "weekly"][d] for d in self.days],
-                                                                                                                                                                                                                                                                        self.start,
-                                                                                                                                                                                                                                                                        self.start_offset,
-                                                                                                                                                                                                                                                                        self._endTypeStr(),
-                                                                                                                                                                                                                                                                        self.duration, self.duration_offset,
-                                                                                                                                                                                                                                                                        self.end, self.end_offset,
-                                                                                                                                                                                                                                                                        self._systemActionStr(),
-                                                                                                                                                                                                                                                                        self._mediaActionStr(),
-                                                                                                                                                                                                                                                                        self.path,
-                                                                                                                                                                                                                                                                        self.media_type,
-                                                                                                                                                                                                                                                                        self.repeat,
-                                                                                                                                                                                                                                                                        self.shuffle,
-                                                                                                                                                                                                                                                                        self.resume,
-                                                                                                                                                                                                                                                                        self._fadeStr(),
-                                                                                                                                                                                                                                                                        self.vol_min,
-                                                                                                                                                                                                                                                                        self.vol_max,
-                                                                                                                                                                                                                                                                        self.return_vol or self.vol_max,
-                                                                                                                                                                                                                                                                        self.notify)
+        return "Timer[id=%i, label=%s, state=%s, prio=%i, days=%s, date=%s, start=%s:%02i, endtype=%s, duration=%s:%02i, end=%s:%02i, systemaction=%s, mediaaction=%s, path=%s, type=%s, repeat=%s, shuffle=%s, resume=%s, fade=%s, min=%i, max=%i, returnvol=%i, notify=%s]" % (self.id, self.label, ["waiting", "starting", "running", "ending"][self.state], self.priority,
+                                                                                                                                                                                                                                                                                 [["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "weekly", "date"][d] for d in self.days],
+                                                                                                                                                                                                                                                                                 self.date,
+                                                                                                                                                                                                                                                                                 self.start,
+                                                                                                                                                                                                                                                                                 self.start_offset,
+                                                                                                                                                                                                                                                                                 self._endTypeStr(),
+                                                                                                                                                                                                                                                                                 self.duration, self.duration_offset,
+                                                                                                                                                                                                                                                                                 self.end, self.end_offset,
+                                                                                                                                                                                                                                                                                 self._systemActionStr(),
+                                                                                                                                                                                                                                                                                 self._mediaActionStr(),
+                                                                                                                                                                                                                                                                                 self.path,
+                                                                                                                                                                                                                                                                                 self.media_type,
+                                                                                                                                                                                                                                                                                 self.repeat,
+                                                                                                                                                                                                                                                                                 self.shuffle,
+                                                                                                                                                                                                                                                                                 self.resume,
+                                                                                                                                                                                                                                                                                 self._fadeStr(),
+                                                                                                                                                                                                                                                                                 self.vol_min,
+                                                                                                                                                                                                                                                                                 self.vol_max,
+                                                                                                                                                                                                                                                                                 self.return_vol or self.vol_max,
+                                                                                                                                                                                                                                                                                 self.notify)

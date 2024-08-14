@@ -123,6 +123,7 @@ class Storage():
         item["days"].sort()
         timer.days = item["days"]
 
+        timer.date = item["date"]
         timer.start = item["start"]
         timer.start_offset = item["start_offset"]
         timer.end_type = item["end_type"]
@@ -156,6 +157,7 @@ class Storage():
 
         item = {
             "days": timer.days,
+            "date": timer.date,
             "duration": timer.duration,
             "duration_offset": timer.duration_offset,
             "end": timer.end,

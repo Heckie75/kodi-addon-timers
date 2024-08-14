@@ -2,8 +2,8 @@ import time
 
 import xbmcaddon
 import xbmcgui
-from resources.lib.timer.storage import Storage
 from resources.lib.player.mediatype import VIDEO
+from resources.lib.timer.storage import Storage
 from resources.lib.timer.timer import (DEFAULT_TIME, END_TYPE_NO, FADE_OFF,
                                        MEDIA_ACTION_NONE, SYSTEM_ACTION_NONE,
                                        Timer)
@@ -58,6 +58,7 @@ def prepare_empty_timer_in_setting(timer_id=None) -> None:
     addon.setSettingString("timer_label", addon.getLocalizedString(32257))
     addon.setSettingInt("timer_priority", 0)
     addon.setSetting("timer_days", "")
+    addon.setSetting("timer_date", "")
     addon.setSetting("timer_start", DEFAULT_TIME)
     addon.setSettingInt("timer_start_offset", 0)
     addon.setSettingInt("timer_end_type", END_TYPE_NO)
@@ -102,6 +103,7 @@ def save_timer_from_settings() -> None:
 
     timer = Timer(timer_id)
     timer.days = days
+    timer.date = addon.getSetting("timer_date")
     timer.duration = addon.getSetting("timer_duration")
     timer.duration_offset = addon.getSettingInt("timer_duration_offset")
     timer.end = addon.getSetting("timer_end")
@@ -137,7 +139,7 @@ def select_timer(multi=False, extra=None) -> 'tuple[list[Timer], list[int]]':
 
         return None, None
 
-    timers.sort(key=lambda t: (t.days, t.start,
+    timers.sort(key=lambda t: (t.days, t.date, t.start,
                 t.media_action, t.system_action))
 
     options = extra or list()
@@ -194,6 +196,7 @@ def load_timer_into_settings(timer: Timer) -> None:
     addon.setSettingString("timer_label", timer.label)
     addon.setSettingInt("timer_priority", timer.priority)
     addon.setSetting("timer_days", "|".join([str(d) for d in timer.days]))
+    addon.setSetting("timer_date", timer.date)
     addon.setSetting("timer_start", timer.start)
     addon.setSettingInt("timer_start_offset", timer.start_offset)
     addon.setSettingInt("timer_end_type", timer.end_type)

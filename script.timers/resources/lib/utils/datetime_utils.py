@@ -7,6 +7,7 @@ import xbmcaddon
 DEFAULT_TIME = "00:00"
 
 WEEKLY = 7
+TIMER_BY_DATE = 8
 
 
 class DateTimeDelta():
@@ -46,7 +47,7 @@ def parse_xbmc_shortdate(s: str) -> datetime.datetime:
     return _parse_datetime_from_str(s, format=xbmc.getRegion("dateshort"))
 
 
-def periods_to_human_readable(days: 'list[int]', start: str, end="") -> str:
+def periods_to_human_readable(days: 'list[int]', start: str, end="", date="") -> str:
 
     addon = xbmcaddon.Addon()
 
@@ -98,6 +99,9 @@ def periods_to_human_readable(days: 'list[int]', start: str, end="") -> str:
 
     if days == [i for i in range(8)]:
         human = addon.getLocalizedString(32035)
+
+    elif days == [TIMER_BY_DATE] and date:
+        human = "%s %s" % (addon.getLocalizedString(32045), date)
 
     else:
         periods = _sumarize(days=days)
