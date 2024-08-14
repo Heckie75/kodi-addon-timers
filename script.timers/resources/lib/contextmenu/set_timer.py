@@ -4,7 +4,9 @@ from resources.lib.contextmenu.abstract_set_timer import (CONFIRM_CUSTOM,
 from resources.lib.timer.concurrency import ask_overlapping_timers
 from resources.lib.timer.timer import (MEDIA_ACTION_START,
                                        MEDIA_ACTION_START_STOP, Timer)
-from resources.lib.utils.datetime_utils import DEFAULT_TIME
+from resources.lib.utils.datetime_utils import (DEFAULT_TIME,
+                                                convert_for_xbmcdialog,
+                                                parse_date_from_xbmcdialog)
 from resources.lib.utils.settings_utils import (load_timer_into_settings,
                                                 select_timer)
 
@@ -34,6 +36,7 @@ class SetTimer(AbstractSetTimer):
 
         options = [self.addon.getLocalizedString(32200 + i) for i in range(7)]
         options.append(self.addon.getLocalizedString(32036))
+        options.append(self.addon.getLocalizedString(32043))
 
         selection = xbmcgui.Dialog().multiselect(
             self.addon.getLocalizedString(32104), options, preselect=timer.days)
@@ -41,6 +44,15 @@ class SetTimer(AbstractSetTimer):
             return None
         else:
             return selection
+
+    def ask_date(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
+
+        date = xbmcgui.Dialog().input(
+            type=xbmcgui.INPUT_DATE, heading=self.addon.getLocalizedString(32043), defaultt=convert_for_xbmcdialog(timer.date))
+        if date == "":
+            return None
+        else:
+            return parse_date_from_xbmcdialog(date).strftime("%Y-%m-%d")
 
     def ask_starttime(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
 

@@ -11,7 +11,7 @@ from resources.lib.utils.datetime_utils import (DEFAULT_TIME, DateTimeDelta,
 from resources.lib.utils.vfs_utils import is_script
 
 TIMER_WEEKLY = 7
-TIMER_DATE = 8
+TIMER_BY_DATE = 8
 
 END_TYPE_NO = 0
 END_TYPE_DURATION = 1

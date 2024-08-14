@@ -5,13 +5,14 @@ import xbmc
 import xbmcaddon
 import xbmcgui
 from resources.lib.contextmenu import pvr_utils
-from resources.lib.player.mediatype import VIDEO, SCRIPT
+from resources.lib.player.mediatype import SCRIPT, VIDEO
 from resources.lib.timer.concurrency import determine_overlappings
 from resources.lib.timer.storage import Storage
 from resources.lib.timer.timer import (END_TYPE_DURATION, END_TYPE_NO,
                                        END_TYPE_TIME, FADE_OFF,
                                        MEDIA_ACTION_START_STOP,
-                                       SYSTEM_ACTION_NONE, Timer)
+                                       SYSTEM_ACTION_NONE, TIMER_BY_DATE,
+                                       Timer)
 from resources.lib.utils import datetime_utils, vfs_utils
 from resources.lib.utils.settings_utils import (CONFIRM_CUSTOM, CONFIRM_ESCAPE,
                                                 CONFIRM_NO, CONFIRM_YES,
@@ -57,6 +58,14 @@ class AbstractSetTimer:
             return
         else:
             timer.days = days
+
+        if TIMER_BY_DATE in days:
+            timer.days = [TIMER_BY_DATE]
+            date = self.ask_date(timer.label, path, is_epg, timer)
+            if date == None:
+                return
+            else:
+                timer.date = date
 
         starttime = self.ask_starttime(timer.label, path, is_epg, timer)
         if starttime == None:
@@ -131,7 +140,7 @@ class AbstractSetTimer:
         elif vfs_utils.is_pvr(path):
             return vfs_utils.is_pvr_channel(path) or vfs_utils.is_pvr_recording(path) or xbmc.getCondVisibility("Window.IsVisible(tvguide)|Window.IsVisible(radioguide)")
         else:
-            return vfs_utils.is_script(path) or vfs_utils.is_external(path) or not vfs_utils.is_folder(path) or vfs_utils.has_items_in_path(path)
+            return vfs_utils.is_script(path) or vfs_utils.is_audio_plugin(path) or vfs_utils.is_video_plugin(path) or vfs_utils.is_external(path) or not vfs_utils.is_folder(path) or vfs_utils.has_items_in_path(path)
 
     def perform_ahead(self, timer: Timer) -> bool:
 
@@ -152,6 +161,14 @@ class AbstractSetTimer:
 
         else:
             return [datetime.today().weekday()]
+
+    def ask_date(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
+
+        if is_epg:
+            return timer.date
+
+        else:
+            return datetime.today().strftime("%Y-%m-%d")
 
     def ask_starttime(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
 
@@ -218,7 +235,9 @@ class AbstractSetTimer:
                 timer.path = pvr_channel_path
                 startDate = datetime_utils.parse_xbmc_shortdate(
                     xbmc.getInfoLabel("ListItem.Date").split(" ")[0])
-                timer.days = [startDate.weekday()]
+
+                timer.days = [TIMER_BY_DATE]
+                timer.date = startDate.strftime("%Y-%m-%d")
                 timer.start = xbmc.getInfoLabel("ListItem.StartTime")
                 duration = xbmc.getInfoLabel("ListItem.Duration")
                 if len(duration) == 5:
@@ -237,6 +256,8 @@ class AbstractSetTimer:
                 now = datetime_utils.DateTimeDelta.now()
                 timer.days.append(now.dt.weekday() if not td_start.seconds or td_start.seconds >
                                   now.td.seconds else (now.dt.weekday() + 1) % 7)
+
+                timer.date = now.dt.strftime("%Y-%m-%d")
 
             if vfs_utils.is_favourites(path):
                 timer.path = vfs_utils.get_favourites_target(path)

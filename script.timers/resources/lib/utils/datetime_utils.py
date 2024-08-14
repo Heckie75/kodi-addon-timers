@@ -32,19 +32,30 @@ class DateTimeDelta():
         return DateTimeDelta(dt_now)
 
 
-def _parse_datetime_from_str(s: str, format: str) -> datetime:
+def _parse_datetime_from_str(s: str, format: str) -> datetime.datetime:
 
     return datetime.datetime.fromtimestamp(time.mktime(time.strptime(s, format)))
 
 
-def parse_datetime_str(s: str) -> datetime:
+def parse_datetime_str(s: str) -> datetime.datetime:
 
     return _parse_datetime_from_str(s, "%Y-%m-%d %H:%M")
 
 
 def parse_xbmc_shortdate(s: str) -> datetime.datetime:
 
-    return _parse_datetime_from_str(s, format=xbmc.getRegion("dateshort"))
+    return _parse_datetime_from_str(s, format=xbmc.getRegion("dateshort").replace("%-", "%"))
+
+
+def parse_date_from_xbmcdialog(s: str) -> datetime.datetime:
+
+    return _parse_datetime_from_str(s.replace(" ", ""), format="%d/%m/%Y")
+
+
+def convert_for_xbmcdialog(s: str) -> str:
+
+    _dt = _parse_datetime_from_str(s, "%Y-%m-%d")
+    return f"{_dt.day:2}/{_dt.month:2}/{_dt.year}"
 
 
 def periods_to_human_readable(days: 'list[int]', start: str, end="", date="") -> str:
