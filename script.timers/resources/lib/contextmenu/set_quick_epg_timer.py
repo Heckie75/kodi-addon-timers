@@ -20,6 +20,7 @@ class SetQuickEpgTimer(AbstractSetTimer):
         for i, t in enumerate(timers):
             if (found == -1
                     and timer.days == t.days
+                    and timer.date == t.date
                     and timer.start == t.start
                     and timer.path == t.path):
 

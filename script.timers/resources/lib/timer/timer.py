@@ -5,7 +5,7 @@ from resources.lib.timer.period import Period
 from resources.lib.utils.datetime_utils import (DEFAULT_TIME, DateTimeDelta,
                                                 apply_for_now,
                                                 format_from_seconds,
-                                                parse_time,
+                                                parse_datetime_str, parse_time,
                                                 periods_to_human_readable,
                                                 time_duration_str)
 from resources.lib.utils.vfs_utils import is_script
@@ -88,23 +88,32 @@ class Timer():
 
     def init(self) -> None:
 
-        def _build_end_time(td_start: timedelta, end_type: int, duration_timedelta: timedelta, end: str, end_offset=0, duration_offset=0) -> 'tuple[timedelta, timedelta]':
+        def _build_end_time(start: timedelta | datetime, end_type: int, duration_timedelta: timedelta, end: str, end_offset=0, duration_offset=0) -> 'tuple[timedelta | datetime, timedelta | datetime]':
 
             if end_type == END_TYPE_DURATION:
-                td_end = td_start + duration_timedelta + \
+                end_time = start + duration_timedelta + \
                     timedelta(seconds=duration_offset)
 
             elif end_type == END_TYPE_TIME:
-                td_end = parse_time(end, td_start.days) + \
-                    timedelta(seconds=end_offset)
 
-                if td_end < td_start:
-                    td_end += timedelta(days=1)
+                end_time = parse_time(end) + timedelta(seconds=end_offset)
+                if type(start) == datetime:
+                    end_time = datetime(year=start.year, month=start.month, day=start.day,
+                                        hour=int(
+                                            end_time.total_seconds() // 3600),
+                                        minute=int(
+                                            end_time.total_seconds() % 3600) // 60,
+                                        second=int(end_time.total_seconds() % 60))
+                else:
+                    end_time = end_time + timedelta(days=start.days)
+
+                if end_time < start:
+                    end_time += timedelta(days=1)
 
             else:  # END_TYPE_NO
-                td_end = td_start + timedelta(seconds=1)
+                end_time = start + timedelta(seconds=1)
 
-            return td_end, td_end - td_start
+            return end_time, end_time - start
 
         td_start = parse_time(self.start) + \
             timedelta(seconds=self.start_offset)
@@ -112,7 +121,7 @@ class Timer():
         self.start_offset = td_start.seconds % 60
 
         td_end, td_duration = _build_end_time(
-            td_start=td_start, end_type=self.end_type, duration_timedelta=parse_time(
+            start=td_start, end_type=self.end_type, duration_timedelta=parse_time(
                 self.duration),
             end=self.end,
             end_offset=self.end_offset,
@@ -123,57 +132,105 @@ class Timer():
         self.duration_offset = td_duration.seconds % 60
         self.duration_timedelta = td_duration
 
-        periods = list()
-        for i_day in self.days:
-            if i_day == TIMER_WEEKLY:
-                continue
+        if self.is_weekly_timer():
+            self.date = ""
 
-            td_start = parse_time(self.start, i_day) + \
-                timedelta(seconds=self.start_offset)
-            td_end, self.duration_timedelta = _build_end_time(td_start,
-                                                              self.end_type,
-                                                              self.duration_timedelta,
-                                                              self.end)
+        if self.is_timer_by_date():
 
-            periods.append(Period(td_start, td_end))
+            self.days = [TIMER_BY_DATE]
+            dt_start = parse_datetime_str(
+                f"{self.date} {self.start}") + timedelta(seconds=self.start_offset)
+            dt_end, self.duration_timedelta = _build_end_time(start=dt_start,
+                                                              end_type=self.end_type,
+                                                              duration_timedelta=self.duration_timedelta,
+                                                              end=self.end,
+                                                              end_offset=self.end_offset,
+                                                              duration_offset=self.duration_offset)
 
-        self.periods = periods
+            self.periods = [Period(dt_start, dt_end)]
+
+        else:
+            periods = list()
+            for i_day in self.days:
+                if i_day == TIMER_WEEKLY:
+                    continue
+
+                td_start = parse_time(self.start, i_day) + \
+                    timedelta(seconds=self.start_offset)
+                td_end, self.duration_timedelta = _build_end_time(start=td_start,
+                                                                  end_type=self.end_type,
+                                                                  duration_timedelta=self.duration_timedelta,
+                                                                  end=self.end,
+                                                                  end_offset=self.end_offset,
+                                                                  duration_offset=self.duration_offset)
+
+                periods.append(Period(td_start, td_end))
+
+            self.periods = periods
 
     def apply(self, dtd: DateTimeDelta) -> None:
 
-        upcoming_event: timedelta = None
-        current_period: Period = None
+        def _apply_weekday_periods(dtd: DateTimeDelta) -> 'tuple[Period, datetime]':
 
-        for period in self.periods:
+            td_upcoming_event: timedelta = None
+            current_period: Period = None
 
-            if period.start > dtd.td:
-                upcoming_event = period.start if upcoming_event is None or upcoming_event > period.start else upcoming_event
+            for period in self.periods:
 
-            elif dtd.td < period.end:
-                current_period = period
-                upcoming_event = period.end
-                break
+                if period.start > dtd.td:
+                    td_upcoming_event = period.start if td_upcoming_event is None or td_upcoming_event > period.start else td_upcoming_event
 
-        if current_period is not None and self.state is not STATE_RUNNING:
+                elif dtd.td < period.end:
+                    current_period = period
+                    td_upcoming_event = period.end
+                    break
+
+            if not td_upcoming_event and self.periods:
+                td_upcoming_event = self.periods[0].start + timedelta(days=7)
+
+            upcoming_event = apply_for_now(
+                dtd.dt, td_upcoming_event) if dtd.dt else None
+
+            return Period.to_datetime_period(current_period, base=dtd.dt) if current_period else None, upcoming_event
+
+        def _apply_date_period(dtd: DateTimeDelta) -> 'tuple[Period, datetime]':
+
+            if not dtd.dt or not self.periods:
+                return None, None
+
+            date_period: Period = self.periods[0]
+            current_period: Period = None
+            upcoming_event: datetime = None
+
+            if date_period.start > dtd.dt:
+                upcoming_event = date_period.start
+
+            elif dtd.dt < date_period.end:
+                current_period = date_period
+                upcoming_event = date_period.end
+
+            return current_period, upcoming_event
+
+        if self.is_timer_by_date():
+            self.current_period, self.upcoming_event = _apply_date_period(dtd)
+
+        else:
+            self.current_period, self.upcoming_event = _apply_weekday_periods(
+                dtd)
+
+        if self.current_period is not None and self.state is not STATE_RUNNING:
             self.state = STATE_STARTING
 
-        elif current_period is None and self.state is not STATE_WAITING:
-            current_period = Period(dtd.td - self.duration_timedelta, dtd.td)
+        elif self.current_period is None and self.state is not STATE_WAITING:
+            self.current_period = Period(
+                dtd.dt - self.duration_timedelta, dtd.dt)
             self.state = STATE_ENDING
 
-        elif current_period is None:
+        elif self.current_period is None:
             self.state = STATE_WAITING
 
         else:
             self.state = STATE_RUNNING
-
-        self.current_period = current_period
-
-        if not upcoming_event and self.periods:
-            upcoming_event = self.periods[0].start + timedelta(days=7)
-
-        self.upcoming_event = apply_for_now(
-            dtd.dt, upcoming_event) if dtd.dt else None
 
     def get_duration(self) -> str:
 
@@ -308,6 +365,19 @@ class Timer():
         _start = self._timeStr(self.start, self.start_offset)
         _end = self._timeStr(self.end, self.end_offset)
         return periods_to_human_readable(self.days, start=_start, end=_end if self.end_type != END_TYPE_NO else None, date=self.date)
+
+    def set_timer_by_date(self, date: str) -> None:
+
+        self.days = [TIMER_BY_DATE]
+        self.date = date
+
+    def is_timer_by_date(self) -> bool:
+
+        return TIMER_BY_DATE in self.days
+
+    def is_weekly_timer(self) -> bool:
+
+        return TIMER_WEEKLY in self.days
 
     def is_fading_timer(self) -> bool:
 

@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime
 
 from resources.lib.test.mockplayer import AUDIO, PICTURE, VIDEO
 from resources.lib.test.mockstorage import MockStorage
@@ -16,10 +17,12 @@ from resources.lib.utils.datetime_utils import (DateTimeDelta,
 
 class TestSchedulerActions_8_1(unittest.TestCase):
 
+    _now =datetime(year=2024, month=8, day=15, hour=0, minute=0, second=0)
+
     _t = ["%i:00" % i for i in range(10)]
     _dtd = [DateTimeDelta(parse_datetime_str("2023-01-02 %s" % s)) for s in _t]
 
-    def test_tc_8_1_1(self):
+    def test_tc_8_1_1_1(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2                S---------X                      start-stop/video
@@ -30,6 +33,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -56,6 +60,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -86,13 +91,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_1_2(self):
+    def test_tc_8_1_1_2(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2                S--------->                      start/video
@@ -103,6 +108,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -129,6 +135,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -159,13 +166,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_1_3(self):
+    def test_tc_8_1_1_3(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2                |---------S                      start-at-end/video
@@ -176,6 +183,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -202,6 +210,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -232,13 +241,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_1_4(self):
+    def test_tc_8_1_1_4(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2                X---------S                      stop-start/video
@@ -249,6 +258,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -275,6 +285,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -305,13 +316,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_1_5(self):
+    def test_tc_8_1_1_5(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2                |---------X                      stop-at-end/video
@@ -322,6 +333,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -348,6 +360,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -378,13 +391,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_1_6(self):
+    def test_tc_8_1_1_6(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2                X---------|                      stop/video
@@ -395,6 +408,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -421,6 +435,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -451,13 +466,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_2_1(self):
+    def test_tc_8_1_2_1(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2      S---------X                                start-stop/video
@@ -468,6 +483,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -494,6 +510,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -524,13 +541,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_2_2(self):
+    def test_tc_8_1_2_2(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2      S--------->                                start/video
@@ -541,6 +558,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -567,6 +585,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -597,13 +616,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-    def test_tc_8_2_3(self):
+    def test_tc_8_1_2_3(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2      |---------S                                start-at-end/video
@@ -614,6 +633,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -640,6 +660,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -670,13 +691,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_2_4(self):
+    def test_tc_8_1_2_4(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2      X---------S                                stop-start/video
@@ -687,6 +708,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -713,6 +735,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -743,13 +766,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_2_5(self):
+    def test_tc_8_1_2_5(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2      |---------X                                stop-at-end/video
@@ -760,6 +783,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -786,6 +810,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -816,13 +841,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_2_6(self):
+    def test_tc_8_1_2_6(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2      X---------|                                stop/video
@@ -833,6 +858,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -859,6 +885,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -889,13 +916,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-    def test_tc_8_3_1(self):
+    def test_tc_8_1_3_1(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2                               S---------X       start-stop/video
@@ -906,6 +933,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -932,6 +960,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -962,13 +991,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_3_2(self):
+    def test_tc_8_1_3_2(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2                               S--------->       start/video
@@ -979,6 +1008,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1005,6 +1035,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1035,13 +1066,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_3_3(self):
+    def test_tc_8_1_3_3(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2                               |---------S       start-at-end/video
@@ -1052,6 +1083,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1078,6 +1110,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1108,13 +1141,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-    def test_tc_8_3_4(self):
+    def test_tc_8_1_3_4(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2                               X---------S       stop-start/video
@@ -1125,6 +1158,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1151,6 +1185,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1181,13 +1216,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_3_5(self):
+    def test_tc_8_1_3_5(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2                               |---------X       stop-at-end/video
@@ -1198,6 +1233,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1224,6 +1260,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1254,13 +1291,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-    def test_tc_8_3_6(self):
+    def test_tc_8_1_3_6(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2                               X---------|       stop/video
@@ -1271,6 +1308,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1297,6 +1335,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1327,13 +1366,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_4_1(self):
+    def test_tc_8_1_4_1(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2                S---------X                      start-stop/video
@@ -1344,6 +1383,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1370,6 +1410,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1400,13 +1441,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_4_2(self):
+    def test_tc_8_1_4_2(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2                S--------->                      start/video
@@ -1417,6 +1458,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1443,6 +1485,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1473,13 +1516,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_4_3(self):
+    def test_tc_8_1_4_3(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2                |---------S                      start-at-end/video
@@ -1490,6 +1533,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1516,6 +1560,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1546,13 +1591,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_4_4(self):
+    def test_tc_8_1_4_4(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2                X---------S                      stop-start/video
@@ -1563,6 +1608,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1589,6 +1635,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1619,13 +1666,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_4_5(self):
+    def test_tc_8_1_4_5(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2                |---------X                      stop-at-end/video
@@ -1636,6 +1683,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1662,6 +1710,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1692,13 +1741,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-    def test_tc_8_4_6(self):
+    def test_tc_8_1_4_6(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2                X---------|                      stop/video
@@ -1709,6 +1758,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1735,6 +1785,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1765,13 +1816,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-    def test_tc_8_5_1(self):
+    def test_tc_8_1_5_1(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2      S---------X                                start-stop/video
@@ -1782,6 +1833,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1808,6 +1860,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1838,13 +1891,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_5_2(self):
+    def test_tc_8_1_5_2(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2      S--------->                                start/video
@@ -1855,6 +1908,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1881,6 +1935,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1911,13 +1966,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-    def test_tc_8_5_3(self):
+    def test_tc_8_1_5_3(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2      |---------S                                start-at-end/video
@@ -1928,6 +1983,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1954,6 +2010,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -1984,13 +2041,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_5_4(self):
+    def test_tc_8_1_5_4(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2      X---------S                                stop-start/video
@@ -2001,6 +2058,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2027,6 +2085,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2057,13 +2116,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_5_5(self):
+    def test_tc_8_1_5_5(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2      |---------X                                stop-at-end/video
@@ -2074,6 +2133,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2100,6 +2160,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2130,13 +2191,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-    def test_tc_8_5_6(self):
+    def test_tc_8_1_5_6(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2      X---------|                                stop/video
@@ -2147,6 +2208,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2173,6 +2235,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2203,13 +2266,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-    def test_tc_8_6_1(self):
+    def test_tc_8_1_6_1(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2                               S---------X       start-stop/video
@@ -2220,6 +2283,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2246,6 +2310,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2276,13 +2341,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_6_2(self):
+    def test_tc_8_1_6_2(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2                               S--------->       start/video
@@ -2293,6 +2358,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2319,6 +2385,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2349,13 +2416,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_6_3(self):
+    def test_tc_8_1_6_3(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2                               |---------S       start-at-end/video
@@ -2366,6 +2433,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2392,6 +2460,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2422,13 +2491,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-    def test_tc_8_6_4(self):
+    def test_tc_8_1_6_4(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2                               X---------S       stop-start/video
@@ -2439,6 +2508,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2465,6 +2535,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2495,13 +2566,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_6_5(self):
+    def test_tc_8_1_6_5(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2                               |---------X       stop-at-end/video
@@ -2512,6 +2583,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2538,6 +2610,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2568,13 +2641,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-    def test_tc_8_6_6(self):
+    def test_tc_8_1_6_6(self):
         """
         Timer 1           X------------------------S            stop-start/video
         Timer 2                               X---------|       stop/video
@@ -2585,6 +2658,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2611,6 +2685,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2641,13 +2716,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-    def test_tc_8_7_1(self):
+    def test_tc_8_1_7_1(self):
         """
         Timer 1           S------------------------X            start-stop/audio
         Timer 2                S---------X                      start-stop/picture
@@ -2658,6 +2733,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2684,6 +2760,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2714,13 +2791,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-    def test_tc_8_7_2(self):
+    def test_tc_8_1_7_2(self):
         """
         Timer 1           S------------------------X            start-stop/video
         Timer 2                S---------X                      start-stop/picture
@@ -2731,6 +2808,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2757,6 +2835,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2787,13 +2866,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_7_3(self):
+    def test_tc_8_1_7_3(self):
         """
         Timer 1           S------------------------R            start-stop/video
         Timer 2           S------------------------R            start-stop/video
@@ -2804,6 +2883,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2830,6 +2910,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2860,13 +2941,13 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertTrue(b)
 
-    def test_tc_8_7_4(self):
+    def test_tc_8_1_7_4(self):
         """
         Timer 1           S--------------R                      start-stop/video
         Timer 2                          S---------R            start-stop/video
@@ -2877,6 +2958,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2903,6 +2985,7 @@ class TestSchedulerActions_8_1(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     1
                 ],
@@ -2933,8 +3016,88 @@ class TestSchedulerActions_8_1(unittest.TestCase):
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
-        b = determine_overlappings(timers[0], timers[1:])
+        b = determine_overlappings(timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)
 
-        b = determine_overlappings(timers[1], timers[:1])
+        b = determine_overlappings(timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
+        self.assertFalse(b)
+        b = determine_overlappings(
+            timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
+        self.assertTrue(b)
+
+    def test_tc_8_1_7_4(self):
+        """
+        Timer 1           S--------------R                      start-stop/video
+        Timer 2                          S---------R            start-stop/video
+
+        t       |----|----|----|----|----|----|----|----|----|
+                t0   t1   t2   t3   t4   t5   t6   t7   t8   t9
+        """
+
+        data = [
+            {
+                "date": "",
+                "days": [
+                    1
+                ],
+                "duration": "01:00",
+                "duration_offset": 0,
+                "end": self._t[5],
+                "end_offset": 0,
+                "end_type": END_TYPE_TIME,
+                "fade": FADE_OFF,
+                "id": 1,
+                "label": "Timer 1",
+                "media_action": MEDIA_ACTION_START_STOP,
+                "media_type": VIDEO,
+                "notify": True,
+                "path": "pvr://channels/radio/Alle%20Kan%C3%A4le/pvr.hts_976717008.pvr",
+                "priority": 0,
+                "repeat": False,
+                "resume": True,
+                "shuffle": False,
+                "start": self._t[2],
+                "start_offset": 0,
+                "system_action": 0,
+                "vol_max": 100,
+                "vol_min": 75
+            },
+            {
+                "date": "",
+                "days": [
+                    1
+                ],
+                "duration": "01:00",
+                "duration_offset": 0,
+                "end": self._t[7],
+                "end_offset": 0,
+                "end_type": END_TYPE_TIME,
+                "fade": FADE_OFF,
+                "id": 2,
+                "label": "Timer 2",
+                "media_action": MEDIA_ACTION_START_STOP,
+                "media_type": VIDEO,
+                "notify": True,
+                "path": "pvr://channels/radio/Alle%20Kan%C3%A4le/pvr.hts_976717008.pvr",
+                "priority": 0,
+                "repeat": False,
+                "resume": True,
+                "shuffle": False,
+                "start": self._t[5],
+                "start_offset": 0,
+                "system_action": 0,
+                "vol_max": 100,
+                "vol_min": 75
+            }
+        ]
+
+        storage = MockStorage(data=data)
+        timers = storage.load_timers_from_storage()
+
+        b = determine_overlappings(
+            timers[0], timers[1:], base=TestSchedulerActions_8_1._now)
+        self.assertFalse(b)
+
+        b = determine_overlappings(
+            timers[1], timers[:1], base=TestSchedulerActions_8_1._now)
         self.assertFalse(b)

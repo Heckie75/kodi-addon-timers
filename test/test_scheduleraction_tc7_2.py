@@ -26,6 +26,7 @@ class TestSchedulerActions_7_2(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     0,
                     1,
@@ -59,6 +60,7 @@ class TestSchedulerActions_7_2(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0,
                     1,
@@ -225,6 +227,7 @@ class TestSchedulerActions_7_2(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     0,
                     1,
@@ -258,6 +261,7 @@ class TestSchedulerActions_7_2(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0,
                     1,
@@ -453,6 +457,7 @@ class TestSchedulerActions_7_2(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     0,
                     1,
@@ -486,6 +491,7 @@ class TestSchedulerActions_7_2(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0,
                     1,
@@ -655,6 +661,7 @@ class TestSchedulerActions_7_2(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     0,
                     1,
@@ -688,6 +695,7 @@ class TestSchedulerActions_7_2(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0,
                     1,
@@ -857,6 +865,7 @@ class TestSchedulerActions_7_2(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     0,
                     1,
@@ -890,6 +899,7 @@ class TestSchedulerActions_7_2(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0,
                     1,

@@ -39,6 +39,10 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v4.0.0 (2024-09-xx)
+- New Feature: programming timers with full date (not only day within upcoming 7 days, feature request #34)
+- Limitations: Forecast of concurring timers is still only one week (depends of type of scheduling)
+
 v3.9.4 (2024-08-18)
 - Bugfix: [Kodi v21] Addon can't play PVR items anymore, issue #42
 

@@ -27,6 +27,7 @@ class TestSchedulerActions_8_3(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     0, 1, 2, 3, 4, 5, 6
                 ],
@@ -53,6 +54,7 @@ class TestSchedulerActions_8_3(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     0, 1, 2, 3, 4, 5, 6
                 ],
@@ -152,6 +154,7 @@ class TestSchedulerActions_8_3(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     0, 1, 2, 3, 4, 5, 6
                 ],
@@ -178,6 +181,7 @@ class TestSchedulerActions_8_3(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     0, 1, 2, 3, 4, 5, 6
                 ],
@@ -265,7 +269,7 @@ class TestSchedulerActions_8_3(unittest.TestCase):
         apwpl = player.getActivePlayersWithPlaylist()
         self.assertEqual(len(apwpl), 0)
         self.assertEqual(player.getVolume(), 81)
-        
+
         # ------------ t5 ------------
         schedulderaction.calculate(timers, self._dtd[5])
         schedulderaction.perform(self._dtd[5])

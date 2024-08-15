@@ -59,13 +59,12 @@ class AbstractSetTimer:
         else:
             timer.days = days
 
-        if TIMER_BY_DATE in days:
-            timer.days = [TIMER_BY_DATE]
+        if timer.is_timer_by_date():
             date = self.ask_date(timer.label, path, is_epg, timer)
             if date == None:
                 return
             else:
-                timer.date = date
+                timer.set_timer_by_date(date)
 
         starttime = self.ask_starttime(timer.label, path, is_epg, timer)
         if starttime == None:
@@ -113,7 +112,7 @@ class AbstractSetTimer:
 
         timer.init()
         overlappings = determine_overlappings(
-            timer, self.storage.load_timers_from_storage(), ignore_extra_prio=True)
+            timer, self.storage.load_timers_from_storage(), ignore_extra_prio=True, to_display=True, base=datetime.now())
         if overlappings:
             answer = self.handle_overlapping_timers(
                 timer, overlapping_timers=overlappings)
@@ -236,8 +235,7 @@ class AbstractSetTimer:
                 startDate = datetime_utils.parse_xbmc_shortdate(
                     xbmc.getInfoLabel("ListItem.Date").split(" ")[0])
 
-                timer.days = [TIMER_BY_DATE]
-                timer.date = startDate.strftime("%Y-%m-%d")
+                timer.set_timer_by_date(date=startDate.strftime("%Y-%m-%d"))
                 timer.start = xbmc.getInfoLabel("ListItem.StartTime")
                 duration = xbmc.getInfoLabel("ListItem.Duration")
                 if len(duration) == 5:

@@ -133,10 +133,6 @@ msgctxt "#32044"
 msgid "Date"
 msgstr ""
 
-msgctxt "#32045"
-msgid "on"
-msgstr ""
-
 msgctxt "#32050"
 msgid "This timer interrupts other timers"
 msgstr ""

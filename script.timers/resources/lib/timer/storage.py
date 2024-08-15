@@ -202,7 +202,7 @@ class Storage():
 
         timers = self.load_timers_from_storage()
         scheduled_timers = [timer for timer in timers if timer.days]
-        scheduled_timers.sort(key=lambda timer: (timer.days, timer.start,
+        scheduled_timers.sort(key=lambda timer: (timer.days, timer.date, timer.start,
                                                  timer.media_action, timer.system_action))
         return scheduled_timers
 
