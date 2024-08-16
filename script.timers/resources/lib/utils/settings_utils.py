@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 
 import xbmcaddon
 import xbmcgui
@@ -7,7 +8,7 @@ from resources.lib.timer.storage import Storage
 from resources.lib.timer.timer import (DEFAULT_TIME, END_TYPE_NO, FADE_OFF,
                                        MEDIA_ACTION_NONE, SYSTEM_ACTION_NONE,
                                        Timer)
-from resources.lib.utils.datetime_utils import WEEKLY
+from resources.lib.utils.datetime_utils import WEEKLY, parse_datetime_str
 
 _ON_SETTING_CHANGE_EVENTS = "onSettingChangeEvents"
 _SETTING_CHANGE_EVENTS_MAX_SECS = 5
@@ -128,7 +129,7 @@ def save_timer_from_settings() -> None:
     Storage().save_timer(timer=timer)
 
 
-def select_timer(multi=False, extra=None) -> 'tuple[list[Timer], list[int]]':
+def select_timer(multi=False, extra: 'list[str]' = None, preselect_strategy=None) -> 'tuple[list[Timer], list[int]]':
 
     addon = xbmcaddon.Addon()
 
@@ -149,12 +150,18 @@ def select_timer(multi=False, extra=None) -> 'tuple[list[Timer], list[int]]':
         timer.periods_to_human_readable()
     ) for timer in timers])
 
+    preselect = list()
+    if preselect_strategy is not None:
+        preselect.extend([i + (len(extra) if extra else 0)
+                         for i, timer in enumerate(timers) if preselect_strategy(timer)])
+
     if multi:
         selection = xbmcgui.Dialog().multiselect(
-            addon.getLocalizedString(32103), options)
+            addon.getLocalizedString(32103), options, preselect=preselect)
     else:
+        preselect = preselect[0] if preselect else -1
         selection = [xbmcgui.Dialog().select(
-            addon.getLocalizedString(32103), options)]
+            addon.getLocalizedString(32103), options, preselect=preselect)]
 
     if not selection or -1 in selection:
         return timers, None
@@ -164,7 +171,13 @@ def select_timer(multi=False, extra=None) -> 'tuple[list[Timer], list[int]]':
 
 def delete_timer() -> None:
 
-    timers, idx = select_timer(multi=True)
+    now = datetime.now()
+
+    def outdated_timers(t: Timer) -> bool:
+
+        return t.is_timer_by_date() and parse_datetime_str(f"{t.date} {t.start}") < now
+
+    timers, idx = select_timer(multi=True, preselect_strategy=outdated_timers)
     if idx is None:
         return
 
