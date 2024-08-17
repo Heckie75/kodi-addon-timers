@@ -3,6 +3,7 @@ from datetime import datetime
 
 import xbmcaddon
 import xbmcgui
+from resources.lib.utils import housekeeper
 from resources.lib.player.mediatype import VIDEO
 from resources.lib.timer.storage import Storage
 from resources.lib.timer.timer import (END_TYPE_NO, FADE_OFF,
@@ -178,7 +179,7 @@ def delete_timer() -> None:
 
     def outdated_timers(t: Timer) -> bool:
 
-        return t.is_timer_by_date() and datetime_utils.parse_datetime_str(f"{t.date} {t.start}") < now
+        return housekeeper.check_timer(t, now) == housekeeper.ACTION_DELETE
 
     timers, idx = select_timer(multi=True, preselect_strategy=outdated_timers)
     if idx is None:

@@ -5,14 +5,14 @@ from resources.lib.utils.datetime_utils import apply_for_datetime
 
 class Period:
 
-    def __init__(self, start: timedelta | datetime, end: timedelta | datetime) -> None:
+    def __init__(self, start: 'timedelta | datetime', end: 'timedelta | datetime') -> None:
 
         if type(start) != type(end):
             raise Exception(
                 "types of <start> and <end> must be identically!!!")
 
-        self.start: timedelta | datetime = start
-        self.end: timedelta | datetime = end
+        self.start: 'timedelta | datetime' = start
+        self.end: 'timedelta | datetime' = end
 
     def _compareByWeekdays(self, period_start: timedelta, period_end: timedelta) -> 'tuple[timedelta,timedelta,timedelta]':
 
@@ -55,7 +55,7 @@ class Period:
         else:
             return self._compareByDates(period.start, period.end)
 
-    def hit(self, timestamp: timedelta | datetime, base: datetime = None) -> 'tuple[timedelta,timedelta,bool]':
+    def hit(self, timestamp: 'timedelta | datetime', base: datetime = None) -> 'tuple[timedelta,timedelta,bool]':
 
         if type(self.start) == timedelta and type(timestamp) == timedelta:
             s, e, l = self._compareByWeekdays(timestamp, timestamp)

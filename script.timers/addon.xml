@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.timers" name="Timers" version="4.0.0-pre-202408171225" provider-name="Heckie">
+<addon id="script.timers" name="Timers" version="4.0.0-pre-202408182230" provider-name="Heckie">
   <requires>
     <import addon="xbmc.python" version="3.0.0" />
   </requires>
-  <extension point="xbmc.service" library="addon.py" />
+  <extension point="xbmc.service" library="addon.py" />                                                                               
   <extension point="xbmc.python.script" library="script.py" />
   <extension point="kodi.context.item">
     <menu id="kodi.core.main">

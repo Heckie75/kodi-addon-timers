@@ -166,7 +166,7 @@ def datetime_diff(t1: datetime, t2: datetime) -> int:
     return int((t2 - t1).total_seconds())
 
 
-def time_diff(t1: timedelta | datetime, t2: timedelta | datetime, base: datetime = None) -> int:
+def time_diff(t1: 'timedelta | datetime', t2: 'timedelta | datetime', base: datetime = None) -> int:
 
     def _datetimedelta_diff(dt1: datetime, td2: timedelta, base: datetime) -> int:
 

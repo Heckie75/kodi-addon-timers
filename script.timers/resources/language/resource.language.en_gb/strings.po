@@ -557,6 +557,18 @@ msgctxt "#32183"
 msgid "always ask"
 msgstr ""
 
+msgctxt "#32190"
+msgid "Housekeeping"
+msgstr ""
+
+msgctxt "#32191"
+msgid "Cleanup outdated timers at startup"
+msgstr ""
+
+msgctxt "#32192"
+msgid "Cleanup missed timers when Kodi starts. This can happen if Kodi was not running when timer has been scheduled."
+msgstr ""
+
 msgctxt "#32200"
 msgid "Monday"
 msgstr ""

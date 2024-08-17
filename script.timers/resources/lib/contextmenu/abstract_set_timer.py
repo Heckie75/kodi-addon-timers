@@ -237,7 +237,7 @@ class AbstractSetTimer:
                 startDate = datetime_utils.parse_xbmc_shortdate(
                     xbmc.getInfoLabel("ListItem.Date").split(" ")[0])
 
-                timer.set_timer_by_date(date=startDate.strftime("%Y-%m-%d"))
+                timer.set_timer_by_date(date=datetime_utils.to_date_str(startDate))
                 timer.start = xbmc.getInfoLabel("ListItem.StartTime")
                 duration = xbmc.getInfoLabel("ListItem.Duration")
                 if len(duration) == 5:

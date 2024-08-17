@@ -716,6 +716,13 @@
           <visible>false</visible>
         </setting>
       </group>
+      <group id="g_database" label="32190">
+        <setting id="clean_outdated" type="boolean" label="32191" help="32192">
+          <level>3</level>
+          <default>false</default>
+          <control type="toggle" />
+        </setting>
+      </group>      
     </category>
     <category id="c_extras" label="32002" help="">
       <group id="g_extras" label="32002">

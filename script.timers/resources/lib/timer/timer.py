@@ -83,7 +83,7 @@ class Timer():
 
     def init(self) -> None:
 
-        def _build_end_time(start: timedelta | datetime, end_type: int, duration_timedelta: timedelta, end: str, end_offset=0, duration_offset=0) -> 'tuple[timedelta | datetime, timedelta | datetime]':
+        def _build_end_time(start: 'timedelta | datetime', end_type: int, duration_timedelta: timedelta, end: str, end_offset=0, duration_offset=0) -> 'tuple[timedelta | datetime, timedelta | datetime]':
 
             if end_type == END_TYPE_DURATION:
                 end_time = start + duration_timedelta + \
@@ -368,9 +368,13 @@ class Timer():
         self.days = [TIMER_BY_DATE]
         self.date = date
 
-    def to_timer_by_date(self, base: datetime) -> bool:
+    def to_timer_by_date(self, base: 'datetime | None') -> bool:
 
-        if self.is_weekly_timer():
+        if not base:
+            return False
+
+        elif self.is_weekly_timer():
+            self.date = ""
             return False
 
         elif self.is_timer_by_date():
@@ -392,6 +396,10 @@ class Timer():
     def is_weekly_timer(self) -> bool:
 
         return TIMER_WEEKLY in self.days
+
+    def is_off(self) -> bool:
+
+        return not self.days
 
     def is_fading_timer(self) -> bool:
 
@@ -432,6 +440,34 @@ class Timer():
     def is_system_execution_timer(self) -> bool:
 
         return self.system_action != SYSTEM_ACTION_NONE
+
+    def to_dict(self) -> 'dict':
+
+        return {
+            "days": self.days,
+            "date": self.date,
+            "duration": self.duration,
+            "duration_offset": self.duration_offset,
+            "end": self.end,
+            "end_offset": self.end_offset,
+            "end_type": self.end_type,
+            "fade": self.fade,
+            "id": self.id,
+            "label": self.label,
+            "media_action": self.media_action,
+            "media_type": self.media_type,
+            "notify": self.notify,
+            "path": self.path,
+            "priority": self.priority,
+            "repeat": self.repeat,
+            "resume": self.resume,
+            "shuffle": self.shuffle,
+            "start": self.start,
+            "start_offset": self.start_offset,
+            "system_action": self.system_action,
+            "vol_min": self.vol_min,
+            "vol_max": self.vol_max
+        }
 
     def __str__(self) -> str:
 

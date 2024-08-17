@@ -50,7 +50,7 @@ class SetTimer(AbstractSetTimer):
         if date == "":
             return None
         else:
-            return datetime_utils.to_date_str(datetime_utils.parse_date_from_xbmcdialog(date).strftime("%Y-%m-%d"))
+            return datetime_utils.to_date_str(datetime_utils.parse_date_from_xbmcdialog(date))
 
     def ask_starttime(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
 
