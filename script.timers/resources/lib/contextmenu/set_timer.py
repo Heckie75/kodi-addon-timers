@@ -4,9 +4,7 @@ from resources.lib.contextmenu.abstract_set_timer import (CONFIRM_CUSTOM,
 from resources.lib.timer.concurrency import ask_overlapping_timers
 from resources.lib.timer.timer import (MEDIA_ACTION_START,
                                        MEDIA_ACTION_START_STOP, Timer)
-from resources.lib.utils.datetime_utils import (DEFAULT_TIME,
-                                                convert_for_xbmcdialog,
-                                                parse_date_from_xbmcdialog)
+from resources.lib.utils import datetime_utils
 from resources.lib.utils.settings_utils import (load_timer_into_settings,
                                                 select_timer)
 
@@ -48,11 +46,11 @@ class SetTimer(AbstractSetTimer):
     def ask_date(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
 
         date = xbmcgui.Dialog().input(
-            type=xbmcgui.INPUT_DATE, heading=self.addon.getLocalizedString(32043), defaultt=convert_for_xbmcdialog(timer.date))
+            type=xbmcgui.INPUT_DATE, heading=self.addon.getLocalizedString(32043), defaultt=datetime_utils.convert_for_xbmcdialog(timer.date))
         if date == "":
             return None
         else:
-            return parse_date_from_xbmcdialog(date).strftime("%Y-%m-%d")
+            return datetime_utils.to_date_str(datetime_utils.parse_date_from_xbmcdialog(date).strftime("%Y-%m-%d"))
 
     def ask_starttime(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
 
@@ -74,7 +72,7 @@ class SetTimer(AbstractSetTimer):
 
     def ask_repeat_resume(self, timer: Timer) -> 'tuple[bool, bool]':
 
-        return timer.repeat, timer.resume and timer.duration != DEFAULT_TIME
+        return timer.repeat, timer.resume and timer.duration != datetime_utils.DEFAULT_TIME
 
     def ask_fader(self, timer: Timer) -> 'tuple[int, int, int]':
 
@@ -82,7 +80,7 @@ class SetTimer(AbstractSetTimer):
 
     def ask_action(self, label: str, path: str, is_epg: bool, timer: Timer) -> 'tuple[int, int]':
 
-        return timer.system_action, MEDIA_ACTION_START_STOP if timer.duration != DEFAULT_TIME else MEDIA_ACTION_START
+        return timer.system_action, MEDIA_ACTION_START_STOP if timer.duration != datetime_utils.DEFAULT_TIME else MEDIA_ACTION_START
 
     def handle_overlapping_timers(self, timer: Timer, overlapping_timers: 'list[Timer]') -> int:
 

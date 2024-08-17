@@ -346,6 +346,7 @@ class SchedulerAction:
                         if timer.is_timer_by_date() or not timer.days:
                             self.storage.delete_timer(timer.id)
                         else:
+                            timer.to_timer_by_date(base=now.dt)
                             self.storage.save_timer(timer=timer)
 
             _reset(self._endingTimers)

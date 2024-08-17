@@ -111,8 +111,10 @@ class AbstractSetTimer:
             timer.vol_max = vol_max
 
         timer.init()
+        now = datetime.today()
+        timer.to_timer_by_date(base=now)
         overlappings = determine_overlappings(
-            timer, self.storage.load_timers_from_storage(), ignore_extra_prio=True, to_display=True, base=datetime.now())
+            timer, self.storage.load_timers_from_storage(), ignore_extra_prio=True, to_display=True, base=now)
         if overlappings:
             answer = self.handle_overlapping_timers(
                 timer, overlapping_timers=overlappings)
@@ -167,7 +169,7 @@ class AbstractSetTimer:
             return timer.date
 
         else:
-            return datetime.today().strftime("%Y-%m-%d")
+            return datetime_utils.to_date_str(datetime.today())
 
     def ask_starttime(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
 
@@ -255,7 +257,7 @@ class AbstractSetTimer:
                 timer.days.append(now.dt.weekday() if not td_start.seconds or td_start.seconds >
                                   now.td.seconds else (now.dt.weekday() + 1) % 7)
 
-                timer.date = now.dt.strftime("%Y-%m-%d")
+                timer.date = datetime_utils.to_date_str(now.dt)
 
             if vfs_utils.is_favourites(path):
                 timer.path = vfs_utils.get_favourites_target(path)

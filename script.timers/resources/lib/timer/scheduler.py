@@ -108,7 +108,7 @@ class Scheduler(xbmc.Monitor):
         def _reset_overlappings(timer: Timer) -> None:
 
             overlappings = determine_overlappings(
-                timer, scheduled_timers, base=datetime.now())
+                timer, scheduled_timers, base=datetime.today())
             for overlap in overlappings:
                 overlap.state = STATE_WAITING
 

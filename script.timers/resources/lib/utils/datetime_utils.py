@@ -37,6 +37,16 @@ def _parse_datetime_from_str(s: str, format: str) -> datetime:
     return datetime.fromtimestamp(time.mktime(time.strptime(s, format)))
 
 
+def parse_date_str(s: str) -> datetime:
+
+    return _parse_datetime_from_str(s, "%Y-%m-%d")
+
+
+def to_date_str(dt: datetime) -> datetime:
+
+    return dt.strftime("%Y-%m-%d")
+
+
 def parse_datetime_str(s: str) -> datetime:
 
     return _parse_datetime_from_str(s, "%Y-%m-%d %H:%M")
@@ -54,7 +64,7 @@ def parse_date_from_xbmcdialog(s: str) -> datetime:
 
 def convert_for_xbmcdialog(s: str) -> str:
 
-    _dt = _parse_datetime_from_str(s, "%Y-%m-%d")
+    _dt = parse_date_str(s)
     return f"{_dt.day:2}/{_dt.month:2}/{_dt.year}"
 
 
@@ -112,7 +122,7 @@ def periods_to_human_readable(days: 'list[int]', start: str, end="", date="") ->
         human = addon.getLocalizedString(32035)
 
     elif days == [TIMER_BY_DATE] and date:
-        date = _parse_datetime_from_str(date, "%Y-%m-%d")
+        date = parse_date_str(date)
         human = date.strftime(xbmc.getRegion("datelong"))
 
     else:
@@ -150,6 +160,7 @@ def parse_time(s_time: str, i_day=0) -> timedelta:
         hours=t_time.tm_hour,
         minutes=t_time.tm_min)
 
+
 def datetime_diff(t1: datetime, t2: datetime) -> int:
 
     return int((t2 - t1).total_seconds())
@@ -159,7 +170,7 @@ def time_diff(t1: timedelta | datetime, t2: timedelta | datetime, base: datetime
 
     def _datetimedelta_diff(dt1: datetime, td2: timedelta, base: datetime) -> int:
 
-        dt2 = apply_for_now(base or dt1, td2)
+        dt2 = apply_for_datetime(base or dt1, td2)
         return int((dt2 - dt1).total_seconds())
 
     if type(t1) == type(t2):
@@ -185,7 +196,7 @@ def format_from_seconds(secs: int) -> str:
     return "%02i:%02i" % (secs // 3600, (secs % 3600) // 60)
 
 
-def apply_for_now(dt_now: datetime, timestamp: timedelta, force_future=False) -> datetime:
+def apply_for_datetime(dt_now: datetime, timestamp: timedelta, force_future=False) -> datetime:
 
     dt_last_monday_same_time = dt_now - \
         timedelta(days=dt_now.weekday())

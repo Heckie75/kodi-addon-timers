@@ -127,19 +127,20 @@ def determine_overlappings(timer: Timer, timers: 'list[Timer]', base: datetime, 
 
         if overlapping_periods:
 
-            if t.is_timer_by_date():
-                days = [p.start.weekday()]
-
-            else:
-                days = [
-                    datetime_utils.WEEKLY] if datetime_utils.WEEKLY in t.days else list()
-                days.extend([p.start.days for p in overlapping_periods])
+            overlapping_timers.append(t)
 
             if to_display:
+
+                if t.is_timer_by_date():
+                    days = [p.start.weekday()]
+
+                else:
+                    days = [
+                        datetime_utils.WEEKLY] if datetime_utils.WEEKLY in t.days else list()
+                    days.extend([p.start.days for p in overlapping_periods])
+
                 t.days = days
                 t.periods = overlapping_periods
-
-            overlapping_timers.append(t)
 
     overlapping_timers.sort(key=lambda t: (t.days, t.date, t.start,
                                            t.media_action, t.system_action))
@@ -150,7 +151,7 @@ def determine_overlappings(timer: Timer, timers: 'list[Timer]', base: datetime, 
 def ask_overlapping_timers(timer: Timer, overlapping_timers: 'list[Timer]') -> int:
 
     addon = xbmcaddon.Addon()
-    now = datetime.now()
+    now = datetime.today()
 
     earlier_timers = [
         t for t in overlapping_timers if datetime_utils.time_diff(t.periods[0].start, timer.periods[0].start, now) > 0]

@@ -6,27 +6,27 @@ from resources.lib.utils import datetime_utils
 
 class TestDateTimeUtils(unittest.TestCase):
 
-    def test_tc1_apply_for_now(self):
+    def test_tc1_apply_for_datetime(self):
 
         now = datetime(year=2024, month=8, day=15, hour=15, minute=0)
         td = timedelta(days=2, hours=14, minutes=0)
-        date = datetime_utils.apply_for_now(now, td, force_future=True)
+        date = datetime_utils.apply_for_datetime(now, td, force_future=True)
         self.assertEquals(date, datetime(
             year=2024, month=8, day=21, hour=14, minute=0))
 
-    def test_tc2_apply_for_now(self):
+    def test_tc2_apply_for_datetime(self):
 
         now = datetime(year=2024, month=8, day=15, hour=15, minute=0)
         td = timedelta(days=3, hours=14, minutes=0)
-        date = datetime_utils.apply_for_now(now, td, force_future=True)
+        date = datetime_utils.apply_for_datetime(now, td, force_future=True)
         self.assertEquals(date, datetime(
             year=2024, month=8, day=22, hour=14, minute=0))
 
-    def test_tc3_apply_for_now(self):
+    def test_tc3_apply_for_datetime(self):
 
         now = datetime(year=2024, month=8, day=15, hour=15, minute=0)
         td = timedelta(days=3, hours=15, minutes=5)
-        date = datetime_utils.apply_for_now(now, td, force_future=True)
+        date = datetime_utils.apply_for_datetime(now, td, force_future=True)
         self.assertEquals(date, datetime(
             year=2024, month=8, day=15, hour=15, minute=5))
 
