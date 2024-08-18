@@ -39,6 +39,9 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v3.9.4 (2024-08-18)
+- Bugfix: [Kodi v21] Addon can't play PVR items anymore, issue #42
+
 v3.9.3 (2024-08-02)
 - Bugfix: Fixed that 'running-high-prio-fading-only-timer' prevents starting other media timers within its period
 
