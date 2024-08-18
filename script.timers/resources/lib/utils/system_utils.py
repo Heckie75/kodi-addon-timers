@@ -22,3 +22,9 @@ def set_windows_unlock(value: bool) -> bool:
         )
 
     return value
+
+
+def get_kodi_version() -> float:
+
+    build_version = xbmc.getInfoLabel('System.BuildVersion').split(" ")
+    return float(build_version[0])
