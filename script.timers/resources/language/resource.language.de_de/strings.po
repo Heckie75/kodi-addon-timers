@@ -557,6 +557,22 @@ msgctxt "#32183"
 msgid "always ask"
 msgstr "jedes mal fragen"
 
+msgctxt "#32184"
+msgid "Offset at start"
+msgstr "Versatz zum Start"
+
+msgctxt "#32185"
+msgid "Offset at end"
+msgstr "Versatz zum Ende"
+
+msgctxt "#32186"
+msgid "Offset for TV programs"
+msgstr "Versatz für TV-Sendungen"
+
+msgctxt "#32187"
+msgid "Offset for radio programs"
+msgstr "Versatz für Radiosendungen"
+
 msgctxt "#32190"
 msgid "Housekeeping"
 msgstr "Haushaltung"
@@ -876,3 +892,7 @@ msgstr "Die Medienart wird automatisch ermittelt. Setze die Art manuell, z.B. we
 msgctxt "#32388"
 msgid "Schedule this timer with full date and not only by day within one week."
 msgstr "Programmiere diesen Timer zu einem Datum und nicht nur an einem Tag innerhalb einer Woche."
+
+msgctxt "#32385"
+msgid "You can set an offset in seconds that is preset for EPG timers."
+msgstr "Optional kann ein Versatz in Sekunden angegeben werden, der für EPG Timer voreingestellt wird."

@@ -557,6 +557,22 @@ msgctxt "#32183"
 msgid "always ask"
 msgstr ""
 
+msgctxt "#32184"
+msgid "Offset at start"
+msgstr ""
+
+msgctxt "#32185"
+msgid "Offset at end"
+msgstr ""
+
+msgctxt "#32186"
+msgid "Offset for TV programs"
+msgstr ""
+
+msgctxt "#32187"
+msgid "Offset for radio programs"
+msgstr ""
+
 msgctxt "#32190"
 msgid "Housekeeping"
 msgstr ""

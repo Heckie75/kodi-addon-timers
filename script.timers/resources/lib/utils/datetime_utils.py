@@ -196,6 +196,11 @@ def format_from_seconds(secs: int) -> str:
     return "%02i:%02i" % (secs // 3600, (secs % 3600) // 60)
 
 
+def format_from_timedelta(td: timedelta) -> 'tuple[str, int]':
+    seconds = int(td.total_seconds())
+    return format_from_seconds(seconds), seconds % 60
+
+
 def apply_for_datetime(dt_now: datetime, timestamp: timedelta, force_future=False) -> datetime:
 
     dt_last_monday_same_time = dt_now - \

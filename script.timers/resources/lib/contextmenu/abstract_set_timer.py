@@ -1,5 +1,5 @@
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import xbmc
 import xbmcaddon
@@ -237,17 +237,32 @@ class AbstractSetTimer:
                 startDate = datetime_utils.parse_xbmc_shortdate(
                     xbmc.getInfoLabel("ListItem.Date").split(" ")[0])
 
-                timer.set_timer_by_date(date=datetime_utils.to_date_str(startDate))
-                timer.start = xbmc.getInfoLabel("ListItem.StartTime")
-                duration = xbmc.getInfoLabel("ListItem.Duration")
-                if len(duration) == 5:
-                    timer.duration = "00:%s" % duration[:2]
+                timer.set_timer_by_date(
+                    date=datetime_utils.to_date_str(startDate))
+                start = datetime_utils.parse_time(
+                    xbmc.getInfoLabel("ListItem.StartTime"))
+                start_offset = timedelta(
+                    seconds=self.addon.getSettingInt("epg_tv_offset_start" if vfs_utils.is_pvr_tv_channel(pvr_channel_path) else "epg_radio_offset_start"))
+                start += start_offset
+                timer.start, timer.start_offset = datetime_utils.format_from_timedelta(
+                    start)
 
-                elif len(duration) == 9:
+                s_duration = xbmc.getInfoLabel("ListItem.Duration")
+                if len(s_duration) == 5:
+                    s_duration = "00:%s" % s_duration[:2]
+
+                elif len(s_duration) == 9:
                     return None, False
 
                 else:
-                    timer.duration = duration[:5]
+                    s_duration = s_duration[:5]
+
+                td_duration = datetime_utils.parse_time(s_duration)
+                td_duration += start_offset + \
+                    timedelta(seconds=self.addon.getSettingInt(
+                        "epg_tv_offset_end" if vfs_utils.is_pvr_tv_channel(pvr_channel_path) else "epg_radio_offset_end"))
+                timer.duration, timer.end_offset = datetime_utils.format_from_timedelta(
+                    td_duration)
 
         td_start = datetime_utils.parse_time(timer.start)
         if not is_epg:

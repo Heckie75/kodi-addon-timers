@@ -59,6 +59,7 @@ class SetTimer(AbstractSetTimer):
         if start == "":
             return None
         else:
+            timer.start_offset = 0
             return ("0%s" % start.strip())[-5:]
 
     def ask_duration(self, label: str, path: str, is_epg: bool, timer: Timer) -> str:
@@ -68,6 +69,7 @@ class SetTimer(AbstractSetTimer):
         if duration == "":
             return None
         else:
+            timer.end_offset = 0
             return ("0%s" % duration.strip())[-5:]
 
     def ask_repeat_resume(self, timer: Timer) -> 'tuple[bool, bool]':
