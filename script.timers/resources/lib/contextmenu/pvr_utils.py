@@ -11,7 +11,7 @@ _WINDOW_TV_GUIDE = 10702
 _WINDOW_RADIO_GUIDE = 10707
 
 _PLAY_PVR_URL_PATTERN = "pvr://channels/%s/%s/%s_%i.pvr"
-_PLAY_PVR_URL_PATTERN_V21 = "pvr://channels/%s/%s@%i/%s_%i.pvr"
+_PLAY_PVR_URL_PATTERN_V21 = "pvr://channels/%s/%s@%i/%i@%s_%i.pvr"
 
 _CHANNEL_GROUP_ALL_ID = -1
 
@@ -54,7 +54,7 @@ def get_pvr_channel_path(type: str, channelno: str) -> str:
             if get_kodi_version() < 21.0:
                 return _PLAY_PVR_URL_PATTERN % (type, parse.quote(channelGroupAll), pvrClient["addonid"], channels[0]["uniqueid"])
             else:
-                return _PLAY_PVR_URL_PATTERN_V21 % (type, parse.quote(channelGroupAll), _CHANNEL_GROUP_ALL_ID, pvrClient["addonid"], channels[0]["uniqueid"])
+                return _PLAY_PVR_URL_PATTERN_V21 % (type, parse.quote(channelGroupAll), _CHANNEL_GROUP_ALL_ID, pvrClient["instanceid"], pvrClient["addonid"], channels[0]["uniqueid"])
 
     except:
         pass

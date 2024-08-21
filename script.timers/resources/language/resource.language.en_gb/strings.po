@@ -534,11 +534,11 @@ msgid "Pause from"
 msgstr ""
 
 msgctxt "#32170"
-msgid "Offset"
+msgid "Real-time clock"
 msgstr ""
 
 msgctxt "#32171"
-msgid "Offset for timers in seconds"
+msgid "Offset for real-time clock in seconds"
 msgstr ""
 
 msgctxt "#32180"
@@ -578,11 +578,15 @@ msgid "Housekeeping"
 msgstr ""
 
 msgctxt "#32191"
-msgid "Cleanup outdated timers at startup"
+msgid "Cleanup missed timers at startup"
 msgstr ""
 
 msgctxt "#32192"
 msgid "Cleanup missed timers when Kodi starts. This can happen if Kodi was not running when timer has been scheduled."
+msgstr ""
+
+msgctxt "#32193"
+msgid ""
 msgstr ""
 
 msgctxt "#32200"

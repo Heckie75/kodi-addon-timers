@@ -39,12 +39,11 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
-v4.0.0 (2024-09-xx)
+v4.0.0 (2024-09-03)
 - New Feature: programming timers with full date (not only day within upcoming 7 days, feature request #34)
-- Limitations: Forecast of concurring timers is still only one week (depends of type of scheduling)
 - Added Preset of implicitly extra time / offset for EPG timers
-
-v3.9.4 (2024-08-18)
+- Improved stop behavior of overlapping media timers acc. its priority
+- Bugfix / Workaround: [Kodi v21] Settings dialog is broken, issue #43
 - Bugfix: [Kodi v21] Addon can't play PVR items anymore, issue #42
 
 v3.9.3 (2024-08-02)

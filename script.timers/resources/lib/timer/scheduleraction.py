@@ -122,16 +122,18 @@ class SchedulerAction:
                         self._forceResumeResetTypes.extend(
                             _types_replaced_by_type if not timerToStop.is_resuming_timer() else list())
 
-                        if overlappingTimer.priority < timerToStop.priority and timerToStop.is_playing_media_timer() and overlappingTimer.media_type in _types_replaced_by_type:
+                        if overlappingTimer.priority < timerToStop.priority and timerToStop.is_resuming_timer() and timerToStop.is_playing_media_timer() and overlappingTimer.media_type in _types_replaced_by_type:
                             self._beginningTimers.append(overlappingTimer)
 
-                        _reset_stop()
+                        if overlappingTimer.priority >= timerToStop.priority:
+                            _reset_stop()
 
                 enclosingTimers = [t for t in self._runningTimers if (t.current_period.start < timerToStop.current_period.start
                                                                       and t.current_period.end > timerToStop.current_period.end)
-                                   and t.is_play_at_start_timer() and t.media_type in _types_replaced_by_type]
+                                   and t.is_play_at_start_timer()
+                                   and t.media_type in _types_replaced_by_type]
 
-                if enclosingTimers and not [t for t in enclosingTimers if timerToStop.priority >= t.priority]:
+                if enclosingTimers and [t for t in enclosingTimers if timerToStop.priority < t.priority]:
                     _reset_stop()
 
                 elif timerToStop.is_resuming_timer():

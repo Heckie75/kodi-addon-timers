@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from resources.lib.utils.datetime_utils import apply_for_datetime
+from resources.lib.utils import datetime_utils
 
 
 class Period:
@@ -72,9 +72,10 @@ class Period:
 
         elif type(self.start) == datetime:
             if not base:
-                raise("This type of comparision requires a base-datetime")
-            
-            timestamp = apply_for_datetime(base, timestamp, force_future=True)
+                raise ("This type of comparision requires a base-datetime")
+
+            timestamp = datetime_utils.apply_for_datetime(
+                base, timestamp, force_future=True)
             s, e, l = self._compareByDates(timestamp, timestamp)
             return s, e, l is not None
 
@@ -92,8 +93,8 @@ class Period:
         if type(period.start) == datetime:
             return period
 
-        start = apply_for_datetime(base, period.start)
-        end = apply_for_datetime(base, period.end)
+        start = datetime_utils.apply_for_datetime(base, period.start)
+        end = datetime_utils.apply_for_datetime(base, period.end)
         if start < end < base:
             start += timedelta(days=7)
             end += timedelta(days=7)

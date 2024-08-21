@@ -257,14 +257,16 @@ class AbstractSetTimer:
                 else:
                     s_duration = s_duration[:5]
 
-                td_duration = datetime_utils.parse_time(s_duration)
-                td_duration += start_offset + \
-                    timedelta(seconds=self.addon.getSettingInt(
-                        "epg_tv_offset_end" if vfs_utils.is_pvr_tv_channel(pvr_channel_path) else "epg_radio_offset_end"))
-                timer.duration, timer.end_offset = datetime_utils.format_from_timedelta(
+                td_duration = datetime_utils.parse_time(
+                    s_duration) - start_offset
+                td_duration += timedelta(seconds=self.addon.getSettingInt(
+                    "epg_tv_offset_end" if vfs_utils.is_pvr_tv_channel(pvr_channel_path) else "epg_radio_offset_end"))
+
+                timer.duration, timer.duration_offset = datetime_utils.format_from_timedelta(
                     td_duration)
 
-        td_start = datetime_utils.parse_time(timer.start)
+        td_start = datetime_utils.parse_time(
+            timer.start) + timedelta(seconds=timer.start_offset)
         if not is_epg:
 
             if not timer.days or timer.days == [datetime_utils.WEEKLY]:
@@ -281,8 +283,8 @@ class AbstractSetTimer:
 
             timer.duration = timer.get_duration()
 
-        timer.end = datetime_utils.format_from_seconds(
-            (td_start + datetime_utils.parse_time(timer.duration)).seconds)
+        timer.end, timer.end_offset = datetime_utils.format_from_timedelta(
+            td_start + datetime_utils.parse_time(timer.duration) + timedelta(seconds=timer.duration_offset))
 
         if vfs_utils.is_script(timer.path):
             timer.media_type = SCRIPT

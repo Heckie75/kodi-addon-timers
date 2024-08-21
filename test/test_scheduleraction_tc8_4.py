@@ -1,9 +1,10 @@
 import unittest
 from datetime import datetime
 
-from resources.lib.test.mockplayer import AUDIO, PICTURE, VIDEO
+from resources.lib.test.mockplayer import AUDIO, PICTURE, VIDEO, MockPlayer
 from resources.lib.test.mockstorage import MockStorage
 from resources.lib.timer.concurrency import determine_overlappings
+from resources.lib.timer.scheduleraction import SchedulerAction
 from resources.lib.timer.timer import (END_TYPE_TIME, FADE_OFF,
                                        MEDIA_ACTION_START,
                                        MEDIA_ACTION_START_AT_END,
@@ -18,8 +19,7 @@ from resources.lib.utils.datetime_utils import (DateTimeDelta,
 class TestSchedulerActions_8_4(unittest.TestCase):
 
     _t = ["%i:00" % i for i in range(10)]
-    _dtd = [DateTimeDelta(parse_datetime_str("2023-01-02 %s" % s)) for s in _t]
-
+    _dtd = [DateTimeDelta(parse_datetime_str("2024-08-15 %s" % s)) for s in _t]
     _now = datetime(year=2024, month=8, day=15, hour=0, minute=0, second=0)
 
     def test_tc_8_4_1_1(self):
@@ -88,9 +88,15 @@ class TestSchedulerActions_8_4(unittest.TestCase):
             }
         ]
 
+        player = MockPlayer()
+        player.setVolume(100)
+
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
+        schedulderaction = SchedulerAction(player, storage)
+
+        # test overlapping
         b = determine_overlappings(
             timers[0], timers[1:], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
@@ -98,6 +104,75 @@ class TestSchedulerActions_8_4(unittest.TestCase):
         b = determine_overlappings(
             timers[1], timers[:1], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
+
+        # ------------ t1 ------------
+        schedulderaction.calculate(timers, self._dtd[1])
+        schedulderaction.perform(self._dtd[1])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t2 ------------
+        schedulderaction.calculate(timers, self._dtd[2])
+        schedulderaction.perform(self._dtd[2])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t3 ------------
+        schedulderaction.calculate(timers, self._dtd[3])
+        schedulderaction.perform(self._dtd[3])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t4 ------------
+        schedulderaction.calculate(timers, self._dtd[4])
+        schedulderaction.perform(self._dtd[4])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t5 ------------
+        schedulderaction.calculate(timers, self._dtd[5])
+        schedulderaction.perform(self._dtd[5])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t6 ------------
+        schedulderaction.calculate(timers, self._dtd[6])
+        schedulderaction.perform(self._dtd[6])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t7 ------------
+        schedulderaction.calculate(timers, self._dtd[7])
+        schedulderaction.perform(self._dtd[7])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
 
     def test_tc_8_4_1_2(self):
         """
@@ -165,9 +240,15 @@ class TestSchedulerActions_8_4(unittest.TestCase):
             }
         ]
 
+        player = MockPlayer()
+        player.setVolume(100)
+
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
+        schedulderaction = SchedulerAction(player, storage)
+
+        # test overlapping
         b = determine_overlappings(
             timers[0], timers[1:], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
@@ -175,6 +256,79 @@ class TestSchedulerActions_8_4(unittest.TestCase):
         b = determine_overlappings(
             timers[1], timers[:1], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
+
+        # ------------ t1 ------------
+        schedulderaction.calculate(timers, self._dtd[1])
+        schedulderaction.perform(self._dtd[1])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t2 ------------
+        schedulderaction.calculate(timers, self._dtd[2])
+        schedulderaction.perform(self._dtd[2])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t3 ------------
+        schedulderaction.calculate(timers, self._dtd[3])
+        schedulderaction.perform(self._dtd[3])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t4 ------------
+        schedulderaction.calculate(timers, self._dtd[4])
+        schedulderaction.perform(self._dtd[4])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t5 ------------
+        schedulderaction.calculate(timers, self._dtd[5])
+        schedulderaction.perform(self._dtd[5])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t6 ------------
+        schedulderaction.calculate(timers, self._dtd[6])
+        schedulderaction.perform(self._dtd[6])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t7 ------------
+        schedulderaction.calculate(timers, self._dtd[7])
+        schedulderaction.perform(self._dtd[7])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
 
     def test_tc_8_4_1_3(self):
         """
@@ -242,9 +396,15 @@ class TestSchedulerActions_8_4(unittest.TestCase):
             }
         ]
 
+        player = MockPlayer()
+        player.setVolume(100)
+
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
+        schedulderaction = SchedulerAction(player, storage)
+
+        # test overlapping
         b = determine_overlappings(
             timers[0], timers[1:], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
@@ -252,6 +412,79 @@ class TestSchedulerActions_8_4(unittest.TestCase):
         b = determine_overlappings(
             timers[1], timers[:1], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
+
+        # ------------ t1 ------------
+        schedulderaction.calculate(timers, self._dtd[1])
+        schedulderaction.perform(self._dtd[1])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t2 ------------
+        schedulderaction.calculate(timers, self._dtd[2])
+        schedulderaction.perform(self._dtd[2])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t3 ------------
+        schedulderaction.calculate(timers, self._dtd[3])
+        schedulderaction.perform(self._dtd[3])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t4 ------------
+        schedulderaction.calculate(timers, self._dtd[4])
+        schedulderaction.perform(self._dtd[4])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t5 ------------
+        schedulderaction.calculate(timers, self._dtd[5])
+        schedulderaction.perform(self._dtd[5])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t6 ------------
+        schedulderaction.calculate(timers, self._dtd[6])
+        schedulderaction.perform(self._dtd[6])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t7 ------------
+        schedulderaction.calculate(timers, self._dtd[7])
+        schedulderaction.perform(self._dtd[7])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
 
     def test_tc_8_4_1_4(self):
         """
@@ -319,9 +552,15 @@ class TestSchedulerActions_8_4(unittest.TestCase):
             }
         ]
 
+        player = MockPlayer()
+        player.setVolume(100)
+
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
+        schedulderaction = SchedulerAction(player, storage)
+
+        # test overlapping
         b = determine_overlappings(
             timers[0], timers[1:], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
@@ -329,6 +568,75 @@ class TestSchedulerActions_8_4(unittest.TestCase):
         b = determine_overlappings(
             timers[1], timers[:1], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
+
+        # ------------ t1 ------------
+        schedulderaction.calculate(timers, self._dtd[1])
+        schedulderaction.perform(self._dtd[1])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t2 ------------
+        schedulderaction.calculate(timers, self._dtd[2])
+        schedulderaction.perform(self._dtd[2])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t3 ------------
+        schedulderaction.calculate(timers, self._dtd[3])
+        schedulderaction.perform(self._dtd[3])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t4 ------------
+        schedulderaction.calculate(timers, self._dtd[4])
+        schedulderaction.perform(self._dtd[4])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t5 ------------
+        schedulderaction.calculate(timers, self._dtd[5])
+        schedulderaction.perform(self._dtd[5])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t6 ------------
+        schedulderaction.calculate(timers, self._dtd[6])
+        schedulderaction.perform(self._dtd[6])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t7 ------------
+        schedulderaction.calculate(timers, self._dtd[7])
+        schedulderaction.perform(self._dtd[7])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
 
     def test_tc_8_4_1_5(self):
         """
@@ -396,9 +704,15 @@ class TestSchedulerActions_8_4(unittest.TestCase):
             }
         ]
 
+        player = MockPlayer()
+        player.setVolume(100)
+
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
+        schedulderaction = SchedulerAction(player, storage)
+
+        # test overlapping
         b = determine_overlappings(
             timers[0], timers[1:], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
@@ -406,6 +720,75 @@ class TestSchedulerActions_8_4(unittest.TestCase):
         b = determine_overlappings(
             timers[1], timers[:1], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
+
+        # ------------ t1 ------------
+        schedulderaction.calculate(timers, self._dtd[1])
+        schedulderaction.perform(self._dtd[1])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t2 ------------
+        schedulderaction.calculate(timers, self._dtd[2])
+        schedulderaction.perform(self._dtd[2])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t3 ------------
+        schedulderaction.calculate(timers, self._dtd[3])
+        schedulderaction.perform(self._dtd[3])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t4 ------------
+        schedulderaction.calculate(timers, self._dtd[4])
+        schedulderaction.perform(self._dtd[4])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t5 ------------
+        schedulderaction.calculate(timers, self._dtd[5])
+        schedulderaction.perform(self._dtd[5])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t6 ------------
+        schedulderaction.calculate(timers, self._dtd[6])
+        schedulderaction.perform(self._dtd[6])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t7 ------------
+        schedulderaction.calculate(timers, self._dtd[7])
+        schedulderaction.perform(self._dtd[7])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
 
     def test_tc_8_4_1_6(self):
         """
@@ -473,9 +856,15 @@ class TestSchedulerActions_8_4(unittest.TestCase):
             }
         ]
 
+        player = MockPlayer()
+        player.setVolume(100)
+
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
+        schedulderaction = SchedulerAction(player, storage)
+
+        # test overlapping
         b = determine_overlappings(
             timers[0], timers[1:], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
@@ -483,6 +872,71 @@ class TestSchedulerActions_8_4(unittest.TestCase):
         b = determine_overlappings(
             timers[1], timers[:1], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
+
+        # ------------ t1 ------------
+        schedulderaction.calculate(timers, self._dtd[1])
+        schedulderaction.perform(self._dtd[1])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t2 ------------
+        schedulderaction.calculate(timers, self._dtd[2])
+        schedulderaction.perform(self._dtd[2])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t3 ------------
+        schedulderaction.calculate(timers, self._dtd[3])
+        schedulderaction.perform(self._dtd[3])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t4 ------------
+        schedulderaction.calculate(timers, self._dtd[4])
+        schedulderaction.perform(self._dtd[4])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t5 ------------
+        schedulderaction.calculate(timers, self._dtd[5])
+        schedulderaction.perform(self._dtd[5])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t6 ------------
+        schedulderaction.calculate(timers, self._dtd[6])
+        schedulderaction.perform(self._dtd[6])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t7 ------------
+        schedulderaction.calculate(timers, self._dtd[7])
+        schedulderaction.perform(self._dtd[7])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
 
     def test_tc_8_4_2_1(self):
         """
@@ -550,9 +1004,15 @@ class TestSchedulerActions_8_4(unittest.TestCase):
             }
         ]
 
+        player = MockPlayer()
+        player.setVolume(100)
+
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
+        schedulderaction = SchedulerAction(player, storage)
+
+        # test overlapping
         b = determine_overlappings(
             timers[0], timers[1:], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
@@ -560,6 +1020,81 @@ class TestSchedulerActions_8_4(unittest.TestCase):
         b = determine_overlappings(
             timers[1], timers[:1], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
+
+        # ------------ t1 ------------
+        schedulderaction.calculate(timers, self._dtd[1])
+        schedulderaction.perform(self._dtd[1])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t2 ------------
+        schedulderaction.calculate(timers, self._dtd[2])
+        schedulderaction.perform(self._dtd[2])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t3 ------------
+        schedulderaction.calculate(timers, self._dtd[3])
+        schedulderaction.perform(self._dtd[3])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t4 ------------
+        schedulderaction.calculate(timers, self._dtd[4])
+        schedulderaction.perform(self._dtd[4])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t5 ------------
+        schedulderaction.calculate(timers, self._dtd[5])
+        schedulderaction.perform(self._dtd[5])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t6 ------------
+        schedulderaction.calculate(timers, self._dtd[6])
+        schedulderaction.perform(self._dtd[6])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t7 ------------
+        schedulderaction.calculate(timers, self._dtd[7])
+        schedulderaction.perform(self._dtd[7])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
 
     def test_tc_8_4_2_2(self):
         """
@@ -627,9 +1162,15 @@ class TestSchedulerActions_8_4(unittest.TestCase):
             }
         ]
 
+        player = MockPlayer()
+        player.setVolume(100)
+
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
+        schedulderaction = SchedulerAction(player, storage)
+
+        # test overlapping
         b = determine_overlappings(
             timers[0], timers[1:], base=TestSchedulerActions_8_4._now)
         self.assertFalse(b)
@@ -637,6 +1178,81 @@ class TestSchedulerActions_8_4(unittest.TestCase):
         b = determine_overlappings(
             timers[1], timers[:1], base=TestSchedulerActions_8_4._now)
         self.assertFalse(b)
+
+        # ------------ t1 ------------
+        schedulderaction.calculate(timers, self._dtd[1])
+        schedulderaction.perform(self._dtd[1])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t2 ------------
+        schedulderaction.calculate(timers, self._dtd[2])
+        schedulderaction.perform(self._dtd[2])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t3 ------------
+        schedulderaction.calculate(timers, self._dtd[3])
+        schedulderaction.perform(self._dtd[3])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t4 ------------
+        schedulderaction.calculate(timers, self._dtd[4])
+        schedulderaction.perform(self._dtd[4])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t5 ------------
+        schedulderaction.calculate(timers, self._dtd[5])
+        schedulderaction.perform(self._dtd[5])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t6 ------------
+        schedulderaction.calculate(timers, self._dtd[6])
+        schedulderaction.perform(self._dtd[6])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t7 ------------
+        schedulderaction.calculate(timers, self._dtd[7])
+        schedulderaction.perform(self._dtd[7])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
 
     def test_tc_8_4_2_3(self):
         """
@@ -704,9 +1320,15 @@ class TestSchedulerActions_8_4(unittest.TestCase):
             }
         ]
 
+        player = MockPlayer()
+        player.setVolume(100)
+
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
+        schedulderaction = SchedulerAction(player, storage)
+
+        # test overlapping
         b = determine_overlappings(
             timers[0], timers[1:], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
@@ -714,6 +1336,79 @@ class TestSchedulerActions_8_4(unittest.TestCase):
         b = determine_overlappings(
             timers[1], timers[:1], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
+
+        # ------------ t1 ------------
+        schedulderaction.calculate(timers, self._dtd[1])
+        schedulderaction.perform(self._dtd[1])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t2 ------------
+        schedulderaction.calculate(timers, self._dtd[2])
+        schedulderaction.perform(self._dtd[2])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t3 ------------
+        schedulderaction.calculate(timers, self._dtd[3])
+        schedulderaction.perform(self._dtd[3])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t4 ------------
+        schedulderaction.calculate(timers, self._dtd[4])
+        schedulderaction.perform(self._dtd[4])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t5 ------------
+        schedulderaction.calculate(timers, self._dtd[5])
+        schedulderaction.perform(self._dtd[5])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t6 ------------
+        schedulderaction.calculate(timers, self._dtd[6])
+        schedulderaction.perform(self._dtd[6])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t7 ------------
+        schedulderaction.calculate(timers, self._dtd[7])
+        schedulderaction.perform(self._dtd[7])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
 
     def test_tc_8_4_2_4(self):
         """
@@ -781,9 +1476,15 @@ class TestSchedulerActions_8_4(unittest.TestCase):
             }
         ]
 
+        player = MockPlayer()
+        player.setVolume(100)
+
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
+        schedulderaction = SchedulerAction(player, storage)
+
+        # test overlapping
         b = determine_overlappings(
             timers[0], timers[1:], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
@@ -791,6 +1492,79 @@ class TestSchedulerActions_8_4(unittest.TestCase):
         b = determine_overlappings(
             timers[1], timers[:1], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
+
+        # ------------ t1 ------------
+        schedulderaction.calculate(timers, self._dtd[1])
+        schedulderaction.perform(self._dtd[1])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t2 ------------
+        schedulderaction.calculate(timers, self._dtd[2])
+        schedulderaction.perform(self._dtd[2])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t3 ------------
+        schedulderaction.calculate(timers, self._dtd[3])
+        schedulderaction.perform(self._dtd[3])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t4 ------------
+        schedulderaction.calculate(timers, self._dtd[4])
+        schedulderaction.perform(self._dtd[4])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t5 ------------
+        schedulderaction.calculate(timers, self._dtd[5])
+        schedulderaction.perform(self._dtd[5])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t6 ------------
+        schedulderaction.calculate(timers, self._dtd[6])
+        schedulderaction.perform(self._dtd[6])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[1].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t7 ------------
+        schedulderaction.calculate(timers, self._dtd[7])
+        schedulderaction.perform(self._dtd[7])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
 
     def test_tc_8_4_2_5(self):
         """
@@ -858,9 +1632,15 @@ class TestSchedulerActions_8_4(unittest.TestCase):
             }
         ]
 
+        player = MockPlayer()
+        player.setVolume(100)
+
         storage = MockStorage(data=data)
         timers = storage.load_timers_from_storage()
 
+        schedulderaction = SchedulerAction(player, storage)
+
+        # test overlapping
         b = determine_overlappings(
             timers[0], timers[1:], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
@@ -868,6 +1648,79 @@ class TestSchedulerActions_8_4(unittest.TestCase):
         b = determine_overlappings(
             timers[1], timers[:1], base=TestSchedulerActions_8_4._now)
         self.assertTrue(b)
+
+        # ------------ t1 ------------
+        schedulderaction.calculate(timers, self._dtd[1])
+        schedulderaction.perform(self._dtd[1])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t2 ------------
+        schedulderaction.calculate(timers, self._dtd[2])
+        schedulderaction.perform(self._dtd[2])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t3 ------------
+        schedulderaction.calculate(timers, self._dtd[3])
+        schedulderaction.perform(self._dtd[3])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t4 ------------
+        schedulderaction.calculate(timers, self._dtd[4])
+        schedulderaction.perform(self._dtd[4])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t5 ------------
+        schedulderaction.calculate(timers, self._dtd[5])
+        schedulderaction.perform(self._dtd[5])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t6 ------------
+        schedulderaction.calculate(timers, self._dtd[6])
+        schedulderaction.perform(self._dtd[6])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, True)
+        self.assertEqual(apwpl[VIDEO].playlist[0]
+                         ["file"], timers[0].path)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
+
+        # ------------ t7 ------------
+        schedulderaction.calculate(timers, self._dtd[7])
+        schedulderaction.perform(self._dtd[7])
+
+        apwpl = player.getActivePlayersWithPlaylist()
+        self.assertEqual(VIDEO in apwpl, False)
+        self.assertEqual(player.getVolume(), 100)
+        self.assertEqual(player._getResumeStatus(VIDEO), None)
 
     def test_tc_8_4_2_6(self):
         """

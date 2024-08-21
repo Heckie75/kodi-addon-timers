@@ -1,3 +1,4 @@
+import locale
 import time
 from datetime import datetime, timedelta
 
@@ -34,7 +35,11 @@ class DateTimeDelta():
 
 def _parse_datetime_from_str(s: str, format: str) -> datetime:
 
-    return datetime.fromtimestamp(time.mktime(time.strptime(s, format)))
+    try:
+        return datetime.strptime(s, format)
+    except:
+        # Workaround for some Kodi versions
+        return datetime.fromtimestamp(time.mktime(time.strptime(s, format)))
 
 
 def parse_date_str(s: str) -> datetime:
@@ -71,6 +76,11 @@ def convert_for_xbmcdialog(s: str) -> str:
 def periods_to_human_readable(days: 'list[int]', start: str, end="", date="") -> str:
 
     addon = xbmcaddon.Addon()
+
+    try:
+        locale.setlocale(locale.LC_ALL, xbmc.getLanguage(format=xbmc.ISO_639_1))
+    except:
+        pass
 
     def _day_str(d: int, plural=False) -> str:
 
