@@ -78,7 +78,8 @@ def periods_to_human_readable(days: 'list[int]', start: str, end="", date="") ->
     addon = xbmcaddon.Addon()
 
     try:
-        locale.setlocale(locale.LC_ALL, xbmc.getLanguage(format=xbmc.ISO_639_1))
+        locale.setlocale(
+            locale.LC_ALL, xbmc.getLanguage(format=xbmc.ISO_639_1))
     except:
         pass
 

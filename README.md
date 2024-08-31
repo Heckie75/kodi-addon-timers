@@ -39,7 +39,7 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
-v4.0.0 (2024-09-03)
+v4.0.0 (2024-08-31)
 - New Feature: programming timers with full date (not only day within upcoming 7 days, feature request #34)
 - Added Preset of implicitly extra time / offset for EPG timers
 - Improved stop behavior of overlapping media timers acc. its priority
