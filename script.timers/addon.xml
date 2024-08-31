@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.timers" name="Timers" version="3.9.4" provider-name="Heckie">
+<addon id="script.timers" name="Timers" version="4.0.0" provider-name="Heckie">
   <requires>
     <import addon="xbmc.python" version="3.0.0" />
   </requires>
-  <extension point="xbmc.service" library="addon.py" />
+  <extension point="xbmc.service" library="addon.py" />                                                                               
   <extension point="xbmc.python.script" library="script.py" />
   <extension point="kodi.context.item">
     <menu id="kodi.core.main">
@@ -66,7 +66,10 @@
     <website>https://github.com/Heckie75/kodi-addon-timers</website>
     <source>https://github.com/Heckie75/kodi-addon-timers</source>
     <news>
-v3.9.4 (2024-08-18)
+v4.0.0 (2024-08-31)
+- New Feature: programming timers with full date (not only day within upcoming 7 days, feature request #34)
+- Improved stop behavior of overlapping media timers acc. its priority
+- Bugfix / Workaround: [Kodi v21] Settings dialog is broken, issue #43
 - Bugfix: [Kodi v21] Addon can't play PVR items anymore, issue #42
 
 v3.9.3 (2024-08-02)

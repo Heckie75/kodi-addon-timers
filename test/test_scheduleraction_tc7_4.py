@@ -29,6 +29,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -55,6 +56,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -81,6 +83,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -107,6 +110,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -122,7 +126,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "media_type": VIDEO,
                 "notify": True,
                 "path": "videodb://4/4/4.mp3",
-                "priority":1,
+                "priority": 1,
                 "repeat": False,
                 "resume": True,
                 "shuffle": False,
@@ -133,6 +137,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -323,6 +328,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -349,6 +355,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -375,6 +382,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -401,6 +409,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -416,7 +425,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "media_type": VIDEO,
                 "notify": True,
                 "path": "videodb://4/4/4.mp3",
-                "priority":0,
+                "priority": 0,
                 "repeat": False,
                 "resume": True,
                 "shuffle": False,
@@ -427,6 +436,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -617,6 +627,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -643,6 +654,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -669,6 +681,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -695,6 +708,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -710,7 +724,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "media_type": VIDEO,
                 "notify": True,
                 "path": "videodb://4/4/4.mp3",
-                "priority":0,
+                "priority": 0,
                 "repeat": False,
                 "resume": True,
                 "shuffle": False,
@@ -721,6 +735,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -912,6 +927,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -938,6 +954,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -964,6 +981,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -990,6 +1008,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -1005,7 +1024,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "media_type": VIDEO,
                 "notify": True,
                 "path": "videodb://4/4/4.mp3",
-                "priority":0,
+                "priority": 0,
                 "repeat": False,
                 "resume": True,
                 "shuffle": False,
@@ -1016,6 +1035,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],
@@ -1042,6 +1062,7 @@ class TestSchedulerActions_7_4(unittest.TestCase):
                 "vol_min": 80
             },
             {
+                "date": "",
                 "days": [
                     0
                 ],

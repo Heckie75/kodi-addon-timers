@@ -26,6 +26,7 @@ class TestSchedulerActions_8_2(unittest.TestCase):
 
         data = [
             {
+                "date": "",
                 "days": [
                     0, 1, 2, 3, 4, 5, 6
                 ],
@@ -52,6 +53,7 @@ class TestSchedulerActions_8_2(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     0, 1, 2, 3, 4, 5, 6
                 ],
@@ -78,6 +80,7 @@ class TestSchedulerActions_8_2(unittest.TestCase):
                 "vol_min": 75
             },
             {
+                "date": "",
                 "days": [
                     0, 1, 2, 3, 4, 5, 6
                 ],
@@ -133,7 +136,7 @@ class TestSchedulerActions_8_2(unittest.TestCase):
         schedulderaction.perform(self._dtd[1])
 
         apwpl = player.getActivePlayersWithPlaylist()
-        self.assertEqual(len(apwpl), 1)        
+        self.assertEqual(len(apwpl), 1)
         self.assertEqual(VIDEO in apwpl, False)
         self.assertEqual(PICTURE in apwpl, True)
         self.assertEqual(apwpl[PICTURE].playlist[0]["file"], data[2]["path"])
@@ -148,10 +151,10 @@ class TestSchedulerActions_8_2(unittest.TestCase):
         schedulderaction.perform(self._dtd[2])
 
         apwpl = player.getActivePlayersWithPlaylist()
-        self.assertEqual(len(apwpl), 1)        
+        self.assertEqual(len(apwpl), 1)
         self.assertEqual(VIDEO in apwpl, True)
         self.assertEqual(PICTURE in apwpl, False)
-        self.assertEqual(AUDIO in apwpl, False)        
+        self.assertEqual(AUDIO in apwpl, False)
         self.assertEqual(apwpl[VIDEO].playlist[0]["file"], data[0]["path"])
         self.assertEqual(player.getVolume(), 100)
         self.assertEqual(player._getResumeStatus(
@@ -164,10 +167,10 @@ class TestSchedulerActions_8_2(unittest.TestCase):
         schedulderaction.perform(self._dtd[3])
 
         apwpl = player.getActivePlayersWithPlaylist()
-        self.assertEqual(len(apwpl), 2)        
+        self.assertEqual(len(apwpl), 2)
         self.assertEqual(VIDEO in apwpl, False)
         self.assertEqual(PICTURE in apwpl, True)
-        self.assertEqual(AUDIO in apwpl, True)        
+        self.assertEqual(AUDIO in apwpl, True)
         self.assertEqual(apwpl[AUDIO].playlist[0]["file"], data[1]["path"])
         self.assertEqual(apwpl[PICTURE].playlist[0]["file"], data[2]["path"])
         self.assertEqual(player.getVolume(), 100)

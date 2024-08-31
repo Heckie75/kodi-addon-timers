@@ -41,7 +41,7 @@ class TestSchedulerActions_1_1(unittest.TestCase):
         Fader   100       T1(100)-----------T1(50)
         """
 
-        # ------------ setup player ------------d
+        # ------------ setup player ------------
         player = MockPlayer()
         schedulderaction = SchedulerAction(player, MockStorage())
         player.setVolume(100)
