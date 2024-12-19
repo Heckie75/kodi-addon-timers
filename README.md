@@ -39,6 +39,9 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v4.1.0 (2024-12-19)
+* Add support for smart playlists (music and video)
+
 v4.0.2 (2024-12-12)
 * Bugfix: Fix exception when settings timer in EPG with program that runs over midnight
 

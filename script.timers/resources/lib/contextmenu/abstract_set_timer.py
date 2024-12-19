@@ -140,7 +140,7 @@ class AbstractSetTimer:
         elif vfs_utils.is_pvr(path):
             return vfs_utils.is_pvr_channel(path) or vfs_utils.is_pvr_recording(path) or xbmc.getCondVisibility("Window.IsVisible(tvguide)|Window.IsVisible(radioguide)")
         else:
-            return vfs_utils.is_script(path) or vfs_utils.is_audio_plugin(path) or vfs_utils.is_video_plugin(path) or vfs_utils.is_external(path) or not vfs_utils.is_folder(path) or vfs_utils.has_items_in_path(path)
+            return vfs_utils.is_smart_playlist(path) or vfs_utils.is_script(path) or vfs_utils.is_audio_plugin(path) or vfs_utils.is_video_plugin(path) or vfs_utils.is_external(path) or not vfs_utils.is_folder(path) or vfs_utils.has_items_in_path(path)
 
     def perform_ahead(self, timer: Timer) -> bool:
 
