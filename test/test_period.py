@@ -745,11 +745,11 @@ class TestPeriod(unittest.TestCase):
 
         try:
             timers[0].periods[0].compare(timers[1].periods[0])
-            self.assertEquals(True, False)
+            self.assertEqual(True, False)
         except Exception as e:
-            self.assertEquals(str(
+            self.assertEqual(str(
                 e), "can't compare Period[start=2:00:00, end=6:00:00] with Period[start=2024-08-15 03:00:00, end=2024-08-15 05:00:00] caused by different types")
-            self.assertEquals(True, True)
+            self.assertEqual(True, True)
 
     def test_hit_1(self):
         """

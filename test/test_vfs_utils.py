@@ -14,6 +14,21 @@ class TestVfsUtils(unittest.TestCase):
         self.assertEqual(vfs_utils.is_playlist("/a/b/c/file.m3u8"), True)
         self.assertEqual(vfs_utils.is_playlist("/a/b/c/"), False)
 
+    def test_is_smart_playlist(self):
+
+        self.assertEqual(vfs_utils.is_smart_playlist("special://profile/playlists/music/Test.xsp"), True)
+        self.assertEqual(vfs_utils.is_smart_playlist("special://profile/playlists/video/Test.xsp"), True)
+        self.assertEqual(vfs_utils.is_smart_playlist("/a/b/c/file.m3u"), False)
+        self.assertEqual(vfs_utils.is_smart_playlist("/a/b/c/file.m3u8"), False)
+        self.assertEqual(vfs_utils.is_smart_playlist("special://profile/playlists/video/Test.m3u"), False)
+
+    def test_convert_to_playlist(self):
+        self.assertEqual(vfs_utils.convert_to_playlist(paths=["special://profile/playlists/music/Test.xsp", "2", "3"]).directUrl, "special://profile/playlists/music/Test.xsp")
+        self.assertEqual(vfs_utils.convert_to_playlist(paths=["plugin://plugin.audio.rubbeldiekatz/1234", "2", "3"]).directUrl, "plugin://plugin.audio.rubbeldiekatz/1234")
+        self.assertEqual(vfs_utils.convert_to_playlist(paths=["plugin://plugin.video.rubbeldiekatz/1234", "2", "3"]).directUrl, "plugin://plugin.video.rubbeldiekatz/1234")
+        self.assertEqual(vfs_utils.convert_to_playlist(paths=["pvr://madtv", "2", "3"]).directUrl, "pvr://madtv")
+        self.assertEqual(vfs_utils.convert_to_playlist(paths=["/home/user/music/1.mp3", "/home/user/music/2.mp3", "/home/user/music/3.mp3"]).directUrl, None)
+
     def test_is_musicdb(self):
 
         self.assertEqual(vfs_utils.is_musicdb("musicdb://a/b/c.mp3"), True)

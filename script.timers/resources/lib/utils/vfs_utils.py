@@ -32,6 +32,15 @@ def is_folder(path: str) -> bool:
     return len(dirs) > 0 or len(files) > 0
 
 
+def is_smart_playlist(path: str) -> bool:
+
+    if not path:
+        return False
+
+    ext = get_file_extension(path)
+    return path.startswith("special://profile/playlists/") and ext and ext == ".xsp"
+
+
 def is_playlist(path: str) -> bool:
 
     ext = get_file_extension(path)
@@ -181,7 +190,7 @@ def build_path_to_ressource(path: str, file: str) -> str:
 
 def has_items_in_path(path: str) -> bool:
 
-    return len(scan_item_paths(path, limit=1)) > 0
+    return not is_smart_playlist(path) and len(scan_item_paths(path, limit=1)) > 0
 
 
 def build_playlist(path: str, label: str) -> 'PlayList':
@@ -197,18 +206,18 @@ def build_playlist(path: str, label: str) -> 'PlayList':
 
 def convert_to_playlist(paths: 'list[str]', type=VIDEO, label="") -> 'PlayList':
 
-    _type_id = TYPES.index(type or VIDEO)
-    playlist = PlayList(_type_id)
+    type_id = TYPES.index(type or VIDEO)
+    playlist = PlayList(type_id)
     playlist.clear()
+
+    if paths and (is_pvr(paths[0]) or is_audio_plugin(paths[0]) or is_video_plugin(paths[0]) or is_smart_playlist(paths[0])):
+        playlist.directUrl = paths[0]
+        return playlist
 
     for path in paths:
         label = label if label and len(paths) == 1 else get_file_name(path)
         li = xbmcgui.ListItem(label=label, path=path)
         playlist.add(url=path, listitem=li)
-        if is_pvr(path) or is_audio_plugin(path) or is_video_plugin(path):
-            playlist.clear()
-            playlist.directUrl = path
-            break
 
     return playlist
 
