@@ -121,7 +121,8 @@ class Player(xbmc.Player):
         self._seektime = seektime
         self._skip_next_stop_event_until_started = True
 
-        if playlist.getPlayListId() == TYPES.index(VIDEO):
+        playListId = playlist.getPlayListId()
+        if playListId == TYPES.index(VIDEO):
             self.stopPlayer(PICTURE)
 
         xbmc.executebuiltin("CECActivateSource")
@@ -129,7 +130,12 @@ class Player(xbmc.Player):
         if self.__is_unit_test__:
             self.setRepeat(repeat)
 
-        self.play(playlist.directUrl or playlist, startpos=startpos)
+        if player_utils.is_smart_playlist(playlist.directUrl):
+            player_utils.play_directory(playlist.directUrl)
+
+        else:
+            self.play(playlist.directUrl or playlist, startpos=startpos)
+
         self.setRepeat(repeat)
         self.setShuffled(shuffled)
         self.setSpeed(speed)

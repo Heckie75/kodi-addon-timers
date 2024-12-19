@@ -39,16 +39,20 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v4.1.0 (2024-12-19)
+* New feature: support for smart playlists (music and video)
+
 v4.0.2 (2024-12-12)
 * Bugfix: Fix exception when settings timer in EPG with program that runs over midnight
 
 v4.0.1 (2024-12-08)
-- Prevent exception when turning off timers by deselecting all days of week
+- Addded translations for French (provided by Skypichat-kodi and Gemini)
+- Bugfix: Prevent exception when turning off timers by deselecting all days of week
 
 v4.0.0 (2024-08-31)
-- New Feature: programming timers with full date (not only day within upcoming 7 days, feature request #34)
+- New feature: programming timers with full date (not only day within upcoming 7 days, feature request #34)
 - Improved stop behavior of overlapping media timers acc. its priority
-- Bugfix / Workaround: [Kodi v21] Settings dialog is broken, issue #43
+- Bugfix / workaround: [Kodi v21] Settings dialog is broken, issue #43
 - Bugfix: [Kodi v21] Addon can't play PVR items anymore, issue #42
 
 v3.9.3 (2024-08-02)
@@ -61,8 +65,8 @@ v3.9.1 (2024-06-30)
 - Bugfix: Prevent exception after changing already running non-fading-timer to fading-timer
 
 v3.9.0 (2023-11-11)
-- Add new system action 'restart Kodi'
-- Add new extra feature to prevent display off when audio is playing
+- Added new system action 'restart Kodi'
+- Added new extra feature to prevent display off when audio is playing
 - Bugfix: Prevent exception in fader context
 
 v3.8.0 (2023-08-06)

@@ -48,7 +48,7 @@ class TestHousekeeper(unittest.TestCase):
 
         action = housekeeper.check_timer(timers[0], threshold=threshold)
 
-        self.assertEquals(action, housekeeper.ACTION_DELETE)
+        self.assertEqual(action, housekeeper.ACTION_DELETE)
 
     def test_cleaner_by_date_outdated_today(self):
         data = [
@@ -87,7 +87,7 @@ class TestHousekeeper(unittest.TestCase):
 
         action = housekeeper.check_timer(timers[0], threshold=threshold)
 
-        self.assertEquals(action, housekeeper.ACTION_DELETE)
+        self.assertEqual(action, housekeeper.ACTION_DELETE)
 
     def test_cleaner_by_date_running(self):
         data = [
@@ -125,9 +125,9 @@ class TestHousekeeper(unittest.TestCase):
         threshold = datetime.strptime("2024-08-15 09:00", "%Y-%m-%d %H:%M")
 
         action = housekeeper.check_timer(timers[0], threshold=threshold)
-        self.assertEquals(timers[0].date, "2024-08-15")
+        self.assertEqual(timers[0].date, "2024-08-15")
 
-        self.assertEquals(action, housekeeper.ACTION_NOTHING)
+        self.assertEqual(action, housekeeper.ACTION_NOTHING)
 
     def test_cleaner_upcoming_today(self):
         data = [
@@ -166,8 +166,8 @@ class TestHousekeeper(unittest.TestCase):
 
         action = housekeeper.check_timer(timers[0], threshold=threshold)
 
-        self.assertEquals(action, housekeeper.ACTION_NOTHING)
-        self.assertEquals(timers[0].date, "2024-08-15")
+        self.assertEqual(action, housekeeper.ACTION_NOTHING)
+        self.assertEqual(timers[0].date, "2024-08-15")
 
     def test_cleaner_upcoming_next_week(self):
         data = [
@@ -206,8 +206,8 @@ class TestHousekeeper(unittest.TestCase):
 
         action = housekeeper.check_timer(timers[0], threshold=threshold)
 
-        self.assertEquals(action, housekeeper.ACTION_NOTHING)
-        self.assertEquals(timers[0].date, "2024-08-15")
+        self.assertEqual(action, housekeeper.ACTION_NOTHING)
+        self.assertEqual(timers[0].date, "2024-08-15")
 
     def test_cleaner_weekly_timer(self):
         data = [
@@ -246,8 +246,8 @@ class TestHousekeeper(unittest.TestCase):
 
         action = housekeeper.check_timer(timers[0], threshold=threshold)
 
-        self.assertEquals(action, housekeeper.ACTION_NOTHING)
-        self.assertEquals(timers[0].date, "")
+        self.assertEqual(action, housekeeper.ACTION_NOTHING)
+        self.assertEqual(timers[0].date, "")
 
     def test_cleaner_timer_by_weekdays_all_outdated(self):
         data = [
@@ -286,7 +286,7 @@ class TestHousekeeper(unittest.TestCase):
 
         action = housekeeper.check_timer(timers[0], threshold=threshold)
 
-        self.assertEquals(action, housekeeper.ACTION_DELETE)
+        self.assertEqual(action, housekeeper.ACTION_DELETE)
 
     def test_cleaner_timer_by_weekdays_keep_all(self):
         data = [
@@ -325,8 +325,8 @@ class TestHousekeeper(unittest.TestCase):
 
         action = housekeeper.check_timer(timers[0], threshold=threshold)
 
-        self.assertEquals(action, housekeeper.ACTION_NOTHING)
-        self.assertEquals(timers[0].date, "2024-08-15")
+        self.assertEqual(action, housekeeper.ACTION_NOTHING)
+        self.assertEqual(timers[0].date, "2024-08-15")
 
     def test_cleaner_timer_by_weekdays_keep_all_same_day(self):
         data = [
@@ -365,8 +365,8 @@ class TestHousekeeper(unittest.TestCase):
 
         action = housekeeper.check_timer(timers[0], threshold=threshold)
 
-        self.assertEquals(action, housekeeper.ACTION_NOTHING)
-        self.assertEquals(timers[0].date, "2024-08-15")
+        self.assertEqual(action, housekeeper.ACTION_NOTHING)
+        self.assertEqual(timers[0].date, "2024-08-15")
 
     def test_cleaner_timer_by_weekdays_keep_all_threshold_except_same_day(self):
         data = [
@@ -405,9 +405,9 @@ class TestHousekeeper(unittest.TestCase):
 
         action = housekeeper.check_timer(timers[0], threshold=threshold)
 
-        self.assertEquals(action, housekeeper.ACTION_UPDATE)
-        self.assertEquals(timers[0].days, [0, 1, 2, 4, 5, 6])
-        self.assertEquals(timers[0].date, "2024-08-16")
+        self.assertEqual(action, housekeeper.ACTION_UPDATE)
+        self.assertEqual(timers[0].days, [0, 1, 2, 4, 5, 6])
+        self.assertEqual(timers[0].date, "2024-08-16")
 
     def test_cleaner_timer_by_weekdays_keep_some(self):
         data = [
@@ -446,9 +446,9 @@ class TestHousekeeper(unittest.TestCase):
 
         action = housekeeper.check_timer(timers[0], threshold=threshold)
 
-        self.assertEquals(action, housekeeper.ACTION_UPDATE)
-        self.assertEquals(timers[0].date, "2024-08-16")
-        self.assertEquals(timers[0].days, [4, 5, 6])
+        self.assertEqual(action, housekeeper.ACTION_UPDATE)
+        self.assertEqual(timers[0].date, "2024-08-16")
+        self.assertEqual(timers[0].days, [4, 5, 6])
 
     def test_cleaner_timer_by_weekdays_keep_some_w_one_running(self):
         data = [
@@ -487,9 +487,9 @@ class TestHousekeeper(unittest.TestCase):
 
         action = housekeeper.check_timer(timers[0], threshold=threshold)
 
-        self.assertEquals(action, housekeeper.ACTION_UPDATE)
-        self.assertEquals(timers[0].date, "2024-08-15")
-        self.assertEquals(timers[0].days, [3, 4, 5, 6])
+        self.assertEqual(action, housekeeper.ACTION_UPDATE)
+        self.assertEqual(timers[0].date, "2024-08-15")
+        self.assertEqual(timers[0].days, [3, 4, 5, 6])
 
     def test_cleaner_timer_by_weekdays_keep_by_date_2(self):
         data = [
@@ -526,5 +526,5 @@ class TestHousekeeper(unittest.TestCase):
 
         action = housekeeper.check_timer(timers[0], threshold=threshold)
 
-        self.assertEquals(action, housekeeper.ACTION_NOTHING)
-        self.assertEquals(timers[0].date, "2024-08-18")
+        self.assertEqual(action, housekeeper.ACTION_NOTHING)
+        self.assertEqual(timers[0].date, "2024-08-18")

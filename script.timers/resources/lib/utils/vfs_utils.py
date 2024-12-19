@@ -32,6 +32,15 @@ def is_folder(path: str) -> bool:
     return len(dirs) > 0 or len(files) > 0
 
 
+def is_smart_playlist(path: str) -> bool:
+
+    if not path:
+        return False
+
+    ext = get_file_extension(path)
+    return path.startswith("special://profile/playlists/") and ext and ext == ".xsp"
+
+
 def is_playlist(path: str) -> bool:
 
     ext = get_file_extension(path)
@@ -139,9 +148,9 @@ def get_media_type(path: str) -> str:
         return PICTURE
 
     else:
-        paths, type = get_files_and_type(
+        paths, type_ = get_files_and_type(
             path, limit=100, no_leaves=True)
-        return type
+        return type_
 
 
 def get_file_name(path: str) -> str:
@@ -181,34 +190,34 @@ def build_path_to_ressource(path: str, file: str) -> str:
 
 def has_items_in_path(path: str) -> bool:
 
-    return len(scan_item_paths(path, limit=1)) > 0
+    return not is_smart_playlist(path) and len(scan_item_paths(path, limit=1)) > 0
 
 
 def build_playlist(path: str, label: str) -> 'PlayList':
 
     if has_items_in_path(path):
-        paths, type = get_files_and_type(path)
-        return convert_to_playlist(paths, type=type, label=label)
+        paths, type_ = get_files_and_type(path)
+        return convert_to_playlist(paths, type_=type_, label=label)
 
     else:
-        type = get_media_type(path)
-        return convert_to_playlist([path], type=type, label=label)
+        type_ = get_media_type(path)
+        return convert_to_playlist([path], type_=type_, label=label)
 
 
-def convert_to_playlist(paths: 'list[str]', type=VIDEO, label="") -> 'PlayList':
+def convert_to_playlist(paths: 'list[str]', type_=VIDEO, label="") -> 'PlayList':
 
-    _type_id = TYPES.index(type or VIDEO)
+    _type_id = TYPES.index(type_ or VIDEO)
     playlist = PlayList(_type_id)
     playlist.clear()
+
+    if paths and (is_pvr(paths[0]) or is_audio_plugin(paths[0]) or is_video_plugin(paths[0]) or is_smart_playlist(paths[0])):
+        playlist.directUrl = path
+        return playlist
 
     for path in paths:
         label = label if label and len(paths) == 1 else get_file_name(path)
         li = xbmcgui.ListItem(label=label, path=path)
         playlist.add(url=path, listitem=li)
-        if is_pvr(path) or is_audio_plugin(path) or is_video_plugin(path):
-            playlist.clear()
-            playlist.directUrl = path
-            break
 
     return playlist
 
@@ -310,14 +319,14 @@ def get_files_and_type(path: str, limit=None, no_leaves=False) -> 'tuple[list[st
 
     size = 0
     files = None
-    type = -1
+    type_ = -1
     for i, l in enumerate([a, v, p]):
         if len(l) > size:
             size = len(l)
             files = l
-            type = i
+            type_ = i
 
-    return files, TYPES[type] if type >= 0 else None
+    return files, TYPES[type_] if type_ >= 0 else None
 
 
 def get_longest_common_path(files: 'list[str]') -> str:
