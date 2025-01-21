@@ -11,7 +11,7 @@ class TestDateTimeUtils(unittest.TestCase):
         now = datetime(year=2024, month=8, day=15, hour=15, minute=0)
         td = timedelta(days=2, hours=14, minutes=0)
         date = datetime_utils.apply_for_datetime(now, td, force_future=True)
-        self.assertEquals(date, datetime(
+        self.assertEqual(date, datetime(
             year=2024, month=8, day=21, hour=14, minute=0))
 
     def test_tc2_apply_for_datetime(self):
@@ -19,7 +19,7 @@ class TestDateTimeUtils(unittest.TestCase):
         now = datetime(year=2024, month=8, day=15, hour=15, minute=0)
         td = timedelta(days=3, hours=14, minutes=0)
         date = datetime_utils.apply_for_datetime(now, td, force_future=True)
-        self.assertEquals(date, datetime(
+        self.assertEqual(date, datetime(
             year=2024, month=8, day=22, hour=14, minute=0))
 
     def test_tc3_apply_for_datetime(self):
@@ -27,7 +27,7 @@ class TestDateTimeUtils(unittest.TestCase):
         now = datetime(year=2024, month=8, day=15, hour=15, minute=0)
         td = timedelta(days=3, hours=15, minutes=5)
         date = datetime_utils.apply_for_datetime(now, td, force_future=True)
-        self.assertEquals(date, datetime(
+        self.assertEqual(date, datetime(
             year=2024, month=8, day=15, hour=15, minute=5))
 
     def test_tc1_time_diff(self):

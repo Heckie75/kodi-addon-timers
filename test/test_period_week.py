@@ -84,16 +84,16 @@ class TestPeriodWeek(unittest.TestCase):
         timers: 'list[Timer]' = storage.load_timers_from_storage()
 
         s, e, b = timers[0].periods[0].hit(timers[1].periods[0].start, now)
-        self.assertEquals(b, True)
+        self.assertEqual(b, True)
 
         s, e, b = timers[0].periods[0].hit(timers[1].periods[0].end, now)
-        self.assertEquals(b, False)
+        self.assertEqual(b, False)
 
         s, e, b = timers[1].periods[0].hit(timers[0].periods[0].start, now)
-        self.assertEquals(b, False)
+        self.assertEqual(b, False)
 
         s, e, b = timers[1].periods[0].hit(timers[0].periods[0].end, now)
-        self.assertEquals(b, True)
+        self.assertEqual(b, True)
         
     def test_hit_2(self):
         """
@@ -195,30 +195,30 @@ class TestPeriodWeek(unittest.TestCase):
 
         # ------------------ t2 ------------------
         s, e, b = timers[0].periods[0].hit(timers[1].periods[0].start, now)
-        self.assertEquals(b, True)
+        self.assertEqual(b, True)
 
         s, e, b = timers[0].periods[0].hit(timers[1].periods[0].end, now)
-        self.assertEquals(b, False)
+        self.assertEqual(b, False)
 
         s, e, b = timers[1].periods[0].hit(timers[0].periods[0].start, now)
-        self.assertEquals(b, False)
+        self.assertEqual(b, False)
 
         s, e, b = timers[1].periods[0].hit(timers[0].periods[0].end, now)
-        self.assertEquals(b, True)
+        self.assertEqual(b, True)
         
 
         # ------------------ t9 ------------------
         s, e, b = timers[0].periods[0].hit(timers[2].periods[0].start, now)
-        self.assertEquals(b, False) # known issue, no forecast
+        self.assertEqual(b, False) # known issue, no forecast
 
         s, e, b = timers[0].periods[0].hit(timers[2].periods[0].end, now)
-        self.assertEquals(b, False)
+        self.assertEqual(b, False)
 
         s, e, b = timers[2].periods[0].hit(timers[0].periods[0].start, now)
-        self.assertEquals(b, False)
+        self.assertEqual(b, False)
 
         s, e, b = timers[2].periods[0].hit(timers[0].periods[0].end, now)
-        self.assertEquals(b, False) # known issue, no forecast
+        self.assertEqual(b, False) # known issue, no forecast
         
     def test_hit_3(self):
         """
@@ -320,28 +320,28 @@ class TestPeriodWeek(unittest.TestCase):
 
         # ------------------ t2 ------------------
         s, e, b = timers[0].periods[0].hit(timers[1].periods[0].start, now)
-        self.assertEquals(b, False) # known issue, no 'forecast' in the past
+        self.assertEqual(b, False) # known issue, no 'forecast' in the past
 
         s, e, b = timers[0].periods[0].hit(timers[1].periods[0].end, now)
-        self.assertEquals(b, False)
+        self.assertEqual(b, False)
 
         s, e, b = timers[1].periods[0].hit(timers[0].periods[0].start, now)
-        self.assertEquals(b, False)
+        self.assertEqual(b, False)
 
         s, e, b = timers[1].periods[0].hit(timers[0].periods[0].end, now)
-        self.assertEquals(b, False) # known issue, no 'forecast' in the past
+        self.assertEqual(b, False) # known issue, no 'forecast' in the past
         
 
         # ------------------ t9 ------------------
         s, e, b = timers[0].periods[0].hit(timers[2].periods[0].start, now)
-        self.assertEquals(b, True)
+        self.assertEqual(b, True)
 
         s, e, b = timers[0].periods[0].hit(timers[2].periods[0].end, now)
-        self.assertEquals(b, False)
+        self.assertEqual(b, False)
 
         s, e, b = timers[2].periods[0].hit(timers[0].periods[0].start, now)
-        self.assertEquals(b, False)
+        self.assertEqual(b, False)
 
         s, e, b = timers[2].periods[0].hit(timers[0].periods[0].end, now)
-        self.assertEquals(b, True)
+        self.assertEqual(b, True)
         
