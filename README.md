@@ -39,6 +39,9 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v4.1.1 (2025-03-24)
+* Minor fixes for Python compatibility
+
 v4.1.0 (2024-12-19)
 * New feature: support for smart playlists (music and video)
 
