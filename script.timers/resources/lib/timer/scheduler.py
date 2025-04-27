@@ -17,7 +17,7 @@ from resources.lib.utils.system_utils import (is_fullscreen,
                                               set_powermanagement_displaysoff,
                                               set_windows_unlock)
 
-CHECK_INTERVAL = 10
+CHECK_INTERVAL = 20
 MIN_INTERVAL = 1
 
 

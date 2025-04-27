@@ -39,6 +39,9 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v4.1.2 (2025-04-27)
+* Fixed issue #50: Predefined time in sleep timer is incorrect (prob. if no PVR client is installed)
+
 v4.1.1 (2025-03-24)
 * Minor fixes for Python compatibility
 
