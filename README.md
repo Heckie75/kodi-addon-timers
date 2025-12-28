@@ -39,6 +39,10 @@ The result is a powerful timer addon.
 <img src="script.timers/resources/assets/screenshot_09.png?raw=true">
 
 ## Changelog
+v4.1.3 (2025-06-01)
+- Added translations for Swedish (provided by yeager)
+- Fixed bug when setting sleep timer via context menu in epg without having epg item (missing data or gap in epg)
+
 v4.1.2 (2025-04-27)
 * Fixed issue #50: Predefined time in sleep timer is incorrect (prob. if no PVR client is installed)
 

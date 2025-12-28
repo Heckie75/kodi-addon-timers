@@ -15,6 +15,12 @@ def set_powermanagement_displaysoff(value: int) -> None:
         "setting": "powermanagement.displaysoff", "value": value})
 
 
+def set_powermanagement_shutdowntime(value: int) -> None:
+
+    json_rpc("Settings.SetSettingValue", {
+        "setting": "powermanagement.shutdowntime", "value": value})
+
+
 def set_windows_unlock(value: bool) -> bool:
 
     if xbmc.getCondVisibility("system.platform.windows"):

@@ -161,7 +161,7 @@ def parse_time(s_time: str, i_day=0) -> timedelta:
     if s_time == "":
         s_time = DEFAULT_TIME
 
-    m = re.match(r"^(\d{1,2}):(\d{1,2})( am)?( pm)?$", s_time.lower())
+    m = re.match(r"^(\d{1,3}):(\d{1,2})( am)?( pm)?$", s_time.lower())
     if not m:
         return None
 
