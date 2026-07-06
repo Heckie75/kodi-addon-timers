@@ -160,12 +160,12 @@ class TestDateTimeUtils(unittest.TestCase):
         self.assertAlmostEqual(td_now.seconds, now.td.seconds, delta=1)
 
         now = datetime_utils.DateTimeDelta.now(offset=5)
-        self.assertAlmostEqual(td_now.seconds + 5, now.td.seconds, delta=1)
-        self.assertAlmostEqual(dt_now.second + 5, now.dt.second, delta=1)
+        self.assertAlmostEqual((td_now.seconds + 5) % 86400, now.td.seconds, delta=1)
+        self.assertAlmostEqual((dt_now.second + 5) % 60, now.dt.second, delta=1)
 
         now = datetime_utils.DateTimeDelta.now(offset=-5)
-        self.assertAlmostEqual(td_now.seconds - 5, now.td.seconds, delta=1)
-        self.assertAlmostEqual(dt_now.second - 5, now.dt.second, delta=1)
+        self.assertAlmostEqual((td_now.seconds - 5) % 86400, now.td.seconds, delta=1)
+        self.assertAlmostEqual((dt_now.second - 5) % 60, now.dt.second, delta=1)
 
     def test_parse_date_from_xbmcdialog(self):
 

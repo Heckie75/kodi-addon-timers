@@ -1,0 +1,24 @@
+name: Python tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run unit tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}/test/support:${{ github.workspace }}/script.timers
+        run: |
+          python -m unittest discover -s test -p 'test*.py'
